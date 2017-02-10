@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_server_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:foreground="?android:selectableItemBackground">
+
+    <LinearLayout
+        android:id="@+id/item_server_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="2dp"
+        android:orientation="horizontal">
+
+        <com.amir.manammiam.infrastructure.TextViewFont
+            android:id="@+id/item_server_text_source"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/manam_miam"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <com.amir.manammiam.infrastructure.TextViewFont
+            android:id="@+id/item_server_text_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text="@string/manam_miam"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <com.amir.manammiam.infrastructure.TextViewFont
+            android:id="@+id/item_server_text_destination"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/manam_miam"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/item_server_mid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_server_top"
+        android:orientation="horizontal">
+
+        <com.amir.manammiam.infrastructure.TextViewFont
+            android:id="@+id/item_server_text_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/manam_miam"
+            android:textSize="18sp" />
+
+
+        <RatingBar
+            android:id="@+id/item_server_rate_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:clickable="false"
+            android:focusable="false"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="3.5"
+            android:scaleX=".75"
+            android:scaleY=".75"
+            android:stepSize=".1" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/item_server_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_server_mid"
+        android:orientation="horizontal">
+
+        <com.amir.manammiam.infrastructure.TextViewFont
+            android:id="@+id/item_server_text_car_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:alpha=".9"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text="@string/manam_miam"
+            android:textSize="13sp" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <com.amir.manammiam.infrastructure.TextViewFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".9"
+                android:gravity="end"
+                android:padding="2dp"
+                android:text="@string/capacity"
+                android:textSize="13sp" />
+
+            <com.amir.manammiam.infrastructure.TextViewFont
+                android:id="@+id/item_server_text_capacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".9"
+                android:gravity="start"
+                android:padding="2dp"
+                android:text="5"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <com.amir.manammiam.infrastructure.TextViewFont
+            android:id="@+id/item_server_text_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:alpha=".9"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text="@string/manam_miam"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/item_server_approval_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@id/item_server_bottom"
+        android:layout_below="@id/item_server_top"
+        android:background="#b0000000"
+        android:orientation="horizontal">
+
+        <com.amir.manammiam.infrastructure.TextViewFont
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:foreground="?android:selectableItemBackground"
+            android:padding="4dp"
+            android:textSize="18sp"
+            android:text="@string/no"
+            android:textColor="@color/red" />
+
+        <com.amir.manammiam.infrastructure.TextViewFont
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:clickable="true"
+            android:elevation="4dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/reserve"
+            android:textColor="@color/white"
+            android:textSize="35sp" />
+
+        <com.amir.manammiam.infrastructure.TextViewFont
+            android:id="@+id/item_server_text_accept"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?android:selectableItemBackground"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:padding="4dp"
+            android:text="@string/yes"
+            android:textColor="@color/green" />
+
+    </LinearLayout>
+
+</RelativeLayout>

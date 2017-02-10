@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">manamMiam</string>
+    <string name="enroll">Enroll</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="manam_miam">Manam Miam</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="name">Name</string>
+    <string name="gender">Gender:</string>
+    <string name="male">Male</string>
+    <string name="cancel">Cancel</string>
+    <string name="female">Female</string>
+    <string name="close">Close</string>
+    <string name="favorite">Favorite</string>
+    <string name="inbox">Inbox</string>
+    <string name="source">Source</string>
+    <string name="price">Price</string>
+    <string name="destination">Destination</string>
+    <string name="services">Services</string>
+    <string name="email">Email</string>
+    <string name="capacity">Capacity: </string>
+    <string name="accept">accept</string>
+    <string name="deny">deny</string>
+    <string name="reserve">Reserve</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseActivity;
-import com.amir.manammiam.base.BaseAuthenticatedActivity;
 
 import java.util.ArrayList;
 

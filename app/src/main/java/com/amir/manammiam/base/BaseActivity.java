@@ -11,12 +11,12 @@ import com.amir.manammiam.R;
 import com.amir.manammiam.navdrawer.NavDrawer;
 
 public class BaseActivity extends AppCompatActivity {
-    ManamMyamSingelton application;
+    protected ManamMiamSingleton application;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        application = (ManamMyamSingelton) getApplication();
+        application = (ManamMiamSingleton) getApplication();
     }
 
 
