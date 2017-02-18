@@ -15,7 +15,7 @@
         android:elevation="2dp"
         android:orientation="horizontal">
 
-        <com.amir.manammiam.infrastructure.TextViewFont
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
             android:id="@+id/item_server_text_source"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <com.amir.manammiam.infrastructure.TextViewFont
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
             android:id="@+id/item_server_text_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:textColor="@color/white"
             android:textSize="14sp" />
 
-        <com.amir.manammiam.infrastructure.TextViewFont
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
             android:id="@+id/item_server_text_destination"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         android:layout_below="@id/item_server_top"
         android:orientation="horizontal">
 
-        <com.amir.manammiam.infrastructure.TextViewFont
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
             android:id="@+id/item_server_text_name"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -92,7 +92,7 @@
         android:layout_below="@id/item_server_mid"
         android:orientation="horizontal">
 
-        <com.amir.manammiam.infrastructure.TextViewFont
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
             android:id="@+id/item_server_text_car_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
             android:orientation="horizontal">
 
 
-            <com.amir.manammiam.infrastructure.TextViewFont
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".9"
@@ -121,7 +121,7 @@
                 android:text="@string/capacity"
                 android:textSize="13sp" />
 
-            <com.amir.manammiam.infrastructure.TextViewFont
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
                 android:id="@+id/item_server_text_capacity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
 
         </LinearLayout>
 
-        <com.amir.manammiam.infrastructure.TextViewFont
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
             android:id="@+id/item_server_text_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
         android:background="#b0000000"
         android:orientation="horizontal">
 
-        <com.amir.manammiam.infrastructure.TextViewFont
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -167,7 +167,7 @@
             android:text="@string/no"
             android:textColor="@color/red" />
 
-        <com.amir.manammiam.infrastructure.TextViewFont
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
@@ -179,7 +179,7 @@
             android:textColor="@color/white"
             android:textSize="35sp" />
 
-        <com.amir.manammiam.infrastructure.TextViewFont
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
             android:id="@+id/item_server_text_accept"
             android:layout_width="0dp"
             android:layout_height="match_parent"

@@ -3,27 +3,34 @@ package com.amir.manammiam.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseActivity;
 import com.amir.manammiam.fragments.EnrollFragment;
-import com.amir.manammiam.infrastructure.EditTextFont;
-import com.amir.manammiam.infrastructure.TextViewFont;
+import com.amir.manammiam.infrastructure.customView.EditTextFont;
+import com.amir.manammiam.services.Account;
+import com.squareup.otto.Subscribe;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, EnrollFragment.enrollFragmentCallBacks{
+public class LoginActivity extends BaseActivity implements View.OnClickListener, EnrollFragment.enrollFragmentCallBacks {
 
     private static final int ANIMATION_DURATION = 500;
-    private String textViewUserName = null;
-    private String textViewPassword = null;
+    private static final String USERNAME_ERROR = "USERNAME_ERROR";
+    private static final String PASSWORD_ERROR = "PASSWORD_ERROR";
     private FrameLayout enrollContainer;
     private RelativeLayout mainContainer;
     private int mainHeight;
+    private EditTextFont editUsername;
+    private EditTextFont editPassword;
+    private Button loginBtn;
+    private View loginProgressBar;
 
     //TODO: support screen rotation
 
@@ -32,14 +39,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+//        ((EditTextFont)findViewById(R.id.activity_login_edit_password)).setError("ERROR");
         setUpView();
     }
 
     private void setUpView() {
-        findViewById(R.id.activity_login_btn_login).setOnClickListener(this);
+        loginBtn = (Button) findViewById(R.id.activity_login_btn_login);
+        loginBtn.setOnClickListener(this);
+        loginProgressBar = findViewById(R.id.activity_login_progress_login);
+        loginProgressBar.setVisibility(View.GONE);
         findViewById(R.id.activity_login_text_enroll).setOnClickListener(this);
         enrollContainer = (FrameLayout) findViewById(R.id.activity_login_frame_enroll_fragment_container);
         mainContainer = (RelativeLayout) findViewById(R.id.activity_login_root);
+        editUsername = ((EditTextFont) findViewById(R.id.activity_login_edit_username));
+        editPassword = ((EditTextFont) findViewById(R.id.activity_login_edit_password));
 
     }
 
@@ -55,18 +68,37 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View view) {
         int itemId = view.getId();
         if (itemId == R.id.activity_login_btn_login) {
-            //todo: check for sql injection
-            //todo: login
-            textViewUserName = ((EditTextFont)findViewById(R.id.activity_login_edit_username)).getText().toString();
-            textViewPassword = ((EditTextFont)findViewById(R.id.activity_login_edit_password)).getText().toString();
-
-            application.getUser().setLoggedIn(true);
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+            loginProgressBar.setVisibility(View.VISIBLE);
+            loginBtn.setEnabled(false);
+            loginBtn.animate().scaleX(.9f).scaleY(.9f).alpha(.3f).setDuration(ANIMATION_DURATION / 2);
+            Log.e(getClass().getSimpleName(), "posting request for log in");
+            bus.post(new Account.LoginRequest(editUsername.getText().toString(), editPassword.getText().toString()));
 
         } else if (itemId == R.id.activity_login_text_enroll) {
             enrollContainer.animate().translationY(0).setDuration(ANIMATION_DURATION).setInterpolator(new AccelerateInterpolator());
         }
+    }
+
+    @Subscribe
+    public void onLoggedIn(Account.LoginResponse response) {
+        if (!response.didSucceed()) {
+            response.showErrorToast(this);
+            loginBtn.setBackgroundResource(R.drawable.round_red_button);
+            loginProgressBar.setVisibility(View.GONE);
+            loginBtn.setEnabled(true);
+            loginBtn.animate().scaleX(1).scaleY(1).alpha(1).setInterpolator(new OvershootInterpolator()).setDuration(ANIMATION_DURATION / 2);
+
+        } else {
+
+            Log.e(getClass().getSimpleName(), "OnLoggedIn was called");
+            //TODO: save to database
+            application.getUser().setToken(response.getToken());
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+        editPassword.setError(response.getPropertyError(USERNAME_ERROR));
+        editPassword.setError(response.getPropertyError(PASSWORD_ERROR));
+
     }
 
     @Override

@@ -10,9 +10,12 @@ public class ManamMiamService {
     private int capacity;
     private String carType;
     private String time;
+    private String name;
+    private String carCode;
+    private String carColor;
     private boolean isActivated;
 
-    public ManamMiamService(String server_id, String car_id, double rate, String source, String destination, String price, int capacity, String carType, String name, String time) {
+    public ManamMiamService(String server_id, String car_id, double rate, String source, String destination, String price, int capacity, String carType, String time, String name, String carCode, String carColor) {
         this.server_id = server_id;
         this.car_id = car_id;
         this.rate = rate;
@@ -21,75 +24,19 @@ public class ManamMiamService {
         this.price = price;
         this.capacity = capacity;
         this.carType = carType;
-        this.name = name;
         this.time = time;
+        this.name = name;
+        this.carCode = carCode;
+        this.carColor = carColor;
         isActivated = false;
     }
 
-    public String getCarType() {
-        return carType;
+    public String getServer_id() {
+        return server_id;
     }
 
-    public void setCarType(String carType) {
-        this.carType = carType;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    private String name;
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
+    public void setServer_id(String server_id) {
+        this.server_id = server_id;
     }
 
     public String getCar_id() {
@@ -100,12 +47,84 @@ public class ManamMiamService {
         this.car_id = car_id;
     }
 
-    public String getServer_id() {
-        return server_id;
+    public double getRate() {
+        return rate;
     }
 
-    public void setServer_id(String server_id) {
-        this.server_id = server_id;
+    public void setRate(double rate) {
+        this.rate = rate;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getCarType() {
+        return carType;
+    }
+
+    public void setCarType(String carType) {
+        this.carType = carType;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCarCode() {
+        return carCode;
+    }
+
+    public void setCarCode(String carCode) {
+        this.carCode = carCode;
+    }
+
+    public String getCarColor() {
+        return carColor;
+    }
+
+    public void setCarColor(String carColor) {
+        this.carColor = carColor;
     }
 
     public boolean isActivated() {

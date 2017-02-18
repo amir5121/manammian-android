@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FF5722</color>
+    <color name="poopLight">#FF9800</color>
     <color name="colorPrimaryDark">#BF360C</color>
-    <color name="colorAccent">#9c27b0</color>
+    <color name="colorPrimaryLight">#ff7843</color>
+    <color name="colorAccent">#DD2C00</color>
     <color name="selected_nav_drawer_item_background">#442196f3</color>
     <color name="nav_drawer_background">#ffffff</color>
     <color name="default_background_color">#FFAB91</color>
@@ -13,4 +15,12 @@
     <color name="white">#FFF</color>
     <color name="red">#d50000</color>
     <color name="green">#64DD17</color>
+    <color name="transparent_green">#5564DD17</color>
+    <color name="poopDark">#EF6C00</color>
+    <color name="greenDark">#1B5E20</color>
+    <color name="transparent_dark">#33212121</color>
+    <color name="transparent_darker">#88212121</color>
+    <color name="transparent_light">#78FFFFFF</color>
+    <color name="transparent_yellow">#55FF9800</color>
+    <color name="transparent_red">#55d50000</color>
 </resources>

@@ -13,5 +13,11 @@
         android:icon="@drawable/ic_inbox"
         android:title="@string/inbox"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_bottom_navigation_profile"
+        android:enabled="true"
+        android:icon="@drawable/ic_profile_white"
+        android:title="@string/profile"
+        app:showAsAction="ifRoom" />
 
 </menu>

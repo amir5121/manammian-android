@@ -24,10 +24,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
-                    android:foreground="?android:selectableItemBackground"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:contentDescription="@string/close"
+                    android:foreground="?android:selectableItemBackground"
                     android:padding="12dp"
                     android:src="@drawable/ic_close" />
 
@@ -40,46 +40,61 @@
                 android:orientation="vertical">
 
 
-                <com.amir.manammiam.infrastructure.EditTextFont
+                <com.amir.manammiam.infrastructure.customView.EditTextFont
                     android:id="@+id/fragment_enroll_edit_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/edit_text_default_margin"
+                    android:drawableLeft="@drawable/ic_search_colored"
+                    android:drawableStart="@drawable/ic_search_colored"
+                    android:gravity="center"
                     android:hint="@string/username"
                     android:padding="@dimen/edit_text_default_padding" />
 
-                <com.amir.manammiam.infrastructure.EditTextFont
+                <com.amir.manammiam.infrastructure.customView.EditTextFont
                     android:id="@+id/fragment_enroll_edit_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/edit_text_default_margin"
+                    android:drawableLeft="@drawable/ic_key_colored"
+                    android:drawableStart="@drawable/ic_key_colored"
+                    android:gravity="center"
                     android:hint="@string/password"
                     android:inputType="textPassword"
                     android:padding="@dimen/edit_text_default_padding" />
 
-                <com.amir.manammiam.infrastructure.EditTextFont
+                <com.amir.manammiam.infrastructure.customView.EditTextFont
                     android:id="@+id/fragment_enroll_edit_password_repeat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/edit_text_default_margin"
+                    android:drawableLeft="@drawable/ic_key_colored"
+                    android:drawableStart="@drawable/ic_key_colored"
+                    android:gravity="center"
                     android:hint="@string/repeat_password"
                     android:inputType="textPassword"
                     android:padding="@dimen/edit_text_default_padding" />
 
 
-                <com.amir.manammiam.infrastructure.EditTextFont
+                <com.amir.manammiam.infrastructure.customView.EditTextFont
                     android:id="@+id/fragment_enroll_edit_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/edit_text_default_margin"
+                    android:drawableLeft="@drawable/ic_profile_colored"
+                    android:drawableStart="@drawable/ic_profile_colored"
+                    android:gravity="center"
                     android:hint="@string/name"
                     android:padding="@dimen/edit_text_default_padding" />
 
-                <com.amir.manammiam.infrastructure.EditTextFont
+                <com.amir.manammiam.infrastructure.customView.EditTextFont
                     android:id="@+id/fragment_enroll_edit_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/edit_text_default_margin"
+                    android:drawableLeft="@drawable/ic_inbox_colored"
+                    android:drawableStart="@drawable/ic_inbox_colored"
+                    android:gravity="center"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:padding="@dimen/edit_text_default_padding" />
@@ -90,7 +105,7 @@
                 <!--android:orientation="horizontal"-->
                 <!--android:layout_marginTop="@dimen/edit_text_default_margin">-->
 
-                <!--<com.amir.manammiam.infrastructure.TextViewFont-->
+                <!--<com.amir.manammiam.infrastructure.view.TextViewFont-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:padding="@dimen/edit_text_default_padding"-->
@@ -102,9 +117,16 @@
                     style="@style/Base.Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="15dp"
                     android:background="@color/male_color"
+                    android:drawableLeft="@drawable/ic_gender"
+                    android:drawableStart="@drawable/ic_gender"
                     android:foreground="?android:selectableItemBackground"
+                    android:padding="5dp"
                     android:text="@string/male"
                     android:textColor="#FFF"
                     android:textSize="17sp" />
@@ -113,11 +135,11 @@
                     android:id="@+id/fragment_enroll_btn_enroll"
                     style="@style/Base.Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
-                    android:foreground="?android:selectableItemBackground"
                     android:layout_height="80dp"
                     android:layout_margin="15dp"
-                    android:background="#64DD17"
+                    android:background="@drawable/round_green_button"
                     android:elevation="2dp"
+                    android:foreground="?android:selectableItemBackground"
                     android:padding="5dp"
                     android:text="@string/enroll"
                     android:textColor="#FFF"

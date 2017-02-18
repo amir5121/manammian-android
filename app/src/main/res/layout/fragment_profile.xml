@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/topContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimaryLight"
+        android:elevation="3dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/circle_primary"
+            android:elevation="5dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_profile_white" />
+
+
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
+            android:id="@+id/fragment_profile_text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:ellipsize="middle"
+            android:gravity="center"
+            android:lines="1"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topContainer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/fragment_profile_username_container"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_background_dark"
+                android:elevation="2dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_primary"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_search" />
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:id="@+id/fragment_profile_text_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:ellipsize="middle"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:background="@drawable/round_background_dark"
+                android:elevation="2dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle_primary"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_inbox" />
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:id="@+id/fragment_profile_text_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:ellipsize="middle"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:background="@drawable/round_background_dark"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle_primary"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_gender" />
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:id="@+id/fragment_profile_text_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:ellipsize="middle"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fragment_profile_verification_container"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:background="@drawable/round_background_dark"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle_primary"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_key" />
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:id="@+id/fragment_profile_text_permission"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:ellipsize="middle"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/fragment_profile_progress_bar_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent_darker"
+        android:translationZ="5dp">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

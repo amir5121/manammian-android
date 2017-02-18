@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import com.amir.manammiam.R;
-import com.amir.manammiam.infrastructure.TextViewFont;
+import com.amir.manammiam.infrastructure.customView.TextViewFont;
 
 import java.util.ArrayList;
 
@@ -23,16 +23,8 @@ public class ServiceAdapter extends BaseAdapter {
 
         services = new ArrayList<>();
 
-        services.add(new ManamMiamService("1", "2", 5.0, "sepah", "pardis", "2000", 5, "Peugeot", "amir", "1396/09/29 20:30"));
-        services.add(new ManamMiamService("1", "2", 4.5, "sepah", "pardis", "2000", 5, "Peugeot", "amir", "1396/09/29 20:30"));
-        services.add(new ManamMiamService("1", "2", 4.0, "sepah", "pardis", "2000", 5, "Peugeot", "amir", "1396/09/29 20:30"));
-        services.add(new ManamMiamService("1", "2", 3.5, "sepah", "pardis", "2000", 5, "Peugeot", "amir", "1396/09/29 20:30"));
-        services.add(new ManamMiamService("1", "2", 3.0, "sepah", "pardis", "2000", 5, "Peugeot", "amir", "1396/09/29 20:30"));
-        services.add(new ManamMiamService("1", "2", 2.5, "sepah", "pardis", "2000", 5, "Peugeot", "amir", "1396/09/29 20:30"));
-        services.add(new ManamMiamService("1", "2", 2.0, "sepah", "pardis", "2000", 5, "Peugeot", "amir", "1396/09/29 20:30"));
-        services.add(new ManamMiamService("1", "2", 1.5, "sepah", "pardis", "2000", 5, "Peugeot", "amir", "1396/09/29 20:30"));
-        services.add(new ManamMiamService("1", "2", 1.0, "sepah", "pardis", "2000", 5, "Peugeot", "amir", "1396/09/29 20:30"));
-        services.add(new ManamMiamService("1", "2", 0.5, "sepah", "pardis", "2000", 5, "Peugeot", "amir", "1396/09/29 20:30"));
+        for (int i = 0; i < 10; i++)
+            services.add(new ManamMiamService("1", "2", 5.0 - i / 2., "sepah", "pardis", "2000", 5, "Peugeot", "1396/09/29 20:30", "amir", "12 پ 234 73", "Blue"));
         //TODO: listener onServicesReceived
     }
 

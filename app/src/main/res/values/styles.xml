@@ -10,4 +10,20 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="buttonMoharram" parent="@android:style/Widget.Button">
+        <item name="com.amir.manammiam:font">fonts/moharram.ttf</item>
+    </style>
+
+    <style name="buttonIranSans" parent="@android:style/Widget.Button">
+        <item name="com.amir.manammiam:font">fonts/IRANSans_Medium.ttf</item>
+    </style>
+
+    <style name="textViewMoharam" parent="@android:style/Widget.TextView">
+        <item name="com.amir.manammiam:font">fonts/moharram.ttf</item>
+    </style>
+
+    <style name="textViewIranSans" parent="@android:style/Widget.TextView">
+        <item name="com.amir.manammiam:font">fonts/IRANSans_Medium.ttf</item>
+    </style>
+
 </resources>

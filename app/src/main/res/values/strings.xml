@@ -25,4 +25,8 @@
     <string name="reserve">Reserve</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="profile">Profile</string>
+    <string name="verified">Verified</string>
+    <string name="unverified">Unverified</string>
+    <string name="blocked">Blocked</string>
 </resources>

@@ -1,0 +1,19 @@
+<resources>
+
+    <style name="buttonMoharram" parent="@android:style/Widget.Button">
+        <item name="com.amir.manammiam.inmemory:font">fonts/moharram.ttf</item>
+    </style>
+
+    <style name="buttonIranSans" parent="@android:style/Widget.Button">
+        <item name="com.amir.manammiam.inmemory:font">fonts/IRANSans_Medium.ttf</item>
+    </style>
+
+    <style name="textViewMoharam" parent="@android:style/Widget.TextView">
+        <item name="com.amir.manammiam.inmemory:font">fonts/moharram.ttf</item>
+    </style>
+
+    <style name="textViewIranSans" parent="@android:style/Widget.TextView">
+        <item name="com.amir.manammiam.inmemory:font">fonts/IRANSans_Medium.ttf</item>
+    </style>
+
+</resources>

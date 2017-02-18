@@ -19,7 +19,7 @@ import com.amir.manammiam.infrastructure.services.ServiceAdapter;
 
 import java.util.ArrayList;
 
-public class ServicesFragment extends BaseFragment {
+public final class ServicesFragment extends BaseFragment {
 
     public static final int ANIM_DURATION = 350;
     private ServiceAdapter adapter;

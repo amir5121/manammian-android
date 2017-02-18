@@ -27,7 +27,7 @@ public class NavDrawer {
     public NavDrawer(BaseActivity activity) {
         this.activity = activity;
         items = new ArrayList<>();
-        drawerLayout = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
+//        drawerLayout = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
         navDrawerView = (ViewGroup) activity.findViewById(R.id.nav_drawer);
 
 //        if (navDrawerView != null && BaseAuthenticatedActivity.isInLandscape)

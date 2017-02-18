@@ -11,9 +11,9 @@ import android.widget.Button;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseFragment;
-import com.amir.manammiam.infrastructure.EditTextFont;
+import com.amir.manammiam.infrastructure.customView.EditTextFont;
 
-public class EnrollFragment extends BaseFragment implements View.OnClickListener {
+public final class EnrollFragment extends BaseFragment implements View.OnClickListener {
 
     Button genderButton;
     EditTextFont usernameEdit;
@@ -61,6 +61,7 @@ public class EnrollFragment extends BaseFragment implements View.OnClickListener
                 genderButton.setText(getResources().getString(R.string.female));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     genderButton.setBackgroundColor(getResources().getColor(R.color.female_color, null));
+
                 } else {
                     genderButton.setBackgroundColor(getResources().getColor(R.color.female_color));
                 }
