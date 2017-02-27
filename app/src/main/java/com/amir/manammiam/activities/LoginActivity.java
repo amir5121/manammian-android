@@ -39,6 +39,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        Log.e(getClass().getSimpleName(), "loginActivity created");
+
 //        ((EditTextFont)findViewById(R.id.activity_login_edit_password)).setError("ERROR");
         setUpView();
     }
@@ -71,7 +73,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             loginProgressBar.setVisibility(View.VISIBLE);
             loginBtn.setEnabled(false);
             loginBtn.animate().scaleX(.9f).scaleY(.9f).alpha(.3f).setDuration(ANIMATION_DURATION / 2);
-            Log.e(getClass().getSimpleName(), "posting request for log in");
             bus.post(new Account.LoginRequest(editUsername.getText().toString(), editPassword.getText().toString()));
 
         } else if (itemId == R.id.activity_login_text_enroll) {
@@ -90,7 +91,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         } else {
 
-            Log.e(getClass().getSimpleName(), "OnLoggedIn was called");
             //TODO: save to database
             application.getUser().setToken(response.getToken());
             startActivity(new Intent(this, MainActivity.class));

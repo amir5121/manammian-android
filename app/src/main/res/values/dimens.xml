@@ -3,4 +3,12 @@
     <dimen name="edit_text_default_margin">10dp</dimen>
     <dimen name="edit_text_default_padding">10dp</dimen>
     <dimen name="button_radius">25dp</dimen>
+    <dimen name="list_view_divider">15dp</dimen>
+    <dimen name="text_very_small">14sp</dimen>
+    <dimen name="text_small">16sp</dimen>
+    <dimen name="text_medium">18sp</dimen>
+    <dimen name="text_big">19sp</dimen>
+    <dimen name="background_radius">5dp</dimen>
+    <dimen name="launcher_loading_size">85dp</dimen>
+    <dimen name="text_very_big">25sp</dimen>
 </resources>

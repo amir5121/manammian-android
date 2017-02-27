@@ -28,19 +28,6 @@ public class PostAdapter extends BaseAdapter {
 
         posts = new ArrayList<>();
 
-        posts.add(new ManamMiamPost("2", false, true, "bolvar sepah", "pardis", "5000", "AmirHosein", "i want to join", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴"));
-        posts.add(new ManamMiamPost("2", false, false, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴"));
-        posts.add(new ManamMiamPost("2", false, true, "bolvar sepah", "pardis", "5000", "AmirHosein", "i want to join", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴"));
-        posts.add(new ManamMiamPost("2", false, false, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴"));
-        posts.add(new ManamMiamPost("2", false, true, "bolvar sepah", "pardis", "5000", "AmirHosein", "i want to join", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴"));
-        posts.add(new ManamMiamPost("2", false, false, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴"));
-        posts.add(new ManamMiamPost("2", false, true, "bolvar sepah", "pardis", "5000", "AmirHosein", "i want to join", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴"));
-        posts.add(new ManamMiamPost("2", false, false, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴"));
-        posts.add(new ManamMiamPost("2", false, true, "bolvar sepah", "pardis", "5000", "AmirHosein", "i want to join", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴"));
-        posts.add(new ManamMiamPost("2", false, false, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴"));
-        posts.add(new ManamMiamPost("2", false, true, "bolvar sepah", "pardis", "5000", "AmirHosein", "i want to join", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴"));
-        posts.add(new ManamMiamPost("2", false, false, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴"));
-
     }
 
     @Override
@@ -67,52 +54,49 @@ public class PostAdapter extends BaseAdapter {
 
             viewHolder = new PostViewHolder();
             viewHolder.infoContainer = finalConvertView.findViewById(R.id.item_post_info_container);
-            viewHolder.source = (TextViewFont) convertView.findViewById(R.id.item_post_text_source);
-            viewHolder.destination = (TextViewFont) convertView.findViewById(R.id.item_post_text_destination);
-            viewHolder.price = (TextViewFont) convertView.findViewById(R.id.item_post_text_price);
+            viewHolder.source = (TextViewFont) convertView.findViewById(R.id.include_src_dest_text_source);
+            viewHolder.destination = (TextViewFont) convertView.findViewById(R.id.include_src_dest_text_destination);
+            viewHolder.price = (TextViewFont) convertView.findViewById(R.id.include_src_dest_text_price);
             viewHolder.name = (TextViewFont) convertView.findViewById(R.id.item_post_text_name);
             viewHolder.time = (TextViewFont) convertView.findViewById(R.id.item_post_text_time);
-            viewHolder.rateBar = (RatingBar) convertView.findViewById(R.id.item_post_rate_bar);
             viewHolder.approvalContainer = (LinearLayout) convertView.findViewById(R.id.item_post_approval_container);
+            viewHolder.rateBar = (RatingBar) convertView.findViewById(R.id.item_post_rate_bar);
             viewHolder.capacity = (TextViewFont) convertView.findViewById(R.id.item_post_text_capacity);
             viewHolder.carType = (TextViewFont) convertView.findViewById(R.id.item_post_text_car_type);
             viewHolder.carCode = (TextViewFont) convertView.findViewById(R.id.item_post_text_car_code);
             viewHolder.carColor = (TextViewFont) convertView.findViewById(R.id.item_post_text_car_color);
             viewHolder.text = (TextViewFont) convertView.findViewById(R.id.item_post_text_text);
-
-            convertView.findViewById(R.id.item_post_expand).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (viewHolder.infoContainer.getVisibility() == View.GONE) {
-                        expand(viewHolder.infoContainer, v);
-                        posts.get(position).setExpanded(true);
-                    } else {
-                        collapse(viewHolder.infoContainer, v);
-                        posts.get(position).setExpanded(false);
-                    }
-
-                }
-            });
-
+            viewHolder.expand = convertView.findViewById(R.id.item_post_expand);
+            viewHolder.topContainer = convertView.findViewById(R.id.src_dest_container);
 
             convertView.setTag(viewHolder);
 
         } else {
             viewHolder = (PostViewHolder) convertView.getTag();
         }
+
         viewHolder.source.setText(posts.get(position).getSourceName());
         viewHolder.destination.setText(posts.get(position).getDestinationName());
         viewHolder.price.setText(posts.get(position).getPrice());
         viewHolder.name.setText(posts.get(position).getSenderName());
         viewHolder.time.setText(posts.get(position).getTime());
-        viewHolder.carType.setText(posts.get(position).getCarType());
         viewHolder.capacity.setText(String.valueOf(posts.get(position).getCapacity()));
-        viewHolder.carType.setText(String.valueOf(posts.get(position).getCarType()));
-        viewHolder.carColor.setText(String.valueOf(posts.get(position).getCarColor()));
-        viewHolder.carCode.setText(String.valueOf(posts.get(position).getCarcode()));
-        viewHolder.text.setText(String.valueOf(posts.get(position).getText()));
-        viewHolder.rateBar.setRating(posts.get(position).getRate());
+        viewHolder.text.setText(posts.get(position).getText());
+
+        viewHolder.expand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (viewHolder.infoContainer.getVisibility() == View.GONE) {
+                    expand(viewHolder.infoContainer, v, false);
+                    posts.get(position).setExpanded(true);
+                } else {
+                    collapse(viewHolder.infoContainer, v, false);
+                    posts.get(position).setExpanded(false);
+                }
+
+            }
+        });
 
         if (posts.get(position).isActivated()) {
             viewHolder.approvalContainer.setVisibility(View.VISIBLE);
@@ -122,18 +106,43 @@ public class PostAdapter extends BaseAdapter {
             viewHolder.approvalContainer.setAlpha(0);
         }
 
-        if (posts.get(position).isExpanded()) {
-            viewHolder.infoContainer.setVisibility(View.VISIBLE);
-//            viewHolder.approvalContainer.setAlpha(1);
-        } else {
+        //0 for false, 1 for true :)
+        if (posts.get(position).getWho()) {
             viewHolder.infoContainer.setVisibility(View.GONE);
-//            viewHolder.approvalContainer.setAlpha(0);
+            viewHolder.expand.setVisibility(View.GONE);
+
+        } else {
+            viewHolder.infoContainer.setVisibility(View.VISIBLE);
+            viewHolder.expand.setVisibility(View.VISIBLE);
+
+            viewHolder.carColor.setText(posts.get(position).getCar().getCarColor());
+            viewHolder.carType.setText(posts.get(position).getCar().getCarType());
+            viewHolder.carCode.setText(posts.get(position).getCar().getCarCode());
+            viewHolder.rateBar.setRating(posts.get(position).getCar().getRate());
+
+        }
+
+        if (posts.get(position).isRead()) {
+            viewHolder.topContainer.setBackgroundResource(R.drawable.round_header_primary);
+        } else {
+            viewHolder.topContainer.setBackgroundResource(R.drawable.round_header_read);
+        }
+
+        if (posts.get(position).isExpanded()) {
+//            expand(viewHolder.infoContainer, viewHolder.expand, true);
+            viewHolder.infoContainer.setVisibility(View.VISIBLE);
+            viewHolder.expand.setRotation(180);
+        } else {
+//            collapse(viewHolder.infoContainer, viewHolder.expand, true);
+            viewHolder.expand.setRotation(0);
+            viewHolder.infoContainer.setVisibility(View.GONE);
+
         }
 
         return convertView;
     }
 
-    private static void expand(final View v, final View expandButton) {
+    private static void expand(final View v, final View expandButton, boolean immediate) {
         v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         final int targetHeight = v.getMeasuredHeight();
 
@@ -159,7 +168,11 @@ public class PostAdapter extends BaseAdapter {
 
         // 1dp/ms
 //        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density));
-        a.setDuration(ANIME_DURATION);
+        if (immediate)
+            a.setDuration(0);
+        else
+            a.setDuration(ANIME_DURATION);
+
         a.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -179,7 +192,7 @@ public class PostAdapter extends BaseAdapter {
         v.startAnimation(a);
     }
 
-    private static void collapse(final View v, final View expandButton) {
+    private static void collapse(final View v, final View expandButton, final boolean immediate) {
         final int initialHeight = v.getMeasuredHeight();
 
         Animation a = new Animation() {
@@ -190,7 +203,10 @@ public class PostAdapter extends BaseAdapter {
                 } else {
                     v.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
                     v.requestLayout();
-                    expandButton.setRotation(180 - interpolatedTime * 180);
+                    if (immediate)
+                        expandButton.setRotation(interpolatedTime * 180);
+                    else expandButton.setRotation(180 + interpolatedTime * 180);
+
                 }
             }
 
@@ -202,7 +218,10 @@ public class PostAdapter extends BaseAdapter {
 
         // 1dp/ms
 //        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
-        a.setDuration(ANIME_DURATION);
+        if (immediate)
+            a.setDuration(0);
+        else
+            a.setDuration(ANIME_DURATION);
         a.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -247,6 +266,8 @@ public class PostAdapter extends BaseAdapter {
         TextViewFont carCode;
         TextViewFont text;
         View infoContainer;
+        View expand;
+        View topContainer;
 
         public LinearLayout getApprovalContainer() {
             return approvalContainer;

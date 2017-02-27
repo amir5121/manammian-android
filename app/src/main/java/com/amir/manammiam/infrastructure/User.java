@@ -15,19 +15,20 @@ public class User {
     //todo: update these values every time the app loads up
     //todo: after getting the token by logging in get these information by logging in via token
     //todo: set token to null after logging out
-    private String username;
-    private String token;
     private String name;
+    private String username;
     private boolean gender;
     private String mail;
     private int permission;
+    private String token;
 
-    public User(String username, String name, boolean gender, String mail, int permission) {
+    public User(String username, String name, boolean gender, String mail, int permission, String token) {
         this.username = username;
         this.name = name;
         this.gender = gender;
         this.mail = mail;
         this.permission = permission;
+        this.token = token;
     }
 
     public String getToken() {
@@ -80,6 +81,8 @@ public class User {
 
     public boolean isLoggedIn() {
         return !(token == null || token.isEmpty());
+//        return true;
+//        return false;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.amir.manammiam.base;
 
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -8,10 +9,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.navdrawer.NavDrawer;
-import com.amir.manammiam.services.Module;
 import com.squareup.otto.Bus;
 
 import java.util.Locale;
@@ -27,29 +31,42 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         application = (ManamMiamApplication) getApplication();
         bus = application.getBus();
-
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Module.register(application);
         bus.register(this);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        bus.unregister(this);
 
+    public void setFont(TextView textView) {
+        if (textView != null)
+            textView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/IRANSans_Medium.ttf"));
+    }
+
+
+    public void setFont(ViewGroup group) {
+        if (group != null) {
+            int count = group.getChildCount();
+            View v;
+            for (int i = 0; i < count; i++) {
+                v = group.getChildAt(i);
+                if (v instanceof TextView) {
+                    setFont((TextView) v);
+                } else if (v instanceof ViewGroup)
+                    setFont((ViewGroup) v);
+            }
+        } else {
+            Log.e(getClass().getSimpleName(), "viewGroup was null");
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bus.unregister(this);
     }
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
-
-//        setLocale();
 
         toolbar = (Toolbar) findViewById(R.id.include_toolbar);
         if (toolbar != null) {

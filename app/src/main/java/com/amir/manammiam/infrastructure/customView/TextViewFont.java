@@ -25,5 +25,6 @@ public class TextViewFont extends TextView {
     public TextViewFont(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         CustomFontHelper.setCustomFont(this, context, attrs);
+
     }
 }

@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_bottom_navigation_trip"
+        android:icon="@drawable/ic_trip"
+        android:title="@string/trips" />
+
     <item
         android:id="@+id/menu_bottom_navigation_favorite"
-        android:enabled="true"
         android:icon="@drawable/ic_car"
-        android:title="@string/services"
-        app:showAsAction="ifRoom" />
+        android:title="@string/services" />
+
     <item
         android:id="@+id/menu_bottom_navigation_inbox"
-        android:enabled="true"
         android:icon="@drawable/ic_inbox"
-        android:title="@string/inbox"
-        app:showAsAction="ifRoom" />
+        android:title="@string/inbox" />
+
     <item
         android:id="@+id/menu_bottom_navigation_profile"
-        android:enabled="true"
         android:icon="@drawable/ic_profile_white"
-        android:title="@string/profile"
-        app:showAsAction="ifRoom" />
-
+        android:title="@string/profile" />
 </menu>

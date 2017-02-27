@@ -1,7 +1,13 @@
 package com.amir.manammiam.infrastructure.post;
 
+import android.util.Log;
+
+import com.amir.manammiam.infrastructure.Car;
+
 public class ManamMiamPost {
+    //TODO: replace with personToken
     private String person_id;
+
     private boolean isRead;
     private boolean who;
     private String sourceName;
@@ -10,11 +16,8 @@ public class ManamMiamPost {
     private String senderName;
     private String text;
     private String time;
-    private String carType;
-    private String carColor;
-    private float rate;
+    private Car car;
     private int capacity;
-    private String car_code;
     private boolean activated;
     private boolean expanded;
 
@@ -22,13 +25,10 @@ public class ManamMiamPost {
 
     //TODO: if who is 0 prompt the driver for the price, capacity and make a service
 
-    //if who is 0 then these are null: nothing
-    //if who is 1 then these are null: car_type, car_color, rate
-
     //NOTE: if who is 0 then driver asking the passenger
     //             is 1 then passenger has chosen a server and the driver is receiving the notification
 
-    public ManamMiamPost(String person_id, boolean isRead, boolean who, String sourceName, String destinationName, String price, String senderName, String text, String time, String carType, String carColor, float rate, int capacity, String car_code) {
+    public ManamMiamPost(String person_id, boolean isRead, boolean who, String sourceName, String destinationName, String price, String senderName, String text, String time, String carType, String carColor, float rate, int capacity, String car_code, int rateCount, boolean isTaxi, long carId) {
         this.person_id = person_id;
         this.isRead = isRead;
         this.who = who;
@@ -38,12 +38,14 @@ public class ManamMiamPost {
         this.senderName = senderName;
         this.text = text;
         this.time = time;
-        this.carType = carType;
-        this.carColor = carColor;
-        this.rate = rate;
+        car = new Car(carType, carColor, car_code, rate, Car.UNKNOWN, rateCount, isTaxi, carId);
         this.capacity = capacity;
-        this.car_code = car_code;
     }
+
+    public Car getCar() {
+        return car;
+    }
+
 
     public int getCapacity() {
         return capacity;
@@ -69,7 +71,7 @@ public class ManamMiamPost {
         isRead = read;
     }
 
-    public boolean isWho() {
+    public boolean getWho() {
         return who;
     }
 
@@ -125,43 +127,12 @@ public class ManamMiamPost {
         this.time = time;
     }
 
-    public String getCarType() {
-        return carType;
-    }
-
-    public void setCarType(String carType) {
-        this.carType = carType;
-    }
-
-    public String getCarColor() {
-        return carColor;
-    }
-
-    public void setCarColor(String carColor) {
-        this.carColor = carColor;
-    }
-
-    public float getRate() {
-        return rate;
-    }
-
-    public void setRate(float rate) {
-        this.rate = rate;
-    }
-
-    public String getCarcode() {
-        return car_code;
-    }
-
-    public void setCar_code(String car_code) {
-        this.car_code = car_code;
-    }
-
     public boolean isActivated() {
         return activated;
     }
 
     public void setExpanded(boolean expanded) {
+        if (expanded && who) Log.e(getClass().getName(), "What the fuck is happening");
         this.expanded = expanded;
     }
 

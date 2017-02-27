@@ -10,6 +10,7 @@
         android:padding="10dp"
         android:text="@string/manam_miam"
         android:textColor="@color/white"
+        style="@style/textViewIranSans"
         android:textSize="25sp"
         android:textStyle="bold" />
 

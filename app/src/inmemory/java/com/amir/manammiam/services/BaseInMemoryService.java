@@ -26,8 +26,6 @@ public abstract class BaseInMemoryService {
         if (milliSecondMin > milliSecondMax)
             throw new IllegalArgumentException("Min Must be smaller than Max");
 
-        Log.e(getClass().getSimpleName(), "invoking delay");
-
         long delay = (long) (random.nextDouble() * (milliSecondMax - milliSecondMin) + milliSecondMin);
         handler.postDelayed(runnable, delay);
     }

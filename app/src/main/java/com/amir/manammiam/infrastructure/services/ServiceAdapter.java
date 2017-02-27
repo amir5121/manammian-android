@@ -20,12 +20,7 @@ public class ServiceAdapter extends BaseAdapter {
 
     public ServiceAdapter(Context context) {
         inflater = LayoutInflater.from(context);
-
         services = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++)
-            services.add(new ManamMiamService("1", "2", 5.0 - i / 2., "sepah", "pardis", "2000", 5, "Peugeot", "1396/09/29 20:30", "amir", "12 پ 234 73", "Blue"));
-        //TODO: listener onServicesReceived
     }
 
     @Override
@@ -47,16 +42,18 @@ public class ServiceAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ServiceViewHolder viewHolder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_server, parent, false);
+            convertView = inflater.inflate(R.layout.item_trip, parent, false);
             viewHolder = new ServiceViewHolder();
-            viewHolder.source = (TextViewFont) convertView.findViewById(R.id.item_server_text_source);
-            viewHolder.destination = (TextViewFont) convertView.findViewById(R.id.item_server_text_destination);
-            viewHolder.price = (TextViewFont) convertView.findViewById(R.id.item_server_text_price);
-            viewHolder.name = (TextViewFont) convertView.findViewById(R.id.item_server_text_name);
-            viewHolder.time = (TextViewFont) convertView.findViewById(R.id.item_server_text_time);
-            viewHolder.capacity = (TextViewFont) convertView.findViewById(R.id.item_server_text_capacity);
-            viewHolder.carType = (TextViewFont) convertView.findViewById(R.id.item_server_text_car_type);
-            viewHolder.rateBar = (RatingBar) convertView.findViewById(R.id.item_server_rate_bar);
+            viewHolder.sourceDestContainer = convertView.findViewById(R.id.src_dest_container);
+            viewHolder.source = (TextViewFont) convertView.findViewById(R.id.include_src_dest_text_source);
+            viewHolder.destination = (TextViewFont) convertView.findViewById(R.id.include_src_dest_text_destination);
+            viewHolder.price = (TextViewFont) convertView.findViewById(R.id.include_src_dest_text_price);
+            viewHolder.name = (TextViewFont) convertView.findViewById(R.id.item_trip_text_driver_name);
+            viewHolder.time = (TextViewFont) convertView.findViewById(R.id.item_trip_text_time);
+            viewHolder.capacity = (TextViewFont) convertView.findViewById(R.id.item_trip_capacity);
+            viewHolder.carType = (TextViewFont) convertView.findViewById(R.id.item_trip_text_car_type);
+            viewHolder.rateCount = (TextViewFont) convertView.findViewById(R.id.item_trip_rate_count);
+            viewHolder.rateBar = (RatingBar) convertView.findViewById(R.id.item_trip_rate_bar);
 
             viewHolder.approvalContainer = (LinearLayout) convertView.findViewById(R.id.item_server_approval_container);
 
@@ -71,9 +68,11 @@ public class ServiceAdapter extends BaseAdapter {
         viewHolder.price.setText(services.get(position).getPrice());
         viewHolder.name.setText(services.get(position).getName());
         viewHolder.time.setText(services.get(position).getTime());
-        viewHolder.carType.setText(services.get(position).getCarType());
+        viewHolder.carType.setText(services.get(position).getCar().getCarType());
         viewHolder.capacity.setText(String.valueOf(services.get(position).getCapacity()));
-        viewHolder.rateBar.setRating((float) services.get(position).getRate());
+        viewHolder.capacity.setText(String.valueOf(services.get(position).getCapacity()));
+        viewHolder.rateCount.setText(String.valueOf(services.get(position).getCar().getRateCount()));
+        viewHolder.rateBar.setRating(services.get(position).getCar().getRate());
         viewHolder.isActivated = services.get(position).isActivated();
 
 
@@ -92,6 +91,10 @@ public class ServiceAdapter extends BaseAdapter {
         return services;
     }
 
+    public void setServices(ArrayList<ManamMiamService> services) {
+        this.services = services;
+    }
+
 
     public class ServiceViewHolder {
         TextViewFont source;
@@ -102,9 +105,11 @@ public class ServiceAdapter extends BaseAdapter {
         TextViewFont capacity;
         TextViewFont carType;
         RatingBar rateBar;
-        LinearLayout approvalContainer;
+        TextViewFont rateCount;
 
+        LinearLayout approvalContainer;
         boolean isActivated = false;
+        View sourceDestContainer;
 
         public LinearLayout getApprovalContainer() {
             return approvalContainer;

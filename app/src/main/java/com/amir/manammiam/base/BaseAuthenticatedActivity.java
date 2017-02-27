@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.amir.manammiam.activities.LoginActivity;
+import com.amir.manammiam.activities.TokenLoginActivity;
 
 public abstract class BaseAuthenticatedActivity extends BaseActivity {
 
@@ -13,7 +13,8 @@ public abstract class BaseAuthenticatedActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         if (!application.getUser().isLoggedIn()) {
-            startActivity(new Intent(this, LoginActivity.class));
+
+            startActivity(new Intent(this, TokenLoginActivity.class));
             finish();
             return;
         }

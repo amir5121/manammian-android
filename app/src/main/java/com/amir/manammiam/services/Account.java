@@ -1,6 +1,8 @@
 package com.amir.manammiam.services;
 
-import android.util.Log;
+import com.amir.manammiam.infrastructure.Car;
+
+import java.util.ArrayList;
 
 public final class Account {
     private Account() {
@@ -13,7 +15,6 @@ public final class Account {
         public LoginRequest(String username, String password) {
             this.username = username;
             this.password = password;
-            Log.e(getClass().getSimpleName(), "New Account.LoginRequest was created");
 
         }
 
@@ -26,11 +27,7 @@ public final class Account {
         }
     }
 
-    public static class LoginResponse extends ServiceResponse {
-
-        public LoginResponse() {
-            Log.e(getClass().getSimpleName(), "New login Response was created");
-        }
+    public static class LoginResponse extends Response {
 
         private String token = null;
 
@@ -43,7 +40,7 @@ public final class Account {
         }
     }
 
-    public static class ProfileRequest{
+    public static class ProfileRequest {
         String token;
 
         public ProfileRequest(String token) {
@@ -55,7 +52,7 @@ public final class Account {
         }
     }
 
-    public static class ProfileResponse extends ServiceResponse{
+    public static class ProfileResponse extends Response {
         public String username;
         public String name;
         public boolean gender;
@@ -72,5 +69,30 @@ public final class Account {
             this.permission = permission;
         }
     }
+
+    public static class CarsRequest {
+        String token;
+
+        public CarsRequest(String token) {
+            this.token = token;
+        }
+
+        public String getToken() {
+            return token;
+        }
+    }
+
+    public static class CarsResponse extends Response {
+        ArrayList<Car> cars;
+
+        public CarsResponse(ArrayList<Car> cars) {
+            this.cars = cars;
+        }
+
+        public ArrayList<Car> getCars() {
+            return cars;
+        }
+    }
+
 
 }

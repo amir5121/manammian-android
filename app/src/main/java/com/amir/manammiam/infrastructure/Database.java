@@ -11,7 +11,7 @@ import com.vansuita.sqliteparser.SqlParser;
 
 public class Database extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "manammiam.db";
-    private static final int DATABASE_VER = 3;
+    private static final int DATABASE_VER = 4;
     private static final String T_USER = "user";
     public static final String SELECT_USERS = "SELECT * FROM " + T_USER;
     private static final String C_NAME = "name";
@@ -20,13 +20,13 @@ public class Database extends SQLiteOpenHelper {
     private static final String C_MAIL = "email";
     private static final String C_IS_LOGGED_IN = "loggedIn";
     private static final String C_PERMISSION = "permission";
+    private static final String C_TOKEN = "token";
 
     private SQLiteDatabase db;
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VER);
         db = getWritableDatabase();
-        Log.e(getClass().getSimpleName(), "Constructor for Database was called");
     }
 
     @Override
@@ -39,7 +39,7 @@ public class Database extends SQLiteOpenHelper {
                         bool(C_GENDER).
                         str(C_MAIL).
                         num(C_PERMISSION).
-                        bool(C_IS_LOGGED_IN).
+                        str(C_TOKEN).
                         build());
     }
 
@@ -52,8 +52,6 @@ public class Database extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-
-
     public User getUser() {
         Cursor cursor = db.rawQuery(SELECT_USERS, null);
         User user;
@@ -63,16 +61,17 @@ public class Database extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndexOrThrow(C_NAME)),
                     cursor.getInt(cursor.getColumnIndexOrThrow(C_GENDER)) == User.MALE_INT,
                     cursor.getString(cursor.getColumnIndexOrThrow(C_MAIL)),
-                    cursor.getInt(cursor.getColumnIndexOrThrow(C_PERMISSION))
-//                    cursor.getInt(cursor.getColumnIndexOrThrow(C_IS_LOGGED_IN)) == User.LOGGED_IN_INT
+                    cursor.getInt(cursor.getColumnIndexOrThrow(C_PERMISSION)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(C_TOKEN))
                     );
-//            return new User("Amir5121", "Amir", User.MALE, "amirhoseinheshmati@gmail.com", User.VERIFIED);
         } else if (cursor.getCount() > 1) {
             Log.e(getClass().getSimpleName(), "more than one user in user table. MUST NOT HAPPEN");
-            user = new User(null, null, User.MALE, null, User.BLOCKED);
+            //todo: handle this situation better
+            user = new User(null, null, User.MALE, null, User.BLOCKED, null);
 
         } else {
-            user =  new User(null, null, User.MALE, null, User.BLOCKED);
+            //todo: return null
+            user =  new User(null, null, User.MALE, null, User.BLOCKED, null);
 
         }
         cursor.close();

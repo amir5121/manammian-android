@@ -6,22 +6,22 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-public abstract class ServiceResponse {
-    private static final String TAG = "ServiceResponse";
+public abstract class Response {
+    private static final String TAG = "Response";
 
     private String operationError;
     private HashMap<String, String> propertyErrors;
     private boolean isCritical;
 
-    public ServiceResponse() {
+    public Response() {
         propertyErrors = new HashMap<>();
     }
 
-    public ServiceResponse(String operationError) {
+    public Response(String operationError) {
         this.operationError = operationError;
     }
 
-    public ServiceResponse(String operationError, boolean isCritical) {
+    public Response(String operationError, boolean isCritical) {
         this.operationError = operationError;
         this.isCritical = isCritical;
     }

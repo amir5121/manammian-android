@@ -20,7 +20,7 @@
     <string name="services">Services</string>
     <string name="email">Email</string>
     <string name="capacity">Capacity: </string>
-    <string name="accept">accept</string>
+    <string name="accept">Accept</string>
     <string name="deny">deny</string>
     <string name="reserve">Reserve</string>
     <string name="yes">Yes</string>
@@ -29,4 +29,15 @@
     <string name="verified">Verified</string>
     <string name="unverified">Unverified</string>
     <string name="blocked">Blocked</string>
+    <string name="rates">Rates</string>
+    <string name="accepted_genders">Accepted Genders:</string>
+    <string name="all">All</string>
+    <string name="error">Error</string>
+    <string name="trips">Trips</string>
+    <string name="authenticating">Authenticating</string>
+    <string name="ellipse">…</string>
+    <string name="report">Report</string>
+    <string name="rate">Rate the service</string>
+    <string name="thanks_for_rating">Thanks for Rating!</string>
+    <string name="cancel_order">Cancel order?</string>
 </resources>
