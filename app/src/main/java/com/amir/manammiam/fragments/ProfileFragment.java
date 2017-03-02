@@ -11,7 +11,7 @@ import android.widget.RatingBar;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseFragment;
-import com.amir.manammiam.infrastructure.Car;
+import com.amir.manammiam.infrastructure.car.Car;
 import com.amir.manammiam.infrastructure.User;
 import com.amir.manammiam.infrastructure.customView.TextViewFont;
 import com.amir.manammiam.services.Account;
@@ -148,15 +148,16 @@ public final class ProfileFragment extends BaseFragment {
     public void onProfileRecieved(Account.ProfileResponse response) {
         if (!carsReceived) carsProgressBar.setVisibility(View.VISIBLE);
         if (response.didSucceed() && nameText != null && usernameText != null && emailText != null && genderText != null && permissionText != null) {
-            nameText.setText(response.name);
-            usernameText.setText(response.username);
-            emailText.setText(response.mail);
-            genderText.setText(getResources().getString(response.gender == User.MALE ? R.string.male : R.string.female));
+
+            nameText.setText(response.getUser().getName());
+            usernameText.setText(response.getUser().getUsername());
+            emailText.setText(response.getUser().getMail());
+            genderText.setText(getResources().getString(response.getUser().getGender()== User.MALE ? R.string.male : R.string.female));
             int res;
-            if (response.permission == User.VERIFIED) {
+            if (response.getUser().getPermission() == User.VERIFIED) {
                 res = R.string.verified;
                 verificationContainer.setBackgroundResource(R.drawable.round_background_transparent_green);
-            } else if (response.permission == User.UNVERIFIED) {
+            } else if (response.getUser().getPermission() == User.UNVERIFIED) {
                 res = R.string.unverified;
                 verificationContainer.setBackgroundResource(R.drawable.round_background_transparent_yellow);
             } else {

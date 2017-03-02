@@ -7,7 +7,7 @@
     <color name="colorAccent">#DD2C00</color>
     <color name="selected_nav_drawer_item_background">#442196f3</color>
     <color name="nav_drawer_background">#ffffff</color>
-    <color name="default_background_color">#FFAB91</color>
+    <color name="default_background_color">#50BF360C</color>
     <color name="list_item_nav_drawer_selected_item_text_color">#FF7043</color>
     <color name="default_text_color">#F57F17</color>
     <color name="male_color">#0277BD</color>

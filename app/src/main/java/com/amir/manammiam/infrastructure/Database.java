@@ -21,6 +21,7 @@ public class Database extends SQLiteOpenHelper {
     private static final String C_IS_LOGGED_IN = "loggedIn";
     private static final String C_PERMISSION = "permission";
     private static final String C_TOKEN = "token";
+    private static final String C_IS_DRIVER = "is_driver";
 
     private SQLiteDatabase db;
 
@@ -40,6 +41,7 @@ public class Database extends SQLiteOpenHelper {
                         str(C_MAIL).
                         num(C_PERMISSION).
                         str(C_TOKEN).
+                        num(C_IS_DRIVER).
                         build());
     }
 
@@ -62,16 +64,18 @@ public class Database extends SQLiteOpenHelper {
                     cursor.getInt(cursor.getColumnIndexOrThrow(C_GENDER)) == User.MALE_INT,
                     cursor.getString(cursor.getColumnIndexOrThrow(C_MAIL)),
                     cursor.getInt(cursor.getColumnIndexOrThrow(C_PERMISSION)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(C_TOKEN))
+                    cursor.getString(cursor.getColumnIndexOrThrow(C_TOKEN)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(C_IS_DRIVER)) == 1
                     );
         } else if (cursor.getCount() > 1) {
             Log.e(getClass().getSimpleName(), "more than one user in user table. MUST NOT HAPPEN");
             //todo: handle this situation better
-            user = new User(null, null, User.MALE, null, User.BLOCKED, null);
+            user = new User(null, null, User.MALE, null, User.BLOCKED, null, false);
 
         } else {
             //todo: return null
-            user =  new User(null, null, User.MALE, null, User.BLOCKED, null);
+//            user =  new User(null, null, User.MALE, null, User.BLOCKED, null, false);
+            user = null;
 
         }
         cursor.close();

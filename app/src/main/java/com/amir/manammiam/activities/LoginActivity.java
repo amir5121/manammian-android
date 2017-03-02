@@ -93,6 +93,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             //TODO: save to database
             application.getUser().setToken(response.getToken());
+            application.getUser().setLoggedIn(true);
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }

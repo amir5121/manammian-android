@@ -1,6 +1,7 @@
 package com.amir.manammiam.services;
 
-import com.amir.manammiam.infrastructure.Car;
+import com.amir.manammiam.infrastructure.car.Car;
+import com.amir.manammiam.infrastructure.User;
 
 import java.util.ArrayList;
 
@@ -53,20 +54,14 @@ public final class Account {
     }
 
     public static class ProfileResponse extends Response {
-        public String username;
-        public String name;
-        public boolean gender;
-        public boolean isTaxi; //whatever the fuck it represent
-        public String mail;
-        public int permission;
+        private User user;
 
-        public ProfileResponse(String username, String name, boolean gender, boolean isTaxi, String mail, int permission) {
-            this.username = username;
-            this.name = name;
-            this.gender = gender;
-            this.isTaxi = isTaxi;
-            this.mail = mail;
-            this.permission = permission;
+        public ProfileResponse(User user) {
+            this.user = user;
+        }
+
+        public User getUser() {
+            return user;
         }
     }
 

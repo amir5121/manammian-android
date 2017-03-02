@@ -31,9 +31,13 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         application = (ManamMiamApplication) getApplication();
         bus = application.getBus();
-        bus.register(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bus.register(this);
+    }
 
     public void setFont(TextView textView) {
         if (textView != null)
@@ -57,12 +61,21 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         bus.unregister(this);
     }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//    }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//    }
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {

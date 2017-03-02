@@ -44,10 +44,10 @@ public class TokenLoginActivity extends BaseActivity {
     @Subscribe
     public void onProfileRecived(Account.ProfileResponse response) {
         if (response.didSucceed()) {
+            application.setUser(response.getUser());
             startActivity(new Intent(this, MainActivity.class));
 
-            //todo: remove the line below after saving the toke to database
-            application.getUser().setToken("faketoken");
+            application.getUser().setLoggedIn(true);
         } else {
             startActivity(new Intent(this, LoginActivity.class));
             response.showErrorToast(this);

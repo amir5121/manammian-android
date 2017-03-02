@@ -14,12 +14,11 @@ import android.widget.ListView;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseFragment;
+import com.amir.manammiam.dialogFragment.NewServiceDialogFragment;
 import com.amir.manammiam.infrastructure.post.ManamMiamPost;
 import com.amir.manammiam.infrastructure.post.PostAdapter;
 import com.amir.manammiam.services.Posts;
 import com.squareup.otto.Subscribe;
-
-import java.util.ArrayList;
 
 import static com.amir.manammiam.fragments.ServicesFragment.ANIM_DURATION;
 
@@ -97,19 +96,29 @@ public final class InboxFragment extends BaseFragment implements SwipeRefreshLay
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //TODO: What should actually happen when you click on a post
-                final ArrayList<ManamMiamPost> posts = adapter.getPosts();
-                boolean wasActivated = posts.get(position).isActivated();
+
+                ManamMiamPost manamMiamPostItem = adapter.getPosts().get(position);
+                boolean wasActivated = manamMiamPostItem.isActivated();
 
                 PostAdapter.PostViewHolder viewHolder = (PostAdapter.PostViewHolder) view.getTag();
                 if (wasActivated) {
-                    posts.get(position).setActivated(false);
+
+                    manamMiamPostItem.setActivated(false);
                     unSelectView(viewHolder);
 
                 } else {
-                    posts.get(position).setActivated(true);
-                    viewHolder.getApprovalContainer().setVisibility(View.VISIBLE);
-                    viewHolder.getApprovalContainer().setAlpha(0);
-                    viewHolder.getApprovalContainer().animate().alpha(1).setDuration(ANIM_DURATION).setListener(null);
+                    if (manamMiamPostItem.getWho() == ManamMiamPost.LOOKING_FOR_SERVER) {
+                        NewServiceDialogFragment serviceDialog = new NewServiceDialogFragment();
+
+                        serviceDialog.show(getFragmentManager(), "serviceDialog");
+                    } else if (manamMiamPostItem.getWho() == ManamMiamPost.DRIVER_ASKING_PASSENGER) {
+                        manamMiamPostItem.setActivated(true);
+                        viewHolder.getApprovalContainer().setVisibility(View.VISIBLE);
+                        viewHolder.getApprovalContainer().setAlpha(0);
+                        viewHolder.getApprovalContainer().animate().alpha(1).setDuration(ANIM_DURATION).setListener(null);
+                    } else if (manamMiamPostItem.getWho() == ManamMiamPost.PASSENGER_CHOSEN_A_SERVER) {
+                        //nothing
+                    }
                 }
 
 

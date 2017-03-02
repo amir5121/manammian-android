@@ -1,6 +1,6 @@
 package com.amir.manammiam.infrastructure.services;
 
-import com.amir.manammiam.infrastructure.Car;
+import com.amir.manammiam.infrastructure.car.Car;
 
 public class ManamMiamService {
     private String server_id;

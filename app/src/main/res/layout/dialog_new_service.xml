@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.amir.manammiam.infrastructure.customView.TextViewFont
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="2dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/creating_new_service"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_big" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
+                style="@style/textViewIranSans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="5dp"
+                android:text="@string/from"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_smallest" />
+
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
+                android:id="@+id/dialog_new_service_text_source"
+                style="@style/textViewIranSans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:padding="5dp"
+                android:text="@string/source"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_medium" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
+                style="@style/textViewIranSans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="5dp"
+                android:text="@string/to"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_smallest" />
+
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
+                android:id="@+id/dialog_new_service_text_destination"
+                style="@style/textViewIranSans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:padding="5dp"
+                android:text="@string/destination"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_medium" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.amir.manammiam.infrastructure.customView.TextViewFont
+        android:id="@+id/dialog_new_service_text_date"
+        style="@style/textViewIranSans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:text="1396/09/29 20:30"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_medium" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp">
+
+        <com.amir.manammiam.infrastructure.customView.EditTextFont
+            android:id="@+id/dialog_new_service_input_price"
+            style="@style/editTextIranSans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_money"
+            android:drawablePadding="15dp"
+            android:drawableStart="@drawable/ic_money"
+            android:gravity="start"
+            android:hint="@string/price"
+            android:inputType="number"
+            android:textSize="@dimen/text_small" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginStart="15dp">
+
+        <com.amir.manammiam.infrastructure.customView.EditTextFont
+            android:id="@+id/dialog_new_service_input_capacity"
+            style="@style/editTextIranSans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_sofa"
+            android:drawablePadding="15dp"
+            android:drawableStart="@drawable/ic_sofa"
+            android:gravity="start"
+            android:hint="@string/capacity_no_colon"
+            android:inputType="number"
+            android:textSize="@dimen/text_small" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <com.amir.manammiam.infrastructure.customView.TextViewFont
+        style="@style/textViewIranSans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:paddingBottom="3dp"
+        android:paddingTop="5dp"
+        android:text="@string/choose_one_of_your_cars"
+        android:textSize="@dimen/text_very_small" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/default_background_color">
+
+        <ListView
+            android:id="@+id/dialog_new_service_cars_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@android:color/transparent"/>
+
+        <ProgressBar
+            android:id="@+id/dialog_new_service_cars_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_margin="15dp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/default_background_color">
+
+        <Button
+            android:id="@+id/dialog_new_service_btn_submit"
+            style="@style/buttonIranSans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_green_button"
+            android:enabled="false"
+            android:foreground="?android:selectableItemBackground"
+            android:text="@string/submit"
+            android:textColor="#FFF"
+            android:textSize="17sp" />
+
+        <ProgressBar
+            android:id="@+id/dialog_new_service_submit_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="@color/transparent_light"
+            android:clickable="true"
+            android:padding="7dp"
+            android:paddingBottom="2dp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</LinearLayout>

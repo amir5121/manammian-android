@@ -1,4 +1,4 @@
-package com.amir.manammiam.infrastructure;
+package com.amir.manammiam.infrastructure.car;
 
 public class Car {
     public static final int ACCEPT_ALL = 3;

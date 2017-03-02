@@ -1,315 +1,321 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_trip_root"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/round_white"
-    android:descendantFocusability="blocksDescendants"
-    android:elevation="3dp"
-    android:foreground="?android:selectableItemBackground">
+    android:layout_height="wrap_content">
 
-    <include
-        android:id="@+id/src_dest_container"
-        layout="@layout/include_src_dest_header" />
-
-    <LinearLayout
-        android:id="@+id/item_trip_mid"
+    <RelativeLayout
+        android:id="@+id/item_trip_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/src_dest_container"
-        android:orientation="horizontal">
+        android:background="@drawable/round_white"
+        android:descendantFocusability="blocksDescendants"
+        android:layout_margin="8dp"
+        android:elevation="3dp"
+        android:foreground="?android:selectableItemBackground">
 
-        <com.amir.manammiam.infrastructure.customView.TextViewFont
-            android:id="@+id/item_trip_text_driver_name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="Amir"
-            android:textSize="@dimen/text_medium" />
-
-
-        <com.amir.manammiam.infrastructure.customView.TextViewFont
-            android:id="@+id/item_trip_text_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:alpha=".9"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="1396\/09\/29 20:30"
-            android:textSize="@dimen/text_small" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/item_trip_info_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/item_trip_mid"
-        android:orientation="vertical">
-
-        <RatingBar
-            android:id="@+id/item_trip_rate_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:clickable="false"
-            android:focusable="false"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:rating="3.5"
-            android:scaleX=".9"
-            android:scaleY=".9"
-            android:stepSize=".1" />
+        <include
+            android:id="@+id/src_dest_container"
+            layout="@layout/include_src_dest_header" />
 
         <LinearLayout
+            android:id="@+id/item_trip_mid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <com.amir.manammiam.infrastructure.customView.TextViewFont
-                    android:id="@+id/item_trip_rate_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="1235"
-                    android:textSize="@dimen/text_big" />
-
-                <com.amir.manammiam.infrastructure.customView.TextViewFont
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="1dp"
-                    android:gravity="center"
-                    android:text="@string/rates"
-                    android:textSize="@dimen/text_very_small" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/item_trip_capacity_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <com.amir.manammiam.infrastructure.customView.TextViewFont
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/capacity"
-                    android:textSize="@dimen/text_very_small" />
-
-                <com.amir.manammiam.infrastructure.customView.TextViewFont
-                    android:id="@+id/item_trip_capacity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="1dp"
-                    android:gravity="center"
-                    android:text="5"
-                    android:textSize="@dimen/text_big" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_below="@id/src_dest_container"
             android:orientation="horizontal">
 
             <com.amir.manammiam.infrastructure.customView.TextViewFont
-                android:id="@+id/item_trip_text_car_type"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="Peogeot"
-                android:textSize="@dimen/text_small" />
-
-            <com.amir.manammiam.infrastructure.customView.TextViewFont
-                android:id="@+id/item_trip_text_car_color"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="Blue"
-                android:textSize="@dimen/text_small" />
-
-            <com.amir.manammiam.infrastructure.customView.TextViewFont
-                android:id="@+id/item_trip_text_car_code"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="۷۸ ح ۳۴۵ ۳۴"
-                android:textSize="@dimen/text_small" />
-
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/item_server_approval_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@id/item_trip_info_container"
-        android:layout_below="@id/src_dest_container"
-        android:visibility="gone"
-        android:background="@drawable/round_selected_foreground"
-        android:orientation="horizontal">
-
-        <com.amir.manammiam.infrastructure.customView.TextViewFont
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:foreground="?android:selectableItemBackground"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/no"
-            android:textColor="@color/red"
-            android:textSize="@dimen/text_medium" />
-
-        <com.amir.manammiam.infrastructure.customView.TextViewFont
-            android:id="@+id/item_trip_text_text"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:clickable="true"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/reserve"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_very_big" />
-
-        <com.amir.manammiam.infrastructure.customView.TextViewFont
-            android:id="@+id/item_server_text_accept"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:foreground="?android:selectableItemBackground"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/yes"
-            android:textColor="@color/green"
-            android:textSize="@dimen/text_medium" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/item_trip_response_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_alignBottom="@id/item_trip_info_container"
-        android:layout_alignTop="@id/src_dest_container"
-        android:background="@drawable/round_selected_foreground_white"
-        android:orientation="vertical"
-        android:translationZ="10dp"
-        android:visibility="gone">
-
-        <com.amir.manammiam.infrastructure.customView.TextViewFont
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="@string/rate"
-            android:textColor="@color/green"
-            android:textSize="@dimen/text_small" />
-
-        <RatingBar
-            android:id="@+id/item_trip_rate_response"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:numStars="5"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
-            android:stepSize="1" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/item_trip_report_button"
-                style="@style/buttonIranSans"
+                android:id="@+id/item_trip_text_driver_name"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="@string/report"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Amir"
+                android:textSize="@dimen/text_medium" />
+
+
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
+                android:id="@+id/item_trip_text_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:alpha=".9"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="1396\/09\/29 20:30"
+                android:textSize="@dimen/text_small" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item_trip_info_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_trip_mid"
+            android:orientation="vertical">
+
+            <RatingBar
+                android:id="@+id/item_trip_rate_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:focusable="false"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="3.5"
+                android:scaleX=".9"
+                android:scaleY=".9"
+                android:stepSize=".1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.amir.manammiam.infrastructure.customView.TextViewFont
+                        android:id="@+id/item_trip_rate_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="1235"
+                        android:textSize="@dimen/text_big" />
+
+                    <com.amir.manammiam.infrastructure.customView.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="1dp"
+                        android:gravity="center"
+                        android:text="@string/rates"
+                        android:textSize="@dimen/text_very_small" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/item_trip_capacity_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.amir.manammiam.infrastructure.customView.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/capacity"
+                        android:textSize="@dimen/text_very_small" />
+
+                    <com.amir.manammiam.infrastructure.customView.TextViewFont
+                        android:id="@+id/item_trip_capacity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="1dp"
+                        android:gravity="center"
+                        android:text="5"
+                        android:textSize="@dimen/text_big" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:id="@+id/item_trip_text_car_type"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="Peogeot"
+                    android:textSize="@dimen/text_small" />
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:id="@+id/item_trip_text_car_color"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="Blue"
+                    android:textSize="@dimen/text_small" />
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:id="@+id/item_trip_text_car_code"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="۷۸ ح ۳۴۵ ۳۴"
+                    android:textSize="@dimen/text_small" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item_server_approval_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@id/item_trip_info_container"
+            android:layout_below="@id/src_dest_container"
+            android:background="@drawable/round_selected_foreground"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:foreground="?android:selectableItemBackground"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="@string/no"
                 android:textColor="@color/red"
                 android:textSize="@dimen/text_medium" />
 
             <com.amir.manammiam.infrastructure.customView.TextViewFont
-                style="@style/textViewIranSans"
+                android:id="@+id/item_trip_text_text"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:clickable="true"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/reserve"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_very_big" />
+
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
+                android:id="@+id/item_server_text_accept"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:foreground="?android:selectableItemBackground"
                 android:gravity="center"
-                android:text="@string/cancel"
-                android:textColor="@color/red"
-                android:textSize="@dimen/text_very_small" />
+                android:padding="4dp"
+                android:text="@string/yes"
+                android:textColor="@color/green"
+                android:textSize="@dimen/text_medium" />
 
         </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/item_trip_response_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignBottom="@id/item_trip_info_container"
+            android:layout_alignTop="@id/src_dest_container"
+            android:background="@drawable/round_selected_foreground_white"
+            android:orientation="vertical"
+            android:translationZ="10dp"
+            android:visibility="gone">
+
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/rate"
+                android:textColor="@color/green"
+                android:textSize="@dimen/text_small" />
+
+            <RatingBar
+                android:id="@+id/item_trip_rate_response"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:numStars="5"
+                android:scaleX="1.2"
+                android:scaleY="1.2"
+                android:stepSize="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/item_trip_report_button"
+                    style="@style/buttonIranSans"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:text="@string/report"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_medium" />
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    style="@style/textViewIranSans"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/cancel"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_very_small" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/item_trip_loading"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_alignBottom="@id/item_trip_info_container"
-        android:layout_alignTop="@id/src_dest_container"
-        android:alpha=".8"
-        android:background="@color/transparent_darker"
-        android:clickable="true"
-        android:translationZ="15dp"
-        android:visibility="gone">
+        <RelativeLayout
+            android:id="@+id/item_trip_loading"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignBottom="@id/item_trip_info_container"
+            android:layout_alignTop="@id/src_dest_container"
+            android:alpha=".8"
+            android:background="@drawable/round_selected_foreground"
+            android:clickable="true"
+            android:translationZ="15dp"
+            android:visibility="gone">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
-
-
-</RelativeLayout>
+</FrameLayout>

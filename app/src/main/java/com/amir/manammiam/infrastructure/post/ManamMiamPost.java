@@ -1,15 +1,17 @@
 package com.amir.manammiam.infrastructure.post;
 
-import android.util.Log;
-
-import com.amir.manammiam.infrastructure.Car;
+import com.amir.manammiam.infrastructure.car.Car;
 
 public class ManamMiamPost {
+    public static final int DRIVER_ASKING_PASSENGER = 0; // results in a prompt to the user whether to accept this service or not
+    public static final int PASSENGER_CHOSEN_A_SERVER = 1; // unclickable
+    public static final int LOOKING_FOR_SERVER = 2; // prompt the driver for price and stuff
+
     //TODO: replace with personToken
     private String person_id;
 
     private boolean isRead;
-    private boolean who;
+    private int who;
     private String sourceName;
     private String destinationName;
     private String price;
@@ -28,7 +30,7 @@ public class ManamMiamPost {
     //NOTE: if who is 0 then driver asking the passenger
     //             is 1 then passenger has chosen a server and the driver is receiving the notification
 
-    public ManamMiamPost(String person_id, boolean isRead, boolean who, String sourceName, String destinationName, String price, String senderName, String text, String time, String carType, String carColor, float rate, int capacity, String car_code, int rateCount, boolean isTaxi, long carId) {
+    public ManamMiamPost(String person_id, boolean isRead, int who, String sourceName, String destinationName, String price, String senderName, String text, String time, String carType, String carColor, float rate, int capacity, String car_code, int rateCount, boolean isTaxi, long carId) {
         this.person_id = person_id;
         this.isRead = isRead;
         this.who = who;
@@ -71,11 +73,11 @@ public class ManamMiamPost {
         isRead = read;
     }
 
-    public boolean getWho() {
+    public int getWho() {
         return who;
     }
 
-    public void setWho(boolean who) {
+    public void setWho(int who) {
         this.who = who;
     }
 
@@ -132,7 +134,7 @@ public class ManamMiamPost {
     }
 
     public void setExpanded(boolean expanded) {
-        if (expanded && who) Log.e(getClass().getName(), "What the fuck is happening");
+//        if (expanded && who == PASSENGER_CHOSEN_A_SERVER) Log.e(getClass().getName(), "What the fuck is happening");
         this.expanded = expanded;
     }
 

@@ -40,4 +40,10 @@
     <string name="rate">Rate the service</string>
     <string name="thanks_for_rating">Thanks for Rating!</string>
     <string name="cancel_order">Cancel order?</string>
+    <string name="capacity_no_colon">Capacity</string>
+    <string name="choose_one_of_your_cars">Choose one of your cars</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="creating_new_service">Creating new Service</string>
+    <string name="submit">Submit</string>
 </resources>

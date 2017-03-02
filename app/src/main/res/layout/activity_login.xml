@@ -53,32 +53,47 @@
                     <!--app:met_floatingLabelText="Username"-->
                     <!--app:met_primaryColor="#982360" />-->
 
-                    <com.amir.manammiam.infrastructure.customView.EditTextFont
-                        android:id="@+id/activity_login_edit_username"
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_search_colored"
-                        android:drawableStart="@drawable/ic_search_colored"
-                        android:gravity="center"
-                        style="@style/editTextIranSans"
-                        android:hint="@string/username"
-                        android:padding="15dp"
-                        android:textSize="20sp" />
+                        android:layout_height="wrap_content">
 
-                    <com.amir.manammiam.infrastructure.customView.EditTextFont
-                        android:id="@+id/activity_login_edit_password"
+                        <com.amir.manammiam.infrastructure.customView.EditTextFont
+                            android:id="@+id/activity_login_edit_username"
+                            style="@style/editTextIranSans"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:drawableLeft="@drawable/ic_search_colored"
+                            android:drawableStart="@drawable/ic_search_colored"
+                            android:gravity="start"
+                            android:drawablePadding="15dp"
+                            android:hint="@string/username"
+                            android:padding="15dp"
+                            android:textSize="@dimen/text_medium" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_key_colored"
-                        android:drawableStart="@drawable/ic_key_colored"
-                        android:gravity="center"
-                        android:hint="@string/password"
-                        android:inputType="textPassword"
-                        style="@style/editTextIranSans"
-                        android:padding="15dp"
-                        android:textSize="18sp" />
+                        android:layout_height="wrap_content">
+
+                        <com.amir.manammiam.infrastructure.customView.EditTextFont
+                            android:id="@+id/activity_login_edit_password"
+                            style="@style/editTextIranSans"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_key_colored"
+                            android:drawableStart="@drawable/ic_key_colored"
+                            android:drawablePadding="15dp"
+                            android:gravity="start"
+                            android:hint="@string/password"
+                            android:inputType="textPassword"
+                            android:padding="15dp"
+                            android:textSize="@dimen/text_medium" />
+
+                    </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -118,11 +133,11 @@
 
                     <com.amir.manammiam.infrastructure.customView.TextViewFont
                         android:id="@+id/activity_login_text_enroll"
+                        style="@style/textViewIranSans"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        style="@style/textViewIranSans"
                         android:clickable="true"
                         android:foreground="?android:selectableItemBackground"
                         android:padding="10dp"

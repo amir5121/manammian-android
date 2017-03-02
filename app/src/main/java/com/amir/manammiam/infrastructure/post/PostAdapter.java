@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 public class PostAdapter extends BaseAdapter {
 
+    //TODO: don't show who = 2 if this user has no car
+
     private static final String TAG = "PostAdapter";
     private static final long ANIME_DURATION = 400;
     private ArrayList<ManamMiamPost> posts;
@@ -62,6 +64,7 @@ public class PostAdapter extends BaseAdapter {
             viewHolder.approvalContainer = (LinearLayout) convertView.findViewById(R.id.item_post_approval_container);
             viewHolder.rateBar = (RatingBar) convertView.findViewById(R.id.item_post_rate_bar);
             viewHolder.capacity = (TextViewFont) convertView.findViewById(R.id.item_post_text_capacity);
+            viewHolder.capacityContainer = convertView.findViewById(R.id.item_post_capacity_container);
             viewHolder.carType = (TextViewFont) convertView.findViewById(R.id.item_post_text_car_type);
             viewHolder.carCode = (TextViewFont) convertView.findViewById(R.id.item_post_text_car_code);
             viewHolder.carColor = (TextViewFont) convertView.findViewById(R.id.item_post_text_car_color);
@@ -107,11 +110,14 @@ public class PostAdapter extends BaseAdapter {
         }
 
         //0 for false, 1 for true :)
-        if (posts.get(position).getWho()) {
+        if (posts.get(position).getWho() == ManamMiamPost.PASSENGER_CHOSEN_A_SERVER) {
+            viewHolder.price.setVisibility(View.VISIBLE);
             viewHolder.infoContainer.setVisibility(View.GONE);
             viewHolder.expand.setVisibility(View.GONE);
+            viewHolder.capacityContainer.setVisibility(View.VISIBLE);
 
-        } else {
+        } else if (posts.get(position).getWho() == ManamMiamPost.DRIVER_ASKING_PASSENGER) {
+            viewHolder.price.setVisibility(View.VISIBLE);
             viewHolder.infoContainer.setVisibility(View.VISIBLE);
             viewHolder.expand.setVisibility(View.VISIBLE);
 
@@ -119,7 +125,13 @@ public class PostAdapter extends BaseAdapter {
             viewHolder.carType.setText(posts.get(position).getCar().getCarType());
             viewHolder.carCode.setText(posts.get(position).getCar().getCarCode());
             viewHolder.rateBar.setRating(posts.get(position).getCar().getRate());
+            viewHolder.capacityContainer.setVisibility(View.VISIBLE);
 
+        } else if (posts.get(position).getWho() == ManamMiamPost.LOOKING_FOR_SERVER) {
+            viewHolder.price.setVisibility(View.GONE);
+            viewHolder.infoContainer.setVisibility(View.GONE);
+            viewHolder.capacityContainer.setVisibility(View.GONE);
+            viewHolder.expand.setVisibility(View.GONE);
         }
 
         if (posts.get(position).isRead()) {
@@ -268,6 +280,7 @@ public class PostAdapter extends BaseAdapter {
         View infoContainer;
         View expand;
         View topContainer;
+        View capacityContainer;
 
         public LinearLayout getApprovalContainer() {
             return approvalContainer;

@@ -1,6 +1,6 @@
 package com.amir.manammiam.infrastructure.trip;
 
-import com.amir.manammiam.infrastructure.Car;
+import com.amir.manammiam.infrastructure.car.Car;
 
 public class TripItem {
     private String time;

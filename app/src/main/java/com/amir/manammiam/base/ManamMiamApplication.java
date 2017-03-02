@@ -11,6 +11,7 @@ import com.squareup.otto.Bus;
 public class ManamMiamApplication extends Application {
     private User user;
     private Bus bus;
+    private Database database;
 
     public ManamMiamApplication() {
         bus = new Bus();
@@ -20,9 +21,15 @@ public class ManamMiamApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.e(getClass().getName(), "onCreateCalled");
         Module.register(this);
-        Database database = new Database(this);
+        database = new Database(this);
         user = database.getUser();
+        if (user == null) {
+            //TODO: should this be null?
+            user = new User(null, null, User.MALE, null, User.BLOCKED, null, false);
+            //this will be used temporary
+        }
     }
 
 
@@ -32,5 +39,9 @@ public class ManamMiamApplication extends Application {
 
     public Bus getBus() {
         return bus;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

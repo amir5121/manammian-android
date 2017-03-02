@@ -6,7 +6,7 @@ import android.support.v4.app.DialogFragment;
 
 import com.squareup.otto.Bus;
 
-public class BaseDialogFragment extends DialogFragment {
+public abstract class BaseDialogFragment extends DialogFragment {
     protected ManamMiamApplication application;
     protected Bus bus;
 

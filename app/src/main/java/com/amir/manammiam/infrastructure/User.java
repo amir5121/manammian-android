@@ -21,14 +21,26 @@ public class User {
     private String mail;
     private int permission;
     private String token;
+    boolean isLoggedIn;
+    boolean isDriver;
 
-    public User(String username, String name, boolean gender, String mail, int permission, String token) {
+    public User(String username, String name, boolean gender, String mail, int permission, String token, boolean isDriver) {
         this.username = username;
         this.name = name;
         this.gender = gender;
         this.mail = mail;
         this.permission = permission;
         this.token = token;
+        isLoggedIn = false;
+        this.isDriver = isDriver;
+    }
+
+    public boolean isDriver() {
+        return isDriver;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        isLoggedIn = loggedIn;
     }
 
     public String getToken() {
@@ -37,6 +49,7 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+        //TODO: This method must be removed
     }
 
     public String getUsername() {
@@ -55,7 +68,7 @@ public class User {
         this.name = name;
     }
 
-    public boolean isGender() {
+    public boolean getGender() {
         return gender;
     }
 
@@ -80,8 +93,8 @@ public class User {
     }
 
     public boolean isLoggedIn() {
-        return !(token == null || token.isEmpty());
-//        return true;
+//        return !(token == null || token.isEmpty());
+        return isLoggedIn;
 //        return false;
     }
 

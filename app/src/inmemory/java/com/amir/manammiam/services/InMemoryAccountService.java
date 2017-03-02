@@ -1,7 +1,7 @@
 package com.amir.manammiam.services;
 
 import com.amir.manammiam.base.ManamMiamApplication;
-import com.amir.manammiam.infrastructure.Car;
+import com.amir.manammiam.infrastructure.car.Car;
 import com.amir.manammiam.infrastructure.User;
 import com.amir.manammiam.infrastructure.post.ManamMiamPost;
 import com.amir.manammiam.infrastructure.services.ManamMiamService;
@@ -43,7 +43,8 @@ public class InMemoryAccountService extends BaseInMemoryService {
     public void getProfile(Account.ProfileRequest request) {
         request.getToken();
 
-        Account.ProfileResponse response = new Account.ProfileResponse("amir5121", "Amir Hosein", User.MALE, true, "amirhoseinheshmati@gmail.com", User.VERIFIED);
+        //todo: update cache database.user
+        Account.ProfileResponse response = new Account.ProfileResponse(new User("amir5121", "Amir Hosein", User.MALE, "amirhoseinheshmati@gmail.com", User.VERIFIED, "FAKE TOKEN", true));
 //        response.setOperationError("Invalid token");
         postEvent(response);
     }
@@ -70,18 +71,23 @@ public class InMemoryAccountService extends BaseInMemoryService {
 
         ArrayList<ManamMiamPost> posts = new ArrayList<>();
 
-        posts.add(new ManamMiamPost("2", false, true, "bolvar sepah", "pardis", "5000", "AmirHosein", "i want to join", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
-        posts.add(new ManamMiamPost("2", false, false, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
-        posts.add(new ManamMiamPost("2", false, true, "bolvar sepah", "pardis", "5000", "AmirHosein", "i want to join", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
-        posts.add(new ManamMiamPost("2", false, false, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
-        posts.add(new ManamMiamPost("2", true, true, "bolvar sepah", "pardis", "5000", "AmirHosein", "i want to join", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
-        posts.add(new ManamMiamPost("2", false, false, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
-        posts.add(new ManamMiamPost("2", true, true, "bolvar sepah", "pardis", "5000", "AmirHosein", "i want to join", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
-        posts.add(new ManamMiamPost("2", false, false, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
-        posts.add(new ManamMiamPost("2", true, true, "bolvar sepah", "pardis", "5000", "AmirHosein", "i want to join", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
-        posts.add(new ManamMiamPost("2", false, false, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
-        posts.add(new ManamMiamPost("2", true, true, "bolvar sepah", "pardis", "5000", "AmirHosein", "i want to join", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
-        posts.add(new ManamMiamPost("2", false, false, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
+        //TODO: remember that if (!user.is_driver()) you can't have a ManamMiamPost.LOOKING_FOR_SERVER added to the post..
+        //TODO: this happens in client side and not the server side
+
+        posts.add(new ManamMiamPost("2", false, ManamMiamPost.PASSENGER_CHOSEN_A_SERVER, "bolvar sepah", "pardis", "5000", "AmirHosein", "I joined your service", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
+        posts.add(new ManamMiamPost("2", false, ManamMiamPost.DRIVER_ASKING_PASSENGER, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
+        posts.add(new ManamMiamPost("2", true, ManamMiamPost.LOOKING_FOR_SERVER, "bolvar sepah", "pardis", null, "AmirHosein", "Going from there to there", "1396/09/29 20:30",  null, null, -1, -1, null, -1, false, -1));
+        posts.add(new ManamMiamPost("2", false, ManamMiamPost.PASSENGER_CHOSEN_A_SERVER, "bolvar sepah", "pardis", "5000", "AmirHosein", "I joined your service", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
+        posts.add(new ManamMiamPost("2", false, ManamMiamPost.DRIVER_ASKING_PASSENGER, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
+        posts.add(new ManamMiamPost("2", false, ManamMiamPost.LOOKING_FOR_SERVER, "bolvar sepah", "pardis", null, "AmirHosein", "Going from there to there", "1396/09/19 20:30",  null, null, -1, -1, null, -1, true, -1));
+        posts.add(new ManamMiamPost("2", true, ManamMiamPost.PASSENGER_CHOSEN_A_SERVER, "bolvar sepah", "pardis", "5000", "AmirHosein", "I joined your service", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
+        posts.add(new ManamMiamPost("2", false, ManamMiamPost.DRIVER_ASKING_PASSENGER, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
+        posts.add(new ManamMiamPost("2", true, ManamMiamPost.PASSENGER_CHOSEN_A_SERVER, "bolvar sepah", "pardis", "5000", "AmirHosein", "I joined your service", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
+        posts.add(new ManamMiamPost("2", false, ManamMiamPost.DRIVER_ASKING_PASSENGER, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
+        posts.add(new ManamMiamPost("2", true, ManamMiamPost.PASSENGER_CHOSEN_A_SERVER, "bolvar sepah", "pardis", "5000", "AmirHosein", "I joined your service", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
+        posts.add(new ManamMiamPost("2", false, ManamMiamPost.DRIVER_ASKING_PASSENGER, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
+        posts.add(new ManamMiamPost("2", true, ManamMiamPost.PASSENGER_CHOSEN_A_SERVER, "bolvar sepah", "pardis", "5000", "AmirHosein", "I joined your service", "1396/09/29 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
+        posts.add(new ManamMiamPost("2", false, ManamMiamPost.DRIVER_ASKING_PASSENGER, "bolvar sepah", "pardis", "5000", "AmirHosein", "wanna come with?", "1396/09/19 20:30", "Pride", "blue", 3.6f, 5, "۷۸ ح ۳۴۵ ۳۴", 15, false, 12005));
 
         postEvent(new Posts.PostResponse(posts));
     }
