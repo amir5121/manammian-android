@@ -8,11 +8,13 @@ public class ManamMiamPost {
     public static final int LOOKING_FOR_SERVER = 2; // prompt the driver for price and stuff
 
     //TODO: replace with personToken
-    private String person_id;
+//    private String person_id;
 
     private boolean isRead;
     private int who;
     private String sourceName;
+    private long sourceId;
+    private long destinationId;
     private String destinationName;
     private String price;
     private String senderName;
@@ -30,8 +32,10 @@ public class ManamMiamPost {
     //NOTE: if who is 0 then driver asking the passenger
     //             is 1 then passenger has chosen a server and the driver is receiving the notification
 
-    public ManamMiamPost(String person_id, boolean isRead, int who, String sourceName, String destinationName, String price, String senderName, String text, String time, String carType, String carColor, float rate, int capacity, String car_code, int rateCount, boolean isTaxi, long carId) {
-        this.person_id = person_id;
+    public ManamMiamPost(
+//            String person_id,
+            boolean isRead, int who, String sourceName, String destinationName, String price, String senderName, String text, String time, String carType, String carColor, float rate, int capacity, String car_code, int rateCount, boolean isTaxi, long carId, long sourceId, long destinationId) {
+//        this.person_id = person_id;
         this.isRead = isRead;
         this.who = who;
         this.sourceName = sourceName;
@@ -42,6 +46,18 @@ public class ManamMiamPost {
         this.time = time;
         car = new Car(carType, carColor, car_code, rate, Car.UNKNOWN, rateCount, isTaxi, carId);
         this.capacity = capacity;
+        expanded = false;
+        activated = false;
+        this.sourceId = sourceId;
+        this.destinationId = destinationId;
+    }
+
+    public long getSourceId() {
+        return sourceId;
+    }
+
+    public long getDestinationId() {
+        return destinationId;
     }
 
     public Car getCar() {
@@ -56,14 +72,14 @@ public class ManamMiamPost {
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
-
-    public String getPerson_id() {
-        return person_id;
-    }
-
-    public void setPerson_id(String person_id) {
-        this.person_id = person_id;
-    }
+//
+//    public String getPerson_id() {
+//        return person_id;
+//    }
+//
+//    public void setPerson_id(String person_id) {
+//        this.person_id = person_id;
+//    }
 
     public boolean isRead() {
         return isRead;

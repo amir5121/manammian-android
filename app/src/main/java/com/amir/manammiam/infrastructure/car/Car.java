@@ -16,6 +16,8 @@ public class Car {
     private boolean isTaxi;
     private long carId;
 
+    private boolean isViewActivated;
+
     public Car(String carType, String carColor, String carCode, float rate, int genderAccepted, int rateCount, boolean isTaxi, long carId) {
         this.carType = carType;
         this.carColor = carColor;
@@ -25,6 +27,15 @@ public class Car {
         this.rateCount = rateCount;
         this.isTaxi = isTaxi;
         this.carId = carId;
+        isViewActivated = false;
+    }
+
+    public boolean isViewActivated() {
+        return isViewActivated;
+    }
+
+    public void setViewActivated(boolean viewActivated) {
+        isViewActivated = viewActivated;
     }
 
     public String getCarType() {

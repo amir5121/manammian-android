@@ -1,5 +1,6 @@
 package com.amir.manammiam.fragments;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseFragment;
+import com.amir.manammiam.infrastructure.ScrollCallback;
 import com.amir.manammiam.infrastructure.trip.TripAdapter;
 import com.amir.manammiam.infrastructure.trip.TripCallbacks;
 import com.amir.manammiam.infrastructure.trip.TripItem;
@@ -148,4 +150,5 @@ public class TripFragment extends BaseFragment implements AdapterView.OnItemClic
         response.getLoading().setVisibility(View.GONE);
         response.getTripItem().setState(TripItem.NONE);
     }
+
 }

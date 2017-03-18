@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/default_background_color">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="3dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/dialog_new_request_source_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
+
+
+                <com.amir.manammiam.infrastructure.customView.EditTextFont
+                    android:id="@+id/dialog_new_request_et_source"
+                    style="@style/editTextIranSans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="@string/source"
+                    android:textColor="@color/white"
+                    android:textColorHint="#ddd"
+                    android:textSize="@dimen/text_medium" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/dialog_new_request_destination_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
+
+                <com.amir.manammiam.infrastructure.customView.EditTextFont
+                    android:id="@+id/dialog_new_request_et_destination"
+                    style="@style/editTextIranSans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:gravity="center"
+                    android:hint="@string/destination"
+                    android:textColor="@color/white"
+                    android:textColorHint="#ddd"
+                    android:textSize="@dimen/text_medium" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+        </LinearLayout>
+
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
+            android:id="@+id/dialog_new_request_date"
+            style="@style/textViewIranSans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:drawableLeft="@drawable/ic_edit"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_edit"
+            android:focusable="true"
+            android:foreground="?android:selectableItemBackground"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="1396/09/29 20:30"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_medium" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/dialog_new_request_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:clickable="false"
+        android:divider="@android:color/transparent"
+        android:listSelector="@android:color/transparent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_new_request_list"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dialog_new_request_create_trip"
+            style="@style/buttonIranSans"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_green"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/ic_trip"
+            android:enabled="false"
+            android:foreground="?android:selectableItemBackground"
+            android:padding="10dp"
+            android:text="@string/create_trip"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/dialog_new_request_create_service"
+            style="@style/buttonIranSans"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_green"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/ic_car"
+            android:enabled="false"
+            android:foreground="?android:selectableItemBackground"
+            android:padding="10dp"
+            android:text="@string/create_service"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/dialog_new_requset_btn_cancel"
+        style="@style/buttonIranSans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
+        android:alpha=".8"
+        android:background="@drawable/round_red_button"
+        android:foreground="?android:selectableItemBackground"
+        android:text="@string/cancel"
+        android:textColor="#FFF"
+        android:textSize="17sp" />
+
+</RelativeLayout>

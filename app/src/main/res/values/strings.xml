@@ -46,4 +46,14 @@
     <string name="to">To:</string>
     <string name="creating_new_service">Creating new Service</string>
     <string name="submit">Submit</string>
+    <string name="price_dollar">Price (Dollar)</string>
+    <string name="invalid_capacity">Invalid Capacity</string>
+    <string name="invalid_price">Invalid Price</string>
+    <string name="manam_miam_fa">منم ميام</string>
+    <string name="add_new_service">Service</string>
+    <string name="add_new_route">Route</string>
+    <string name="add_new_car">Add new Car</string>
+    <string name="add_new">Add new</string>
+    <string name="create_trip">Create Trip</string>
+    <string name="create_service">Create Service</string>
 </resources>

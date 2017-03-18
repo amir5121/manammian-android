@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="3dp"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:background="@drawable/round_white"
+            android:id="@+id/location_container"
+            android:foreground="?android:selectableItemBackground"
+            android:orientation="vertical">
+
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
+                android:id="@+id/item_location_main_text"
+                style="@style/textViewIranSans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:gravity="center"
+                android:text="Sepah blv."
+                android:textSize="@dimen/text_big" />
+
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
+                android:id="@+id/item_location_detailed_text"
+                style="@style/textViewIranSans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Jahrom - Sepah blv."
+                android:textSize="@dimen/text_small" />
+
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:id="@+id/item_location_selected"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@id/location_container"
+            android:background="@color/transparent_light"
+            android:visibility="gone"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="end|center_vertical"
+                android:alpha=".75"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/circle_primary"
+                android:src="@drawable/ic_check"
+                android:layout_marginRight="15dp" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

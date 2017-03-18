@@ -39,8 +39,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Log.e(getClass().getSimpleName(), "loginActivity created");
-
 //        ((EditTextFont)findViewById(R.id.activity_login_edit_password)).setError("ERROR");
         setUpView();
     }

@@ -8,11 +8,12 @@ import android.widget.BaseAdapter;
 import android.widget.RatingBar;
 
 import com.amir.manammiam.R;
+import com.amir.manammiam.base.ManamMiamAdapter;
 import com.amir.manammiam.infrastructure.customView.TextViewFont;
 
 import java.util.ArrayList;
 
-public class TripAdapter extends BaseAdapter {
+public class TripAdapter extends ManamMiamAdapter {
     private static final String TAG = "TripAdapter";
     private final LayoutInflater inflater;
     private final TripCallbacks listener;
@@ -20,6 +21,7 @@ public class TripAdapter extends BaseAdapter {
     private String cancelOrder;
 
     public TripAdapter(Context context, TripCallbacks listener) {
+        super(context);
         inflater = LayoutInflater.from(context);
         trips = new ArrayList<>();
         this.listener = listener;
@@ -43,6 +45,7 @@ public class TripAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        super.getView(position, convertView, parent);
         final TripViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new TripViewHolder();
@@ -100,24 +103,18 @@ public class TripAdapter extends BaseAdapter {
             viewHolder.name.setVisibility(View.VISIBLE);
             viewHolder.topContainer.setBackgroundResource(R.drawable.round_header_primary);
 
-            if (currItem.getState() == TripItem.REPORT_RATE) {
-                viewHolder.responseContainer.setVisibility(View.VISIBLE);
-            } else {
-                viewHolder.responseContainer.setVisibility(View.GONE);
-            }
-
         } else {
             viewHolder.name.setVisibility(View.GONE);
             viewHolder.infoContainer.setVisibility(View.GONE);
             viewHolder.topContainer.setBackgroundResource(R.drawable.round_header_waiting);
-
-            if (currItem.getState() == TripItem.CANCELING) {
-                viewHolder.cancelRequestContainer.setVisibility(View.VISIBLE);
-            } else {
-                viewHolder.cancelRequestContainer.setVisibility(View.GONE);
-            }
         }
 
+
+        if (currItem.getState() == TripItem.CANCELING) {
+            viewHolder.cancelRequestContainer.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.cancelRequestContainer.setVisibility(View.GONE);
+        }
 
         if (currItem.getState() == TripItem.LOADING) {
             viewHolder.loading.setVisibility(View.VISIBLE);
@@ -125,6 +122,11 @@ public class TripAdapter extends BaseAdapter {
             viewHolder.loading.setVisibility(View.GONE);
         }
 
+        if (currItem.getState() == TripItem.REPORT_RATE) {
+            viewHolder.responseContainer.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.responseContainer.setVisibility(View.GONE);
+        }
 
         final View finalConvertView = convertView;
         viewHolder.rateResponse.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {

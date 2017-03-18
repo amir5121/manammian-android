@@ -18,6 +18,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
         bus.register(this);
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();

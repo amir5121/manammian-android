@@ -1,26 +1,30 @@
 package com.amir.manammiam.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseAuthenticatedActivity;
+import com.amir.manammiam.dialogFragment.NewRequestDialogFragment;
+import com.amir.manammiam.infrastructure.ScrollCallback;
 import com.amir.manammiam.infrastructure.ViewPagerAdapter;
+import com.amir.manammiam.infrastructure.customView.MViewPager;
 import com.amir.manammiam.infrastructure.customView.bottomBar.BottomBarItem;
 import com.amir.manammiam.infrastructure.customView.bottomBar.BottomBarItemClicked;
 import com.amir.manammiam.infrastructure.customView.bottomBar.BottomBarManager;
 import com.viewpagerindicator.PageIndicator;
 
-public class MainActivity extends BaseAuthenticatedActivity implements BottomBarItemClicked {
+public class MainActivity extends BaseAuthenticatedActivity implements BottomBarItemClicked, ScrollCallback, View.OnClickListener {
 
     private static final String TAG = "MainActivity";
-    private ViewPager viewPager;
+    private MViewPager viewPager;
+    private FloatingActionButton fab;
 
-    //TODO: https://github.com/rengwuxian/MaterialEditText
     //TODO: adding new passenger (should it be more like a request)
     //TODO: adding new service
     //TODO: list of passengers
-    //TODO: list cars in profile fragment
     //TODO: make the user cars editable (should i?)
     //TODO: Mark as read after pressing Yes or No.. remove the post or service after the time was passed
     //TODO: might not be a bad idea to hand errors in the main activity.. post to the bus in fragment and receive it here
@@ -36,11 +40,12 @@ public class MainActivity extends BaseAuthenticatedActivity implements BottomBar
         setContentView(R.layout.activity_main);
 //        setNavDrawer(new MainNavDrawer(this));
         setUpView();
-
     }
 
     private void setUpView() {
-        viewPager = (ViewPager) findViewById(R.id.activity_main_view_pager);
+        fab = (FloatingActionButton) findViewById(R.id.activity_main_fab);
+        fab.setOnClickListener(this);
+        viewPager = (MViewPager) findViewById(R.id.activity_main_view_pager);
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
 
         viewPager.setCurrentItem(0);
@@ -61,13 +66,13 @@ public class MainActivity extends BaseAuthenticatedActivity implements BottomBar
         mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+//                Log.e(TAG, "scrolling");
             }
 
             @Override
             public void onPageSelected(int position) {
+//                fab.show();
                 manager.setItemSelectedByPos(position);
-
             }
 
             @Override
@@ -90,4 +95,20 @@ public class MainActivity extends BaseAuthenticatedActivity implements BottomBar
         }
     }
 
+    @Override
+    public void onScrolled(boolean isUpScroll) {
+        // called by the ViewPager
+        if (isUpScroll) fab.hide();
+        else fab.show();
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        int itemId = v.getId();
+        if (itemId == R.id.activity_main_fab) {
+            NewRequestDialogFragment requestDialog = new NewRequestDialogFragment();
+            requestDialog.show(getSupportFragmentManager(), "THE NOT SO USEFUL TAG");
+        }
+    }
 }

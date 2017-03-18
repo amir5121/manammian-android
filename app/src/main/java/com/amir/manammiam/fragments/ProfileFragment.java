@@ -51,19 +51,6 @@ public final class ProfileFragment extends BaseFragment {
 
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        bus.unregister(this);
-//
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        bus.register(this);
-//    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

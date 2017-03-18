@@ -1,6 +1,7 @@
 package com.amir.manammiam.fragments;
 
 import android.animation.Animator;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,12 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseFragment;
 import com.amir.manammiam.dialogFragment.NewServiceDialogFragment;
+import com.amir.manammiam.infrastructure.ScrollCallback;
 import com.amir.manammiam.infrastructure.post.ManamMiamPost;
 import com.amir.manammiam.infrastructure.post.PostAdapter;
 import com.amir.manammiam.services.Posts;
@@ -22,8 +25,9 @@ import com.squareup.otto.Subscribe;
 
 import static com.amir.manammiam.fragments.ServicesFragment.ANIM_DURATION;
 
-public final class InboxFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public final class InboxFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
+    private static final String TAG = "Inbox Fragment";
     private PostAdapter adapter;
     private SwipeRefreshLayout swipeRefresh;
 
@@ -89,8 +93,34 @@ public final class InboxFragment extends BaseFragment implements SwipeRefreshLay
             }
         }
 
-        ListView listView = (ListView) view.findViewById(R.id.fragment_with_list_list);
+        final ListView listView = (ListView) view.findViewById(R.id.fragment_with_list_list);
         listView.setAdapter(adapter);
+
+//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//
+////                if (view.getId() == listView.getId()) {
+//                Log.e(TAG, "onScrollStateChanged");
+//                    final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
+//
+//                    if (currentFirstVisibleItem > mLastFirstVisibleItem) {
+////                        mIsScrollingUp = false;
+//                        scrollListener.onScrolled(false);
+//                    } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
+////                        mIsScrollingUp = true;
+//                        scrollListener.onScrolled(true);
+//                    }
+//
+//                    mLastFirstVisibleItem = currentFirstVisibleItem;
+////                }
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//            }
+//        });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -108,7 +138,8 @@ public final class InboxFragment extends BaseFragment implements SwipeRefreshLay
 
                 } else {
                     if (manamMiamPostItem.getWho() == ManamMiamPost.LOOKING_FOR_SERVER) {
-                        NewServiceDialogFragment serviceDialog = new NewServiceDialogFragment();
+                        //TODO: check if the user is a driver...
+                        NewServiceDialogFragment serviceDialog = NewServiceDialogFragment.getInstance(manamMiamPostItem);
 
                         serviceDialog.show(getFragmentManager(), "serviceDialog");
                     } else if (manamMiamPostItem.getWho() == ManamMiamPost.DRIVER_ASKING_PASSENGER) {
@@ -157,5 +188,4 @@ public final class InboxFragment extends BaseFragment implements SwipeRefreshLay
         });
 
     }
-
 }

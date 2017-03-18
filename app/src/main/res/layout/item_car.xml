@@ -1,150 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:clickable="true"
-    android:elevation="3dp"
-    android:padding="15dp"
-    app:cardCornerRadius="5dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="vertical">
-
-        <RatingBar
-            android:id="@+id/item_car_rate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:clickable="false"
-            android:focusable="false"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:rating="3.5"
-            android:stepSize=".1" />
+        android:padding="8dp"
+        android:background="@drawable/round_white">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <com.amir.manammiam.infrastructure.customView.TextViewFont
-                android:id="@+id/item_car_text_rate_count"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="1dp"
-                android:text="1235"
-                android:textSize="@dimen/text_medium" />
-
-            <com.amir.manammiam.infrastructure.customView.TextViewFont
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginEnd="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="1dp"
-                android:gravity="center"
-                android:text="@string/rates"
-                android:textSize="@dimen/text_small" />
-
-        </LinearLayout>
-
-        <LinearLayout
+            android:id="@+id/stuff_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <com.amir.manammiam.infrastructure.customView.TextViewFont
-                android:id="@+id/item_car_text_car_type"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="Peogeot"
-                android:textSize="@dimen/text_small" />
-
-            <com.amir.manammiam.infrastructure.customView.TextViewFont
-                android:id="@+id/item_car_text_car_color"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="Blue"
-                android:textSize="@dimen/text_small" />
-
-            <com.amir.manammiam.infrastructure.customView.TextViewFont
-                android:id="@+id/item_car_text_car_code"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="۷۸ ح ۳۴۵ ۳۴"
-                android:textSize="@dimen/text_small" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/item_car_gender_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="5dp"
-            android:background="@drawable/round_background_transparent_green"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
-            <com.amir.manammiam.infrastructure.customView.TextViewFont
+            <RatingBar
+                android:id="@+id/item_car_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:alpha=".8"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/accepted_genders"
-                android:textSize="@dimen/text_very_small" />
+                android:clickable="false"
+                android:focusable="false"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="3.5"
+                android:stepSize=".1" />
 
-            <com.amir.manammiam.infrastructure.customView.TextViewFont
-                android:id="@+id/item_car_text_gender"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/male"
-                android:textSize="18sp" />
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:id="@+id/item_car_text_rate_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="1dp"
+                    android:text="1235"
+                    android:textSize="@dimen/text_medium" />
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="1dp"
+                    android:gravity="center"
+                    android:text="@string/rates"
+                    android:textSize="@dimen/text_small" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:id="@+id/item_car_text_car_type"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="Peogeot"
+                    android:textSize="@dimen/text_small" />
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:id="@+id/item_car_text_car_color"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="Blue"
+                    android:textSize="@dimen/text_small" />
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:id="@+id/item_car_text_car_code"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="۷۸ ح ۳۴۵ ۳۴"
+                    android:textSize="@dimen/text_small" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_car_gender_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:background="@drawable/round_background_transparent_green"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:alpha=".8"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/accepted_genders"
+                    android:textSize="@dimen/text_very_small" />
+
+                <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    android:id="@+id/item_car_text_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/male"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparent_green"
-        android:clickable="true"
-        android:id="@+id/item_car_selected"
-        android:visibility="gone">
-
-        <ImageView
+        <FrameLayout
+            android:id="@+id/item_car_selected"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="25dp"
-            android:src="@drawable/ic_check" />
+            android:layout_height="0dp"
+            android:layout_alignBottom="@id/stuff_container"
+            android:layout_alignParentTop="true"
+            android:background="@color/transparent_light"
+            android:clickable="true"
+            android:visibility="gone">
 
-    </FrameLayout>
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_margin="13dp"
+                android:alpha=".75"
+                android:background="@drawable/circle_primary"
+                android:src="@drawable/ic_check" />
 
-</android.support.v7.widget.CardView>
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

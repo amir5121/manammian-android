@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.amir.manammiam.infrastructure.ScrollCallback;
 import com.squareup.otto.Bus;
 
 public class BaseFragment extends Fragment {

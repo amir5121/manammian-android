@@ -23,7 +23,7 @@
         <com.amir.manammiam.infrastructure.customView.TextViewFont
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/manam_miam"
+            android:text="@string/manam_miam_fa"
             android:gravity="center"
             android:textSize="45sp"
             style="@style/textViewMoharam"

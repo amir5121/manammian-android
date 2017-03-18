@@ -3,7 +3,7 @@ package com.amir.manammiam.infrastructure.services;
 import com.amir.manammiam.infrastructure.car.Car;
 
 public class ManamMiamService {
-    private String server_id;
+    private long server_id;
     private String car_id;
     private String source;
     private Car car;
@@ -14,7 +14,7 @@ public class ManamMiamService {
     private String name;
     private boolean isActivated;
 
-    public ManamMiamService(String server_id, String car_id, String source, Car car, String destination, String price, int capacity, String time, String name) {
+    public ManamMiamService(int server_id, String car_id, String source, Car car, String destination, String price, int capacity, String time, String name) {
         this.server_id = server_id;
         this.car_id = car_id;
         this.source = source;
@@ -27,7 +27,7 @@ public class ManamMiamService {
         isActivated = false;
     }
 
-    public String getServer_id() {
+    public long getServer_id() {
         return server_id;
     }
 

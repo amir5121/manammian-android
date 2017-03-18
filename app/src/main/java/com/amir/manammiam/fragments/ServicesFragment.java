@@ -1,6 +1,7 @@
 package com.amir.manammiam.fragments;
 
 import android.animation.Animator;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseFragment;
+import com.amir.manammiam.infrastructure.ScrollCallback;
 import com.amir.manammiam.infrastructure.services.ManamMiamService;
 import com.amir.manammiam.infrastructure.services.ServiceAdapter;
 import com.amir.manammiam.services.Services;
@@ -20,7 +22,7 @@ import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
-public final class ServicesFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public final class ServicesFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     public static final int ANIM_DURATION = 350;
     private ServiceAdapter adapter;

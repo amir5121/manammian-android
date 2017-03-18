@@ -9,16 +9,18 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import com.amir.manammiam.R;
+import com.amir.manammiam.base.ManamMiamAdapter;
 import com.amir.manammiam.infrastructure.customView.TextViewFont;
 
 import java.util.ArrayList;
 
-public class ServiceAdapter extends BaseAdapter {
+public class ServiceAdapter extends ManamMiamAdapter {
 
     private ArrayList<ManamMiamService> services;
     private LayoutInflater inflater;
 
     public ServiceAdapter(Context context) {
+        super(context);
         inflater = LayoutInflater.from(context);
         services = new ArrayList<>();
     }
@@ -40,6 +42,7 @@ public class ServiceAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        super.getView(position, convertView, parent);
         ServiceViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_trip, parent, false);
