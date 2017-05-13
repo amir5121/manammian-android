@@ -2,23 +2,21 @@ package com.amir.manammiam.services;
 
 import android.view.View;
 
-import com.amir.manammiam.infrastructure.trip.TripItem;
+import com.amir.manammiam.infrastructure.trip.PassengerTrip;
 
-public class Rate {
+public final class Rate {
 
     public static class RateRequest {
-        private final TripItem tripItem;
+        private final PassengerTrip passengerTrip;
         private final View loading;
         private final View responseContainer;
         private String token;
-        private long carId;
         private float rate;
 
-        public RateRequest(String token, long carId, float rate, View loading, View responseContainer, TripItem tripItem) {
+        public RateRequest(String token, float rate, View loading, View responseContainer, PassengerTrip passengerTrip) {
             this.token = token;
-            this.carId = carId;
             this.rate = rate;
-            this.tripItem = tripItem;
+            this.passengerTrip = passengerTrip;
             this.loading = loading;
             this.responseContainer = responseContainer;
         }
@@ -27,8 +25,8 @@ public class Rate {
             return rate;
         }
 
-        public TripItem getTripItem() {
-            return tripItem;
+        public PassengerTrip getPassengerTrip() {
+            return passengerTrip;
         }
 
         public View getLoading() {
@@ -44,23 +42,23 @@ public class Rate {
         }
 
         public long getCarId() {
-            return carId;
+            return passengerTrip.getCar().getCarId();
         }
     }
 
-    public static class RateResponse extends Response{
-        private final TripItem tripItem;
+    public static class RateResponse extends ManamMiamResponse {
+        private final PassengerTrip passengerTrip;
         private final View loading;
         private final View responseContainer;
 
-        public RateResponse(TripItem tripItem, View loading, View responseContainer) {
-            this.tripItem = tripItem;
+        public RateResponse(PassengerTrip passengerTrip, View loading, View responseContainer) {
+            this.passengerTrip = passengerTrip;
             this.loading = loading;
             this.responseContainer = responseContainer;
         }
 
-        public TripItem getTripItem() {
-            return tripItem;
+        public PassengerTrip getPassengerTrip() {
+            return passengerTrip;
         }
 
         public View getLoading() {

@@ -1,69 +1,94 @@
 package com.amir.manammiam.infrastructure.post;
 
 import com.amir.manammiam.infrastructure.car.Car;
+import com.amir.manammiam.infrastructure.location.ManamMiamLocation;
 
 public class ManamMiamPost {
     public static final int DRIVER_ASKING_PASSENGER = 0; // results in a prompt to the user whether to accept this service or not
-    public static final int PASSENGER_CHOSEN_A_SERVER = 1; // unclickable
+    public static final int PASSENGER_ACCEPTED_A_SERVER = 1; // unclickable
     public static final int LOOKING_FOR_SERVER = 2; // prompt the driver for price and stuff
 
-    //TODO: replace with personToken
-//    private String person_id;
+    private final int who;
+    private final ManamMiamLocation source;
+    private final ManamMiamLocation destination;
+    private final String price;
+    private final String senderName;
+    private final String text;
+    private final String time;
+    private final Car car;
+    private final long passengerId;
+    private final long serverId;
 
     private boolean isRead;
-    private int who;
-    private String sourceName;
-    private long sourceId;
-    private long destinationId;
-    private String destinationName;
-    private String price;
-    private String senderName;
-    private String text;
-    private String time;
-    private Car car;
     private int capacity;
+
     private boolean activated;
     private boolean expanded;
+    private boolean inLoadingState;
 
     //after a driver tap on a passenger create a server right away and send a notification to the passenger.. passenger can either accept or deny
-
-    //TODO: if who is 0 prompt the driver for the price, capacity and make a service
 
     //NOTE: if who is 0 then driver asking the passenger
     //             is 1 then passenger has chosen a server and the driver is receiving the notification
 
     public ManamMiamPost(
-//            String person_id,
-            boolean isRead, int who, String sourceName, String destinationName, String price, String senderName, String text, String time, String carType, String carColor, float rate, int capacity, String car_code, int rateCount, boolean isTaxi, long carId, long sourceId, long destinationId) {
-//        this.person_id = person_id;
+            boolean isRead,
+            int who,
+            ManamMiamLocation source,
+            ManamMiamLocation destination,
+            String price,
+            String senderName,
+            String text,
+            String time,
+            int capacity,
+            Car car,
+            long passengerId,
+            long serverId) {
+
         this.isRead = isRead;
         this.who = who;
-        this.sourceName = sourceName;
-        this.destinationName = destinationName;
+        this.source = source;
+        this.destination = destination;
         this.price = price;
         this.senderName = senderName;
         this.text = text;
         this.time = time;
-        car = new Car(carType, carColor, car_code, rate, Car.UNKNOWN, rateCount, isTaxi, carId);
+        this.car = car;
         this.capacity = capacity;
+        this.passengerId = passengerId;
         expanded = false;
         activated = false;
-        this.sourceId = sourceId;
-        this.destinationId = destinationId;
+        inLoadingState = false;
+        this.serverId = serverId;
+    }
+
+    public long getServerId() {
+        return serverId;
     }
 
     public long getSourceId() {
-        return sourceId;
+        return source.getId();
     }
 
     public long getDestinationId() {
-        return destinationId;
+        return destination.getId();
     }
 
     public Car getCar() {
         return car;
     }
 
+    public ManamMiamLocation getSource() {
+        return source;
+    }
+
+    public ManamMiamLocation getDestination() {
+        return destination;
+    }
+
+    public long getPassengerId() {
+        return passengerId;
+    }
 
     public int getCapacity() {
         return capacity;
@@ -72,14 +97,6 @@ public class ManamMiamPost {
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
-//
-//    public String getPerson_id() {
-//        return person_id;
-//    }
-//
-//    public void setPerson_id(String person_id) {
-//        this.person_id = person_id;
-//    }
 
     public boolean isRead() {
         return isRead;
@@ -93,56 +110,28 @@ public class ManamMiamPost {
         return who;
     }
 
-    public void setWho(int who) {
-        this.who = who;
-    }
-
     public String getSourceName() {
-        return sourceName;
-    }
-
-    public void setSourceName(String sourceName) {
-        this.sourceName = sourceName;
+        return source.getName();
     }
 
     public String getDestinationName() {
-        return destinationName;
-    }
-
-    public void setDestinationName(String destinationName) {
-        this.destinationName = destinationName;
+        return destination.getName();
     }
 
     public String getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
     public String getSenderName() {
         return senderName;
-    }
-
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
     }
 
     public String getText() {
         return text;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public String getTime() {
         return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public boolean isActivated() {
@@ -150,7 +139,7 @@ public class ManamMiamPost {
     }
 
     public void setExpanded(boolean expanded) {
-//        if (expanded && who == PASSENGER_CHOSEN_A_SERVER) Log.e(getClass().getName(), "What the fuck is happening");
+//        if (expanded && who == PASSENGER_ACCEPTED_A_SERVER) Log.e(getClass().getSequence(), "What the fuck is happening");
         this.expanded = expanded;
     }
 
@@ -160,5 +149,13 @@ public class ManamMiamPost {
 
     public void setActivated(boolean activated) {
         this.activated = activated;
+    }
+
+    public boolean isInLoadingState() {
+        return inLoadingState;
+    }
+
+    public void setLoadingState(boolean loadingState) {
+        this.inLoadingState = loadingState;
     }
 }

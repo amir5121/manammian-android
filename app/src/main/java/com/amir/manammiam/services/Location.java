@@ -4,25 +4,29 @@ import com.amir.manammiam.infrastructure.location.ManamMiamLocation;
 
 import java.util.ArrayList;
 
-public class Location {
+public final class Location {
     private Location() {
     }
 
     public static class LocationRequest {
-        String token;
-        String name;
+        private final String token;
+        private final String sequence;
 
-        public LocationRequest(String token, String name) {
+        public LocationRequest(String token, String sequence) {
             this.token = token;
-            this.name = name;
+            this.sequence = sequence;
         }
 
         public String getToken() {
             return token;
         }
+
+        public String getSequence() {
+            return sequence;
+        }
     }
 
-    public static class LocationResponse extends Response {
+    public static class LocationResponse extends ManamMiamResponse {
         ArrayList<ManamMiamLocation> locations;
 
         public LocationResponse(ArrayList<ManamMiamLocation> locations) {

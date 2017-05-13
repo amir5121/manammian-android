@@ -1,8 +1,11 @@
 package com.amir.manammiam.dialogFragment;
 
+import android.animation.Animator;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -11,21 +14,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseDialogFragment;
+import com.amir.manammiam.fragments.ServicesFragment;
 import com.amir.manammiam.infrastructure.CollapseCallback;
+import com.amir.manammiam.infrastructure.Constants;
 import com.amir.manammiam.infrastructure.Utils;
 import com.amir.manammiam.infrastructure.customView.EditTextFont;
 import com.amir.manammiam.infrastructure.customView.TextViewFont;
 import com.amir.manammiam.infrastructure.location.ManamMiamLocation;
 import com.amir.manammiam.infrastructure.location.ManamMiamLocationAdapter;
-import com.amir.manammiam.infrastructure.post.ManamMiamPost;
+import com.amir.manammiam.services.Location;
+import com.amir.manammiam.services.Services;
+import com.amir.manammiam.services.Trips;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
+import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class NewRequestDialogFragment extends BaseDialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, View.OnClickListener, CollapseCallback {
@@ -34,57 +44,72 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
     private static final long ONE_MONTH = 2592000000L;
     public static final int WHITE = 0xFFFFFFFF;
     private static int GREEN = 0xFF64DD17;
-    //todo: can these be converted to local variable?
     private EditTextFont sourceEditText;
     private EditTextFont destinationEditText;
     private TextViewFont dateText;
     private ManamMiamLocation selectedSource = null;
     private ManamMiamLocation selectedDestination = null;
     private boolean isChoosingSource;
-    //    private View destinationContainer;
-//    private View sourceContainer;
     private boolean destinationBackgroundIsGreen = false;
     private boolean sourceBackgroundIsGreen = false;
     private String chosenDate;
-    private String chosenDateComplete;
     private boolean chosenADate = false;
     private View createServiceButton;
     private View createTripButton;
-//    private ChooserFragmentCallbacks listener;
+    private ListView locationListView;
+    private View listLoadingContainer;
+    private View fullLoadingContainer;
+    private ManamMiamLocationAdapter locationAdapter;
+    private View serviceFragmentContainer;
+    private ServicesFragment serviceFragment;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_new_request, container, false);
-        view.findViewById(R.id.dialog_new_requset_btn_cancel).setOnClickListener(this);
+        view.findViewById(R.id.dialog_new_request_btn_cancel).setOnClickListener(this);
+        listLoadingContainer = view.findViewById(R.id.dialog_new_request_loading_list);
         sourceEditText = (EditTextFont) view.findViewById(R.id.dialog_new_request_et_source);
         sourceEditText.requestFocus();
+
         destinationEditText = (EditTextFont) view.findViewById(R.id.dialog_new_request_et_destination);
         dateText = (TextViewFont) view.findViewById(R.id.dialog_new_request_date);
         dateText.setOnClickListener(this);
 
         createServiceButton = view.findViewById(R.id.dialog_new_request_create_service);
         createServiceButton.setOnClickListener(this);
+
+        createServiceButton.setVisibility(application.getUser().isDriver() ? View.VISIBLE : View.GONE);
+
         createTripButton = view.findViewById(R.id.dialog_new_request_create_trip);
         createTripButton.setOnClickListener(this);
 
-        final ListView listView = (ListView) view.findViewById(R.id.dialog_new_request_list);
-        final ManamMiamLocationAdapter adapter = new ManamMiamLocationAdapter(getActivity());
+        locationListView = (ListView) view.findViewById(R.id.dialog_new_request_locations_list);
+        locationAdapter = new ManamMiamLocationAdapter(getActivity());
+        locationListView.setAdapter(locationAdapter);
 
-        adapter.addLocation(new ManamMiamLocation("Sepah Blv.", "Jahrom - Sepah blv.", 5000));
-        adapter.addLocation(new ManamMiamLocation("Pardis", "Jahrom - Khalij-fars blv.", 5000));
-        adapter.addLocation(new ManamMiamLocation("Sepah Blv.", "Jahrom - Sepah blv.", 5000));
-        adapter.addLocation(new ManamMiamLocation("Self", "Jahrom - Sepah blv.", 5000));
-        adapter.addLocation(new ManamMiamLocation("Sepah Blv.", "Jahrom - Sepah blv.", 5000));
+        serviceFragmentContainer = view.findViewById(R.id.dialog_new_request_services_container);
 
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        fullLoadingContainer = view.findViewById(R.id.dialog_new_request_loading_full);
+
+        FragmentManager fm = getChildFragmentManager();
+        serviceFragment = (ServicesFragment) fm.findFragmentByTag("serviceFragment");
+        if (serviceFragment == null) {
+            serviceFragment = ServicesFragment.newInstance(false);
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.add(R.id.dialog_new_request_services_container, serviceFragment, "serviceFragment");
+            ft.commit();
+            fm.executePendingTransactions();
+        }
+
+        //TODO: dismiss this dialog after reserving a service
+
+        locationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 whoHasTheFocus();
                 if (isChoosingSource) {
-                    selectedSource = adapter.getItem(position);
-//                    sourceContainer.setBackgroundResource(R.drawable.round_green_button);
+                    selectedSource = locationAdapter.getItem(position);
                     sourceEditText.setTextColor(GREEN);
                     sourceBackgroundIsGreen = true;
                     sourceEditText.setText(selectedSource.getName());
@@ -92,23 +117,20 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
                     destinationEditText.requestFocus();
 
                 } else {
-                    selectedDestination = adapter.getItem(position);
-//                    destinationContainer.setBackgroundResource(R.drawable.round_green_button);
+                    selectedDestination = locationAdapter.getItem(position);
                     destinationEditText.setTextColor(GREEN);
                     destinationBackgroundIsGreen = true;
                     destinationEditText.setText(selectedDestination.getName());
-
                     destinationEditText.clearFocus();
-                    sourceEditText.clearFocus();
 
                     if (!sourceBackgroundIsGreen) sourceEditText.requestFocus();
 
-
                 }
+
                 if (destinationBackgroundIsGreen && sourceBackgroundIsGreen) {
-                    Utils.collapse(listView, null, NewRequestDialogFragment.this);
-
+                    Utils.collapse(locationListView, null, NewRequestDialogFragment.this);
                 }
+
                 considerButtonsState();
             }
         });
@@ -122,18 +144,16 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (sourceBackgroundIsGreen && selectedSource != null && !selectedSource.getName().equals(s.toString())) {
-//                    sourceContainer.setBackgroundResource(0);
                     sourceEditText.setTextColor(WHITE);
                     sourceBackgroundIsGreen = false;
                     considerButtonsState();
 
                 }
+                updateLocationList(s.toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
-                //TODO query for info to put in listView
             }
         });
 
@@ -144,23 +164,40 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (selectedDestination != null) Log.e(TAG, "selectedDestination was not null " + selectedDestination.getName() + " == " + s.toString());
                 if (destinationBackgroundIsGreen && selectedDestination != null && !selectedDestination.getName().equals(s.toString())) {
-//                    destinationContainer.setBackgroundResource(0);
                     destinationEditText.setTextColor(WHITE);
                     destinationBackgroundIsGreen = false;
                     considerButtonsState();
                 }
+                updateLocationList(s.toString());
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                //TODO query for info to put in listView
             }
         });
 
         return view;
+    }
+
+    private void updateLocationList(String s) {
+        if (!s.isEmpty() && !s.equals("")) {
+            bus.post(new Location.LocationRequest(application.getUser().getToken(), s));
+            listLoadingContainer.setAlpha(0);
+            listLoadingContainer.setVisibility(View.VISIBLE);
+            listLoadingContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION).start();
+        }
+    }
+
+
+    private void whoHasTheFocus() {
+        if (sourceEditText.hasFocus()) isChoosingSource = true;
+        else if (destinationEditText.hasFocus()) isChoosingSource = false;
+        else {
+            Log.e(TAG, "-- No one had the focus");
+        }
+
     }
 
     private void pickADate() {
@@ -175,15 +212,6 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
         datePickerDialog.setMaxDate(new PersianCalendar(Calendar.getInstance().getTimeInMillis() + ONE_MONTH * 2));
         datePickerDialog.setMinDate(persianCalendar);
         datePickerDialog.show(getActivity().getFragmentManager(), "Datepickerdialog");
-    }
-
-    private void whoHasTheFocus() {
-        if (sourceEditText.hasFocus()) isChoosingSource = true;
-        else if (destinationEditText.hasFocus()) isChoosingSource = false;
-        else {
-            Log.e(TAG, "-- No one had the focus");
-        }
-
     }
 
     @Override
@@ -206,10 +234,10 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        chosenDateComplete = chosenDate + hourOfDay + ":" + minute;
+        String chosenDateComplete = chosenDate + hourOfDay + ":" + minute;
         dateText.setText(chosenDateComplete);
         chosenADate = true;
-        //todo: check the chosenDateComplete is in the future
+        //TODO: check the chosenDateComplete is in the future
         considerButtonsState();
     }
 
@@ -229,6 +257,44 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
         boolean state = destinationBackgroundIsGreen && sourceBackgroundIsGreen && chosenADate;
         createServiceButton.setEnabled(state);
         createTripButton.setEnabled(state);
+        if (state) {
+            bus.post(new Services.ServicesSpecificRequest(application.getUser().getToken(), selectedSource.getId(), selectedDestination.getId(), application.getUser().getGender()));
+            listLoadingContainer.setAlpha(0);
+            listLoadingContainer.setVisibility(View.VISIBLE);
+            listLoadingContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION).start();
+        }
+    }
+
+    @Subscribe
+    public void onServicesRecieved(Services.ServicesSpecificResponse response) {
+
+        if (response.getServices().size() > 0) serviceFragmentContainer.setVisibility(View.VISIBLE);
+        serviceFragment.getAdapter().setServices(response.getServices());
+        serviceFragment.getAdapter().notifyDataSetChanged();
+
+
+        listLoadingContainer.animate().alpha(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                listLoadingContainer.setVisibility(View.GONE);
+                listLoadingContainer.animate().setListener(null);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        }).setDuration(Constants.ANIMATION_DURATION).start();
     }
 
     @Override
@@ -237,22 +303,23 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
         if (itemId == R.id.dialog_new_request_date) {
             pickADate();
         } else if (itemId == R.id.dialog_new_request_create_trip) {
-            //TODO: implement
+            fullLoadingContainer.setAlpha(0);
+            fullLoadingContainer.setVisibility(View.VISIBLE);
+            fullLoadingContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION).start();
+
+            bus.post(new Trips.CreateRequest(selectedSource.getId(), selectedDestination.getId(), dateText.getText().toString(), application.getUser().getToken()));
+
         } else if (itemId == R.id.dialog_new_request_create_service) {
             NewServiceDialogFragment serviceDialogFragment = NewServiceDialogFragment.getInstance(
-                    new ManamMiamPost(
-                            false,
-                            ManamMiamPost.DRIVER_ASKING_PASSENGER,
-                            selectedSource.getName(),
-                            selectedDestination.getName(),
-                            null, null, null,
-                            chosenDateComplete,
-                            null, null, 0, 0, null, 0, false, -1,
-                            selectedSource.getId(),
-                            selectedDestination.getId()));
+                    selectedSource.getName(),
+                    selectedDestination.getName(),
+                    dateText.getText().toString(),
+                    selectedSource.getId(),
+                    selectedDestination.getId(),
+                    0);
             serviceDialogFragment.show(getFragmentManager(), "serviceDialogFragment");
             dismiss();
-        } else if (itemId == R.id.dialog_new_requset_btn_cancel) {
+        } else if (itemId == R.id.dialog_new_request_btn_cancel) {
             dismiss();
         }
     }
@@ -261,6 +328,77 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
     public void collapseEnded() {
         if (destinationBackgroundIsGreen && sourceBackgroundIsGreen)
             pickADate();
+    }
+
+    @Subscribe
+    public void onLocationRecieved(Location.LocationResponse response) {
+        if (response.didSucceed()) {
+
+            ArrayList<ManamMiamLocation> locations = response.getLocations();
+            if (selectedDestination != null) {
+                for (ManamMiamLocation location : locations) {
+                    if (location.getId() == selectedDestination.getId()) {
+                        locations.remove(location);
+                        break;
+                    }
+
+                }
+            }
+
+            if (selectedSource != null) {
+                for (ManamMiamLocation location : locations) {
+                    if (location.getId() == selectedSource.getId()) {
+                        locations.remove(location);
+                        break;
+                    }
+
+                }
+            }
+            locationAdapter.setLocations(locations);
+            locationAdapter.notifyDataSetChanged();
+            if (!destinationBackgroundIsGreen && !sourceBackgroundIsGreen)
+                if (locationListView.getVisibility() == View.GONE)
+                    Utils.expand(locationListView, null);
+//            locationListView.setVisibility(View.VISIBLE);
+        } else {
+            response.showErrorToast(getContext());
+            //todo: handle Error
+        }
+
+        listLoadingContainer.animate().alpha(0).setDuration(Constants.ANIMATION_DURATION).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                listLoadingContainer.setVisibility(View.GONE);
+                listLoadingContainer.animate().setListener(null);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+    }
+
+    @Subscribe
+    public void onCreateTripResposeRecevied(Trips.CreateResponse response) {
+        if (response.didSucceed()) {
+            Toast.makeText(getContext(), getString(R.string.trip_created), Toast.LENGTH_SHORT).show();
+        } else {
+            response.showErrorToast(getContext());
+            //TODO: handle error
+        }
+        dismiss();
     }
 }
 

@@ -1,7 +1,6 @@
 package com.amir.manammiam.fragments;
 
 import android.animation.Animator;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,14 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseFragment;
 import com.amir.manammiam.dialogFragment.NewServiceDialogFragment;
-import com.amir.manammiam.infrastructure.ScrollCallback;
 import com.amir.manammiam.infrastructure.post.ManamMiamPost;
 import com.amir.manammiam.infrastructure.post.PostAdapter;
 import com.amir.manammiam.services.Posts;
@@ -96,41 +94,14 @@ public final class InboxFragment extends BaseFragment implements SwipeRefreshLay
         final ListView listView = (ListView) view.findViewById(R.id.fragment_with_list_list);
         listView.setAdapter(adapter);
 
-//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//
-////                if (view.getId() == listView.getId()) {
-//                Log.e(TAG, "onScrollStateChanged");
-//                    final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
-//
-//                    if (currentFirstVisibleItem > mLastFirstVisibleItem) {
-////                        mIsScrollingUp = false;
-//                        scrollListener.onScrolled(false);
-//                    } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
-////                        mIsScrollingUp = true;
-//                        scrollListener.onScrolled(true);
-//                    }
-//
-//                    mLastFirstVisibleItem = currentFirstVisibleItem;
-////                }
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//            }
-//        });
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                //TODO: What should actually happen when you click on a post
-
-                ManamMiamPost manamMiamPostItem = adapter.getPosts().get(position);
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+                
+                final ManamMiamPost manamMiamPostItem = adapter.getPosts().get(position);
                 boolean wasActivated = manamMiamPostItem.isActivated();
 
-                PostAdapter.PostViewHolder viewHolder = (PostAdapter.PostViewHolder) view.getTag();
+                final PostAdapter.PostViewHolder viewHolder = (PostAdapter.PostViewHolder) view.getTag();
                 if (wasActivated) {
 
                     manamMiamPostItem.setActivated(false);
@@ -139,7 +110,14 @@ public final class InboxFragment extends BaseFragment implements SwipeRefreshLay
                 } else {
                     if (manamMiamPostItem.getWho() == ManamMiamPost.LOOKING_FOR_SERVER) {
                         //TODO: check if the user is a driver...
-                        NewServiceDialogFragment serviceDialog = NewServiceDialogFragment.getInstance(manamMiamPostItem);
+                        NewServiceDialogFragment serviceDialog =
+                                NewServiceDialogFragment.getInstance(
+                                        manamMiamPostItem.getSourceName(),
+                                        manamMiamPostItem.getDestinationName(),
+                                        manamMiamPostItem.getTime(),
+                                        manamMiamPostItem.getSourceId(),
+                                        manamMiamPostItem.getDestinationId(),
+                                        manamMiamPostItem.getPassengerId());
 
                         serviceDialog.show(getFragmentManager(), "serviceDialog");
                     } else if (manamMiamPostItem.getWho() == ManamMiamPost.DRIVER_ASKING_PASSENGER) {
@@ -147,11 +125,47 @@ public final class InboxFragment extends BaseFragment implements SwipeRefreshLay
                         viewHolder.getApprovalContainer().setVisibility(View.VISIBLE);
                         viewHolder.getApprovalContainer().setAlpha(0);
                         viewHolder.getApprovalContainer().animate().alpha(1).setDuration(ANIM_DURATION).setListener(null);
-                    } else if (manamMiamPostItem.getWho() == ManamMiamPost.PASSENGER_CHOSEN_A_SERVER) {
-                        //nothing
+
+                        view.findViewById(R.id.item_post_text_accept).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                manamMiamPostItem.setLoadingState(true);
+                                manamMiamPostItem.setActivated(false);
+                                viewHolder.getLoading().setVisibility(View.VISIBLE);
+                                viewHolder.getApprovalContainer().animate().alpha(0).setListener(new Animator.AnimatorListener() {
+                                    @Override
+                                    public void onAnimationStart(Animator animation) {
+
+                                    }
+
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        viewHolder.getApprovalContainer().setVisibility(View.GONE);
+                                    }
+
+                                    @Override
+                                    public void onAnimationCancel(Animator animation) {
+
+                                    }
+
+                                    @Override
+                                    public void onAnimationRepeat(Animator animation) {
+
+                                    }
+                                });
+
+                                bus.post(new Posts.AcceptRequest(manamMiamPostItem, viewHolder.getLoading(), application.getUser().getToken()));
+//                                bus.post(new Posts.AcceptRequest(manamMiamPostItem, viewHolder.getLoading(), application.getUser().getToken()));
+                                view.findViewById(R.id.item_post_text_accept).setOnClickListener(null);
+                            }
+                        });
+
+                    } else if (manamMiamPostItem.getWho() == ManamMiamPost.PASSENGER_ACCEPTED_A_SERVER) {
+                        //nothing need to happen i guess
+
+                        //this bit just ran and no-one cared
                     }
                 }
-
 
             }
         });
@@ -187,5 +201,18 @@ public final class InboxFragment extends BaseFragment implements SwipeRefreshLay
             }
         });
 
+    }
+
+    @Subscribe
+    public void onAcceptResponseRecevied(Posts.AcceptResponse response) {
+        if (response.didSucceed()) {
+            Toast.makeText(getContext(), getString(R.string.accept_request_submitted), Toast.LENGTH_SHORT).show();
+        } else {
+            response.showErrorToast(getContext());
+        }
+        response.getPost().setLoadingState(false);
+        response.getPost().setActivated(false);
+
+        response.getLoading().setVisibility(View.GONE);
     }
 }

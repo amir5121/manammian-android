@@ -32,8 +32,7 @@
     <color name="waiting">#ffab40</color>
     <color name="colorPrimaryTransparent">#aaFF5722</color>
     <color name="yellow">#ffe100</color>
-
     <color name="mdtp_accent_color">#FF5722</color>
     <color name="mdtp_accent_color_dark">#BF360C</color>
-
+    <color name="number_plate_line_color">#555555</color>
 </resources>

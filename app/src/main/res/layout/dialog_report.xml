@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_medium"
+            style="@style/textViewIranSans"
+            android:textColor="@color/white"
+            android:text="@string/report_service"
+            android:elevation="5dp"
+            android:background="@color/colorPrimaryDark"
+            android:padding="5dp"
+            android:gravity="center"/>
+
+        <com.amir.manammiam.infrastructure.customView.EditTextFont
+            android:id="@+id/dialog_report_report_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:maxLines="10"
+            android:padding="5dp"
+            android:minLines="5"
+            android:gravity="top|start"
+            android:hint="@string/explain_the_issue"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginStart="25dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/dialog_report_submit"
+                style="@style/buttonIranSans"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/round_green_button"
+                android:enabled="false"
+                android:foreground="?android:selectableItemBackground"
+                android:text="@string/submit"
+                android:textColor="#FFF"
+                android:textSize="17sp" />
+
+
+            <Button
+                android:id="@+id/dialog_report_cancel"
+                style="@style/buttonIranSans"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:alpha=".8"
+                android:background="@drawable/round_red_button"
+                android:foreground="?android:selectableItemBackground"
+                android:text="@string/cancel"
+                android:textColor="#FFF"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/dialog_report_loading"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:background="@color/transparent_light">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+</FrameLayout>

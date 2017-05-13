@@ -7,8 +7,8 @@
         android:id="@+id/item_post_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_white"
         android:layout_margin="8dp"
+        android:background="@drawable/round_white"
         android:descendantFocusability="blocksDescendants"
         android:elevation="3dp"
         android:foreground="?android:selectableItemBackground">
@@ -75,7 +75,6 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
-                <!--TODO: hook this view up.. it's value not getting changed-->
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
                     android:id="@+id/item_post_rate_count"
                     android:layout_width="wrap_content"
@@ -249,6 +248,26 @@
                 android:textSize="18sp" />
 
         </LinearLayout>
+
+
+        <FrameLayout
+            android:id="@+id/item_post_loading"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignBottom="@id/item_post_very_bottom"
+            android:layout_below="@id/src_dest_container"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            android:background="@color/transparent_light">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
 
     </RelativeLayout>
 

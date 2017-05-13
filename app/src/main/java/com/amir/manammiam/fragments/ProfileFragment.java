@@ -1,8 +1,8 @@
 package com.amir.manammiam.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import com.amir.manammiam.R;
+import com.amir.manammiam.activities.LoginActivity;
 import com.amir.manammiam.base.BaseFragment;
+import com.amir.manammiam.dialogFragment.NewCarDialogFragment;
+import com.amir.manammiam.infrastructure.Constants;
 import com.amir.manammiam.infrastructure.car.Car;
 import com.amir.manammiam.infrastructure.User;
 import com.amir.manammiam.infrastructure.customView.TextViewFont;
@@ -19,7 +22,7 @@ import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
-public final class ProfileFragment extends BaseFragment {
+public final class ProfileFragment extends BaseFragment implements View.OnClickListener {
 
     private TextViewFont nameText;
     private TextViewFont usernameText;
@@ -42,18 +45,12 @@ public final class ProfileFragment extends BaseFragment {
         return fragmentFirst;
     }
 
-    // Store instance variables based on arguments passed
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        //getArguments().getInt("someInt", 0);
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        //TODO: show telegram id and phone number if the user has them
+
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         nameText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_name));
         usernameText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_username));
@@ -62,11 +59,11 @@ public final class ProfileFragment extends BaseFragment {
         permissionText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_permission));
         verificationContainer = view.findViewById(R.id.fragment_profile_verification_container);
         loadingContainer = view.findViewById(R.id.fragment_profile_progress_bar_container);
+        view.findViewById(R.id.fragment_profile_log_out).setOnClickListener(this);
         carsContainer = ((LinearLayout) view.findViewById(R.id.fragment_profile_cars_container));
         carsProgressBar = view.findViewById(R.id.fragment_profile_cars_progress_bar);
         carsReceived = false;
 
-        Log.e(getClass().getSimpleName(), "posting request for profile and cars");
         bus.post(new Account.ProfileRequest(application.getUser().getToken()));
         bus.post(new Account.CarsRequest(application.getUser().getToken()));
         return view;
@@ -76,11 +73,11 @@ public final class ProfileFragment extends BaseFragment {
     public void onCarsRecieved(Account.CarsResponse response) {
         carsReceived = true;
         if (response.didSucceed()) {
-//            if (carsContainer != null)
             addCars(response.getCars());
             carsProgressBar.setVisibility(View.GONE );
-        } else {
 
+        } else {
+            //TODO: handle error
         }
     }
 
@@ -129,6 +126,10 @@ public final class ProfileFragment extends BaseFragment {
             carsContainer.addView(view);
 
         }
+
+        View addView = inflater.inflate(R.layout.item_car_add_footer, carsContainer, false);
+        addView.setOnClickListener(this);
+        carsContainer.addView(addView);
     }
 
     @Subscribe
@@ -136,15 +137,15 @@ public final class ProfileFragment extends BaseFragment {
         if (!carsReceived) carsProgressBar.setVisibility(View.VISIBLE);
         if (response.didSucceed() && nameText != null && usernameText != null && emailText != null && genderText != null && permissionText != null) {
 
-            nameText.setText(response.getUser().getName());
-            usernameText.setText(response.getUser().getUsername());
-            emailText.setText(response.getUser().getMail());
-            genderText.setText(getResources().getString(response.getUser().getGender()== User.MALE ? R.string.male : R.string.female));
+            nameText.setText(response.getName());
+            usernameText.setText(response.getUsername());
+            emailText.setText(response.getMail());
+            genderText.setText(getResources().getString(response.getGender()== User.MALE ? R.string.male : R.string.female));
             int res;
-            if (response.getUser().getPermission() == User.VERIFIED) {
+            if (response.getPermission() == User.VERIFIED) {
                 res = R.string.verified;
                 verificationContainer.setBackgroundResource(R.drawable.round_background_transparent_green);
-            } else if (response.getUser().getPermission() == User.UNVERIFIED) {
+            } else if (response.getPermission() == User.UNVERIFIED) {
                 res = R.string.unverified;
                 verificationContainer.setBackgroundResource(R.drawable.round_background_transparent_yellow);
             } else {
@@ -160,4 +161,34 @@ public final class ProfileFragment extends BaseFragment {
         if (loadingContainer != null)
             loadingContainer.setVisibility(View.GONE);
     }
+
+    @Override
+    public void onClick(View v) {
+        int itemId = v.getId();
+        if (itemId == R.id.item_car_add_footer_button) {
+            new NewCarDialogFragment().show(getFragmentManager(), "NewCarFragment");
+        } else if (itemId == R.id.fragment_profile_log_out) {
+            loadingContainer.setAlpha(0);
+            loadingContainer.setVisibility(View.VISIBLE);
+            loadingContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION).start();
+
+            bus.post(new Account.LogoutRequest(application.getUser().getToken()));
+        }
+    }
+
+    @Subscribe
+    public void onLogoutResponseReceived(Account.LogoutResponse response) {
+        if (response.didSucceed()) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+//            application.setUser(new User(null, null, User.MALE, null, User.BLOCKED, null, false));
+            application.setUser(null);
+            getActivity().finish();
+            //TODO: remove everything from the database on the client side
+        } else {
+            response.showErrorToast(getContext());
+
+            //TODO: handle Error
+        }
+    }
+
 }

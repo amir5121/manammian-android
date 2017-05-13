@@ -53,7 +53,7 @@ public class BottomBarManager implements View.OnClickListener {
 
     public void setItemSelectedByPos(int position) {
         for (int i = 0; i < bottomBarItems.size(); i++) {
-//            Log.e(getClass().getName(), "setting " + i + " " + position + " unselected" + bottomBarItems.get(i).isSelected());
+//            Log.e(getClass().getSequence(), "setting " + i + " " + position + " unselected" + bottomBarItems.get(i).isSelected());
             if (bottomBarItems.get(i).isItemSelected()) {
                 if (position != i) {
                     bottomBarItems.get(i).setItemSelected(false);

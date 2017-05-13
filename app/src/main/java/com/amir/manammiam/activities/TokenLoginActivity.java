@@ -13,6 +13,7 @@ import android.view.animation.AccelerateInterpolator;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseActivity;
+import com.amir.manammiam.infrastructure.User;
 import com.amir.manammiam.infrastructure.customView.TypeWriter;
 import com.amir.manammiam.services.Account;
 import com.squareup.otto.Subscribe;
@@ -24,19 +25,19 @@ public class TokenLoginActivity extends BaseActivity {
     private boolean isHittingGround = false;
     private AnimatorSet animationUp;
     private AnimatorSet animationDown;
-    boolean end = false;
+    boolean discontinueAnimation = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_token_login);
 
+        bus.post(new Account.ProfileRequest(application.getUser().getToken()));
+
         imageView = findViewById(R.id.activity_token_login_image);
         float translateYOffset = -getResources().getDisplayMetrics().density * 150f;
 
         ((TypeWriter) findViewById(R.id.activity_token_login_ellipse)).animateText("...");
-
-        bus.post(new Account.ProfileRequest(application.getUser().getToken()));
 
         setUpAnimation(translateYOffset);
     }
@@ -44,16 +45,27 @@ public class TokenLoginActivity extends BaseActivity {
     @Subscribe
     public void onProfileRecived(Account.ProfileResponse response) {
         if (response.didSucceed()) {
-            application.setUser(response.getUser());
+            User user =
+                    new User(response.getUsername(),
+                            response.getName(),
+                            response.getGender(),
+                            response.getMail(),
+                            response.getPermission(),
+                            application.getUser().getToken(),
+                            response.isDriver());
+
+            application.setUser(user);
             startActivity(new Intent(this, MainActivity.class));
 
-            application.getUser().setLoggedIn(true);
         } else {
-            startActivity(new Intent(this, LoginActivity.class));
+            finish();
             response.showErrorToast(this);
             //TODO: handle Error??
+
+            //TODO: invalidate everything
+
         }
-        end = true;
+        discontinueAnimation = true;
     }
 
     @Override
@@ -112,7 +124,7 @@ public class TokenLoginActivity extends BaseActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (!end) {
+                if (!discontinueAnimation) {
                     animationUp.start();
                     isHittingGround = true;
                 } else {
@@ -139,7 +151,7 @@ public class TokenLoginActivity extends BaseActivity {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (!end)
+                if (!discontinueAnimation)
                     animationDown.start();
                 else finish();
             }

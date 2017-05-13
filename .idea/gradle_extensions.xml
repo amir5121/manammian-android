@@ -12,7 +12,6 @@
             <task name="processInmemoryDebugAndroidTestResources" type="com.android.build.gradle.tasks.ProcessAndroidResources">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="processInmemoryReleaseManifest" type="com.android.build.gradle.tasks.MergeManifests">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="generateLiveReleaseResources">&lt;i&gt;Task group: other&lt;i&gt;</task>
-            <task name="transformClassesWithPreDexForLiveRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="assembleLiveDebugUnitTest">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileInmemoryDebugAndroidTestShaders" type="com.android.build.gradle.tasks.ShaderCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="testLiveDebugUnitTest" type="com.android.build.gradle.tasks.factory.AndroidUnitTest">Run unit tests for the liveDebug build.&lt;p&gt;&lt;i&gt;Task group: verification&lt;i&gt;</task>
@@ -24,7 +23,6 @@
             <task name="jarLiveReleaseClasses" type="com.android.build.gradle.tasks.AndroidJarTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="resolveInmemoryDebugDependencies" type="com.android.build.gradle.internal.tasks.ResolveDependenciesTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="packageInmemoryRelease" type="com.android.build.gradle.tasks.PackageApplication">&lt;i&gt;Task group: other&lt;i&gt;</task>
-            <task name="transformDexWithDexForInmemoryRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileLiveReleaseRenderscript" type="com.android.build.gradle.tasks.RenderscriptCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="prepareInmemoryDebugAndroidTestDependencies" type="com.android.build.gradle.internal.tasks.PrepareDependenciesTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="mergeLiveDebugAndroidTestResources" type="com.android.build.gradle.tasks.MergeResources">&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -44,6 +42,7 @@
             <task name="mergeInmemoryDebugResources" type="com.android.build.gradle.tasks.MergeResources">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="validateSigningInmemoryDebugAndroidTest" type="com.android.build.gradle.internal.tasks.ValidateSigningTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="components" type="org.gradle.api.reporting.components.ComponentReport">Displays the components produced by root project 'manamMiam'. [incubating]&lt;p&gt;&lt;i&gt;Task group: help&lt;i&gt;</task>
+            <task name="transformClassesAndResourcesWithProguardForInmemoryRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileInmemoryDebugSources">&lt;i&gt;Task group: build&lt;i&gt;</task>
             <task name="transformClassesWithDexBuilderForInmemoryDebugAndroidTest" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileLiveDebugJavaWithJavac" type="com.android.build.gradle.tasks.factory.AndroidJavaCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -78,6 +77,7 @@
             <task name="installInmemoryDebugAndroidTest" type="com.android.build.gradle.internal.tasks.InstallVariantTask">Installs the android (on device) tests for the InmemoryDebug build.&lt;p&gt;&lt;i&gt;Task group: Install&lt;i&gt;</task>
             <task name="mergeLiveDebugAndroidTestShaders" type="com.android.build.gradle.tasks.MergeSourceSetFolders">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="connectedLiveDebugAndroidTest" type="com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask">Installs and runs the tests for liveDebug on connected devices.&lt;p&gt;&lt;i&gt;Task group: verification&lt;i&gt;</task>
+            <task name="extractJava8LangSupportJar" type="com.android.build.gradle.internal.tasks.ExtractJava8LangSupportJar">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="packageInmemoryDebug" type="com.android.build.gradle.tasks.PackageApplication">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileLiveDebugShaders" type="com.android.build.gradle.tasks.ShaderCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="lintVitalLiveRelease" type="com.android.build.gradle.tasks.Lint">Runs lint on just the fatal issues in the liveRelease build.&lt;p&gt;&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -122,6 +122,7 @@
             <task name="lintLiveDebug" type="com.android.build.gradle.tasks.Lint">Runs lint on the LiveDebug build.&lt;p&gt;&lt;i&gt;Task group: verification&lt;i&gt;</task>
             <task name="mergeInmemoryDebugAndroidTestJniLibFolders" type="com.android.build.gradle.tasks.MergeSourceSetFolders">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="dependentComponents" type="org.gradle.api.reporting.dependents.DependentComponentsReport">Displays the dependent components of components in root project 'manamMiam'. [incubating]&lt;p&gt;&lt;i&gt;Task group: help&lt;i&gt;</task>
+            <task name="transformClassesWithDexForInmemoryRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="connectedInmemoryDebugAndroidTest" type="com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask">Installs and runs the tests for inmemoryDebug on connected devices.&lt;p&gt;&lt;i&gt;Task group: verification&lt;i&gt;</task>
             <task name="generateInmemoryReleaseResources">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="buildEnvironment" type="org.gradle.api.tasks.diagnostics.BuildEnvironmentReportTask">Displays all buildscript dependencies declared in root project 'manamMiam'.&lt;p&gt;&lt;i&gt;Task group: help&lt;i&gt;</task>
@@ -148,7 +149,6 @@
             <task name="compileLiveReleaseUnitTestJavaWithJavac" type="com.android.build.gradle.tasks.factory.AndroidJavaCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="generateInmemoryReleaseAssets">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileLiveDebugAndroidTestJavaWithJavac" type="com.android.build.gradle.tasks.factory.AndroidJavaCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
-            <task name="transformClassesWithPreDexForInmemoryRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="transformDexArchiveWithDexMergerForInmemoryDebug" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="transformResourcesWithMergeJavaResForLiveDebugAndroidTest" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileInmemoryDebugAndroidTestAidl" type="com.android.build.gradle.tasks.AidlCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -158,9 +158,9 @@
             <task name="transformResourcesWithMergeJavaResForLiveRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="incrementalLiveDebugUnitTestJavaCompilationSafeguard" type="com.android.build.gradle.tasks.factory.IncrementalSafeguard">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="processInmemoryDebugResources" type="com.android.build.gradle.tasks.ProcessAndroidResources">&lt;i&gt;Task group: other&lt;i&gt;</task>
-            <task name="transformDexWithDexForLiveRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="generateInmemoryDebugSources">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="prepareInmemoryDebugUnitTestDependencies" type="com.android.build.gradle.internal.tasks.PrepareDependenciesTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
+            <task name="transformClassesWithDexForLiveRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="processLiveDebugAndroidTestJavaRes" type="org.gradle.api.tasks.Sync">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="javaPreCompileLiveDebugUnitTest" type="com.android.build.gradle.tasks.JavaPreCompileTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileInmemoryDebugUnitTestJavaWithJavac" type="com.android.build.gradle.tasks.factory.AndroidJavaCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -218,7 +218,9 @@
             <task name="resolveLiveReleaseUnitTestDependencies" type="com.android.build.gradle.internal.tasks.ResolveDependenciesTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="dependencyInsight" type="org.gradle.api.tasks.diagnostics.DependencyInsightReportTask">Displays the insight into a specific dependency in root project 'manamMiam'.&lt;p&gt;&lt;i&gt;Task group: help&lt;i&gt;</task>
             <task name="mergeLiveDebugShaders" type="com.android.build.gradle.tasks.MergeSourceSetFolders">&lt;i&gt;Task group: other&lt;i&gt;</task>
+            <task name="transformClassesAndResourcesWithProguardForLiveRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileLiveDebugNdk" type="com.android.build.gradle.tasks.NdkCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
+            <task name="transformClassesWithShrinkResForInmemoryRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="help" type="org.gradle.configuration.Help">Displays a help message.&lt;p&gt;&lt;i&gt;Task group: help&lt;i&gt;</task>
             <task name="uninstallLiveDebugAndroidTest" type="com.android.build.gradle.internal.tasks.UninstallTask">Uninstalls the android (on device) tests for the LiveDebug build.&lt;p&gt;&lt;i&gt;Task group: Install&lt;i&gt;</task>
             <task name="preInmemoryReleaseUnitTestBuild">&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -233,6 +235,7 @@
             <task name="compileInmemoryDebugRenderscript" type="com.android.build.gradle.tasks.RenderscriptCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="mergeInmemoryDebugAndroidTestShaders" type="com.android.build.gradle.tasks.MergeSourceSetFolders">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="assembleLiveDebugAndroidTest">&lt;i&gt;Task group: other&lt;i&gt;</task>
+            <task name="transformClassesWithShrinkResForLiveRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="wrapper" type="org.gradle.api.tasks.wrapper.Wrapper">Generates Gradle wrapper files. [incubating]&lt;p&gt;&lt;i&gt;Task group: Build Setup&lt;i&gt;</task>
             <task name="generateLiveDebugResValues" type="com.android.build.gradle.tasks.GenerateResValues">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="generateLiveReleaseSources">&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -317,7 +320,6 @@
             <task name="processInmemoryDebugAndroidTestResources" type="com.android.build.gradle.tasks.ProcessAndroidResources">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="processInmemoryReleaseManifest" type="com.android.build.gradle.tasks.MergeManifests">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="generateLiveReleaseResources">&lt;i&gt;Task group: other&lt;i&gt;</task>
-            <task name="transformClassesWithPreDexForLiveRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="assembleLiveDebugUnitTest">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileInmemoryDebugAndroidTestShaders" type="com.android.build.gradle.tasks.ShaderCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="testLiveDebugUnitTest" type="com.android.build.gradle.tasks.factory.AndroidUnitTest">Run unit tests for the liveDebug build.&lt;p&gt;&lt;i&gt;Task group: verification&lt;i&gt;</task>
@@ -329,7 +331,6 @@
             <task name="jarLiveReleaseClasses" type="com.android.build.gradle.tasks.AndroidJarTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="resolveInmemoryDebugDependencies" type="com.android.build.gradle.internal.tasks.ResolveDependenciesTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="packageInmemoryRelease" type="com.android.build.gradle.tasks.PackageApplication">&lt;i&gt;Task group: other&lt;i&gt;</task>
-            <task name="transformDexWithDexForInmemoryRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileLiveReleaseRenderscript" type="com.android.build.gradle.tasks.RenderscriptCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="prepareInmemoryDebugAndroidTestDependencies" type="com.android.build.gradle.internal.tasks.PrepareDependenciesTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="mergeLiveDebugAndroidTestResources" type="com.android.build.gradle.tasks.MergeResources">&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -349,6 +350,7 @@
             <task name="mergeInmemoryDebugResources" type="com.android.build.gradle.tasks.MergeResources">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="validateSigningInmemoryDebugAndroidTest" type="com.android.build.gradle.internal.tasks.ValidateSigningTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="components" type="org.gradle.api.reporting.components.ComponentReport">Displays the components produced by project ':app'. [incubating]&lt;p&gt;&lt;i&gt;Task group: help&lt;i&gt;</task>
+            <task name="transformClassesAndResourcesWithProguardForInmemoryRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileInmemoryDebugSources">&lt;i&gt;Task group: build&lt;i&gt;</task>
             <task name="transformClassesWithDexBuilderForInmemoryDebugAndroidTest" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileLiveDebugJavaWithJavac" type="com.android.build.gradle.tasks.factory.AndroidJavaCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -382,6 +384,7 @@
             <task name="installInmemoryDebugAndroidTest" type="com.android.build.gradle.internal.tasks.InstallVariantTask">Installs the android (on device) tests for the InmemoryDebug build.&lt;p&gt;&lt;i&gt;Task group: Install&lt;i&gt;</task>
             <task name="mergeLiveDebugAndroidTestShaders" type="com.android.build.gradle.tasks.MergeSourceSetFolders">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="connectedLiveDebugAndroidTest" type="com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask">Installs and runs the tests for liveDebug on connected devices.&lt;p&gt;&lt;i&gt;Task group: verification&lt;i&gt;</task>
+            <task name="extractJava8LangSupportJar" type="com.android.build.gradle.internal.tasks.ExtractJava8LangSupportJar">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="packageInmemoryDebug" type="com.android.build.gradle.tasks.PackageApplication">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileLiveDebugShaders" type="com.android.build.gradle.tasks.ShaderCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="lintVitalLiveRelease" type="com.android.build.gradle.tasks.Lint">Runs lint on just the fatal issues in the liveRelease build.&lt;p&gt;&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -425,6 +428,7 @@
             <task name="lintLiveDebug" type="com.android.build.gradle.tasks.Lint">Runs lint on the LiveDebug build.&lt;p&gt;&lt;i&gt;Task group: verification&lt;i&gt;</task>
             <task name="mergeInmemoryDebugAndroidTestJniLibFolders" type="com.android.build.gradle.tasks.MergeSourceSetFolders">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="dependentComponents" type="org.gradle.api.reporting.dependents.DependentComponentsReport">Displays the dependent components of components in project ':app'. [incubating]&lt;p&gt;&lt;i&gt;Task group: help&lt;i&gt;</task>
+            <task name="transformClassesWithDexForInmemoryRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="connectedInmemoryDebugAndroidTest" type="com.android.build.gradle.internal.tasks.DeviceProviderInstrumentTestTask">Installs and runs the tests for inmemoryDebug on connected devices.&lt;p&gt;&lt;i&gt;Task group: verification&lt;i&gt;</task>
             <task name="generateInmemoryReleaseResources">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="buildEnvironment" type="org.gradle.api.tasks.diagnostics.BuildEnvironmentReportTask">Displays all buildscript dependencies declared in project ':app'.&lt;p&gt;&lt;i&gt;Task group: help&lt;i&gt;</task>
@@ -451,7 +455,6 @@
             <task name="compileLiveReleaseUnitTestJavaWithJavac" type="com.android.build.gradle.tasks.factory.AndroidJavaCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="generateInmemoryReleaseAssets">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileLiveDebugAndroidTestJavaWithJavac" type="com.android.build.gradle.tasks.factory.AndroidJavaCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
-            <task name="transformClassesWithPreDexForInmemoryRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="transformDexArchiveWithDexMergerForInmemoryDebug" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="transformResourcesWithMergeJavaResForLiveDebugAndroidTest" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileInmemoryDebugAndroidTestAidl" type="com.android.build.gradle.tasks.AidlCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -461,9 +464,9 @@
             <task name="transformResourcesWithMergeJavaResForLiveRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="incrementalLiveDebugUnitTestJavaCompilationSafeguard" type="com.android.build.gradle.tasks.factory.IncrementalSafeguard">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="processInmemoryDebugResources" type="com.android.build.gradle.tasks.ProcessAndroidResources">&lt;i&gt;Task group: other&lt;i&gt;</task>
-            <task name="transformDexWithDexForLiveRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="generateInmemoryDebugSources">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="prepareInmemoryDebugUnitTestDependencies" type="com.android.build.gradle.internal.tasks.PrepareDependenciesTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
+            <task name="transformClassesWithDexForLiveRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="processLiveDebugAndroidTestJavaRes" type="org.gradle.api.tasks.Sync">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="javaPreCompileLiveDebugUnitTest" type="com.android.build.gradle.tasks.JavaPreCompileTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileInmemoryDebugUnitTestJavaWithJavac" type="com.android.build.gradle.tasks.factory.AndroidJavaCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -520,7 +523,9 @@
             <task name="resolveLiveReleaseUnitTestDependencies" type="com.android.build.gradle.internal.tasks.ResolveDependenciesTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="dependencyInsight" type="org.gradle.api.tasks.diagnostics.DependencyInsightReportTask">Displays the insight into a specific dependency in project ':app'.&lt;p&gt;&lt;i&gt;Task group: help&lt;i&gt;</task>
             <task name="mergeLiveDebugShaders" type="com.android.build.gradle.tasks.MergeSourceSetFolders">&lt;i&gt;Task group: other&lt;i&gt;</task>
+            <task name="transformClassesAndResourcesWithProguardForLiveRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="compileLiveDebugNdk" type="com.android.build.gradle.tasks.NdkCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
+            <task name="transformClassesWithShrinkResForInmemoryRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="help" type="org.gradle.configuration.Help">Displays a help message.&lt;p&gt;&lt;i&gt;Task group: help&lt;i&gt;</task>
             <task name="uninstallLiveDebugAndroidTest" type="com.android.build.gradle.internal.tasks.UninstallTask">Uninstalls the android (on device) tests for the LiveDebug build.&lt;p&gt;&lt;i&gt;Task group: Install&lt;i&gt;</task>
             <task name="preInmemoryReleaseUnitTestBuild">&lt;i&gt;Task group: other&lt;i&gt;</task>
@@ -535,6 +540,7 @@
             <task name="compileInmemoryDebugRenderscript" type="com.android.build.gradle.tasks.RenderscriptCompile">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="mergeInmemoryDebugAndroidTestShaders" type="com.android.build.gradle.tasks.MergeSourceSetFolders">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="assembleLiveDebugAndroidTest">&lt;i&gt;Task group: other&lt;i&gt;</task>
+            <task name="transformClassesWithShrinkResForLiveRelease" type="com.android.build.gradle.internal.pipeline.TransformTask">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="generateLiveDebugResValues" type="com.android.build.gradle.tasks.GenerateResValues">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="generateLiveReleaseSources">&lt;i&gt;Task group: other&lt;i&gt;</task>
             <task name="processLiveReleaseManifest" type="com.android.build.gradle.tasks.MergeManifests">&lt;i&gt;Task group: other&lt;i&gt;</task>

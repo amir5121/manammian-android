@@ -2,28 +2,28 @@ package com.amir.manammiam.services;
 
 import android.view.View;
 
-import com.amir.manammiam.infrastructure.trip.TripItem;
+import com.amir.manammiam.infrastructure.trip.Trip;
 
-public class MMTime {
+public final class MMTime {
     public static class Request {
         private final String token;
         private final String time;
         private final View cancelContainer;
         private final View responseContainer;
-        private final TripItem tripItem;
+        private final Trip trip;
         private final View loadingContainer;
 
-        public Request(String token, String time, View cancelContainer, View responseContainer, View loadingContainer, TripItem tripItem) {
+        public Request(String token, String time, View cancelContainer, View responseContainer, View loadingContainer, Trip trip) {
             this.token = token;
             this.time = time;
             this.cancelContainer = cancelContainer;
             this.responseContainer = responseContainer;
-            this.tripItem = tripItem;
+            this.trip = trip;
             this.loadingContainer = loadingContainer;
         }
 
-        public TripItem getTripItem() {
-            return tripItem;
+        public Trip getTrip() {
+            return trip;
         }
 
         public View getCancelContainer() {
@@ -47,23 +47,23 @@ public class MMTime {
         }
     }
 
-    public static class TimeResponse extends Response {
+    public static class TimeResponse extends ManamMiamResponse {
         private final boolean isInTheFuture;
         private final View cancelContainer;
         private final View responseContainer;
-        private final TripItem tripItem;
+        private final Trip trip;
         private View loadingContainer;
 
-        public TimeResponse(TripItem tripItem, View responseContainer, View cancelContainer, boolean isInTheFuture, View loadingContainer) {
-            this.tripItem = tripItem;
+        public TimeResponse(Trip trip, View responseContainer, View cancelContainer, boolean isInTheFuture, View loadingContainer) {
+            this.trip = trip;
             this.responseContainer = responseContainer;
             this.cancelContainer = cancelContainer;
             this.isInTheFuture = isInTheFuture;
             this.loadingContainer = loadingContainer;
         }
 
-        public TripItem getTripItem() {
-            return tripItem;
+        public Trip getTrip() {
+            return trip;
         }
 
         public boolean isInTheFuture() {

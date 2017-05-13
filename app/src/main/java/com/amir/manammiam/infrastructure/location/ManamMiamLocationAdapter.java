@@ -90,6 +90,10 @@ public class ManamMiamLocationAdapter extends BaseAdapter {
         return locations;
     }
 
+    public void setLocations(ArrayList<ManamMiamLocation> locations) {
+        this.locations = locations;
+    }
+
     class LocationViewHolder {
         View selectedContainer;
         TextViewFont mainText;

@@ -1,17 +1,17 @@
 <FrameLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/round_header_primary"
+    android:background="@color/colorPrimary"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.amir.manammiam.infrastructure.customView.TextViewFont
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:layout_gravity="center_horizontal"
         android:text="@string/manam_miam_fa"
         android:textColor="@color/white"
         style="@style/textViewMoharam"
         android:padding="10dp"
-        android:translationY="-6dp"
+        android:translationY="-10dp"
         android:textSize="45sp"
         android:textStyle="bold" />
 

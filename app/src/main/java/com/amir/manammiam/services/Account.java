@@ -2,6 +2,8 @@ package com.amir.manammiam.services;
 
 import com.amir.manammiam.infrastructure.car.Car;
 import com.amir.manammiam.infrastructure.User;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
@@ -10,8 +12,10 @@ public final class Account {
     }
 
     public static class LoginRequest {
-        private String username;
-        private String password;
+        private static final int ANDROID_APP = 1;
+        private final String username;
+        private final String password;
+        private final int sourceType = ANDROID_APP;
 
         public LoginRequest(String username, String password) {
             this.username = username;
@@ -26,10 +30,16 @@ public final class Account {
         public String getPassword() {
             return password;
         }
+
+        public int getSourceType() {
+            return sourceType;
+        }
     }
 
-    public static class LoginResponse extends Response {
+    public static class LoginResponse extends ManamMiamResponse {
 
+        @Expose
+        @SerializedName("token")
         private String token = null;
 
         public String getToken() {
@@ -40,9 +50,34 @@ public final class Account {
             this.token = token;
         }
     }
+    public static class LogoutRequest {
+        private final String token;
+
+        public LogoutRequest(String token) {
+            this.token = token;
+        }
+
+        public String getToken() {
+            return token;
+        }
+    }
+
+    public static class LogoutResponse extends ManamMiamResponse {
+
+        public static final int SUCCESSFUL = 1;
+        private final int result;
+
+        public LogoutResponse(int response) {
+            this.result = response;
+        }
+
+        public int getResult() {
+            return result;
+        }
+    }
 
     public static class ProfileRequest {
-        String token;
+        private final String token;
 
         public ProfileRequest(String token) {
             this.token = token;
@@ -53,15 +88,93 @@ public final class Account {
         }
     }
 
-    public static class ProfileResponse extends Response {
-        private User user;
+    public static class ProfileResponse extends ManamMiamResponse {
+        @SerializedName("name")
+        private String name;
 
-        public ProfileResponse(User user) {
-            this.user = user;
+        @SerializedName("username")
+        private String username;
+
+        @SerializedName("gender")
+        private boolean gender;
+
+        @SerializedName("is_driver")
+        private boolean isDriver;
+
+        @SerializedName("email")
+        private String mail;
+
+        @SerializedName("permission")
+        private int permission;
+
+        @SerializedName("phone_number")
+        private String phoneNumber;
+
+        @SerializedName("telegram_id")
+        private String telegram_id;
+
+        public String getName() {
+            return name;
         }
 
-        public User getUser() {
-            return user;
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public boolean getGender() {
+            return gender;
+        }
+
+        public void setGender(boolean gender) {
+            this.gender = gender;
+        }
+
+        public String getMail() {
+            return mail;
+        }
+
+        public void setMail(String mail) {
+            this.mail = mail;
+        }
+
+        public int getPermission() {
+            return permission;
+        }
+
+        public void setPermission(int permission) {
+            this.permission = permission;
+        }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+        }
+
+        public String getTelegram_id() {
+            return telegram_id;
+        }
+
+        public void setTelegram_id(String telegram_id) {
+            this.telegram_id = telegram_id;
+        }
+
+        public boolean isDriver() {
+            return isDriver;
+        }
+
+        public void setDriver(boolean driver) {
+            isDriver = driver;
         }
     }
 
@@ -77,8 +190,8 @@ public final class Account {
         }
     }
 
-    public static class CarsResponse extends Response {
-        ArrayList<Car> cars;
+    public static class CarsResponse extends ManamMiamResponse {
+        private final ArrayList<Car> cars;
 
         public CarsResponse(ArrayList<Car> cars) {
             this.cars = cars;
@@ -89,5 +202,102 @@ public final class Account {
         }
     }
 
+    public static class AddCarRequest {
+        private final String token;
+        private final String carCode;
+        private final String carColor;
+        private final String carType;
+        private final boolean isTaxi;
+
+        public AddCarRequest(String token, String carCode, String carColor, String carType, boolean isTaxi) {
+            this.token = token;
+            this.carCode = carCode;
+            this.carColor = carColor;
+            this.carType = carType;
+            this.isTaxi = isTaxi;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public String getCarCode() {
+            return carCode;
+        }
+
+        public String getCarColor() {
+            return carColor;
+        }
+
+        public String getCarType() {
+            return carType;
+        }
+
+        public boolean isTaxi() {
+            return isTaxi;
+        }
+    }
+
+    public static class AddCarResponse extends ManamMiamResponse {
+        public static final int SUCCESSFUL = 1;
+        private final int result;
+
+        public AddCarResponse(int response) {
+            this.result = response;
+        }
+
+        public int getResult() {
+            return result;
+        }
+    }
+
+
+    public static class EnrollRequest {
+        private final String email;
+        private final String username;
+        private final String name;
+        private final String password;
+        private final boolean gender;
+
+        public EnrollRequest(String email, String username, String name, String password, boolean gender) {
+            this.email = email;
+            this.username = username;
+            this.name = name;
+            this.password = password;
+            this.gender = gender;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public boolean isGender() {
+            return gender;
+        }
+    }
+
+    public static class EnrollResponse extends ManamMiamResponse {
+        private final long result;
+
+        public EnrollResponse(long result) {
+            this.result = result;
+        }
+
+        public long getResult() {
+            return result;
+        }
+    }
 
 }

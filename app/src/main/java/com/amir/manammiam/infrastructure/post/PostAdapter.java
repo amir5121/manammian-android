@@ -4,18 +4,18 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import com.amir.manammiam.R;
-import com.amir.manammiam.base.ManamMiamAdapter;
 import com.amir.manammiam.infrastructure.Utils;
 import com.amir.manammiam.infrastructure.customView.TextViewFont;
 
 import java.util.ArrayList;
 
 
-public class PostAdapter extends ManamMiamAdapter{
+public class PostAdapter extends BaseAdapter {
 
     //TODO: don't show who = 2 if this user has no car
 
@@ -24,7 +24,7 @@ public class PostAdapter extends ManamMiamAdapter{
     private final LayoutInflater inflater;
 
     public PostAdapter(Context context) {
-        super(context);
+//        super(context);
         inflater = LayoutInflater.from(context);
 
         posts = new ArrayList<>();
@@ -48,7 +48,7 @@ public class PostAdapter extends ManamMiamAdapter{
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        super.getView(position, convertView, parent);
+//        super.getView(position, convertView, parent);
         final PostViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_post, parent, false);
@@ -68,8 +68,10 @@ public class PostAdapter extends ManamMiamAdapter{
             viewHolder.carCode = (TextViewFont) convertView.findViewById(R.id.item_post_text_car_code);
             viewHolder.carColor = (TextViewFont) convertView.findViewById(R.id.item_post_text_car_color);
             viewHolder.text = (TextViewFont) convertView.findViewById(R.id.item_post_text_text);
+            viewHolder.rateCount = (TextViewFont) convertView.findViewById(R.id.item_post_rate_count);
             viewHolder.expand = convertView.findViewById(R.id.item_post_expand);
             viewHolder.topContainer = convertView.findViewById(R.id.src_dest_container);
+            viewHolder.loading = convertView.findViewById(R.id.item_post_loading);
 
             convertView.setTag(viewHolder);
 
@@ -77,30 +79,31 @@ public class PostAdapter extends ManamMiamAdapter{
             viewHolder = (PostViewHolder) convertView.getTag();
         }
 
-        viewHolder.source.setText(posts.get(position).getSourceName());
-        viewHolder.destination.setText(posts.get(position).getDestinationName());
-        viewHolder.price.setText(posts.get(position).getPrice());
-        viewHolder.name.setText(posts.get(position).getSenderName());
-        viewHolder.time.setText(posts.get(position).getTime());
-        viewHolder.capacity.setText(String.valueOf(posts.get(position).getCapacity()));
-        viewHolder.text.setText(posts.get(position).getText());
+        final ManamMiamPost currPost = posts.get(position);
+        viewHolder.source.setText(currPost.getSourceName());
+        viewHolder.destination.setText(currPost.getDestinationName());
+        viewHolder.price.setText(currPost.getPrice());
+        viewHolder.name.setText(currPost.getSenderName());
+        viewHolder.time.setText(currPost.getTime());
+        viewHolder.capacity.setText(String.valueOf(currPost.getCapacity()));
+        viewHolder.text.setText(currPost.getText());
 
         viewHolder.expand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (viewHolder.infoContainer.getVisibility() == View.GONE) {
-                    Utils.expand(viewHolder.infoContainer, v, false);
-                    posts.get(position).setExpanded(true);
+                    Utils.expand(viewHolder.infoContainer, v);
+                    currPost.setExpanded(true);
                 } else {
                     Utils.collapse(viewHolder.infoContainer, v, null);
-                    posts.get(position).setExpanded(false);
+                    currPost.setExpanded(false);
                 }
 
             }
         });
 
-        if (posts.get(position).isActivated()) {
+        if (currPost.isActivated()) {
             viewHolder.approvalContainer.setVisibility(View.VISIBLE);
             viewHolder.approvalContainer.setAlpha(1);
         } else {
@@ -109,24 +112,25 @@ public class PostAdapter extends ManamMiamAdapter{
         }
 
         //0 for false, 1 for true :)
-        if (posts.get(position).getWho() == ManamMiamPost.PASSENGER_CHOSEN_A_SERVER) {
+        if (currPost.getWho() == ManamMiamPost.PASSENGER_ACCEPTED_A_SERVER) {
 //            viewHolder.price.setVisibility(View.VISIBLE);
             viewHolder.infoContainer.setVisibility(View.GONE);
             viewHolder.expand.setVisibility(View.GONE);
             viewHolder.capacityContainer.setVisibility(View.VISIBLE);
 
-        } else if (posts.get(position).getWho() == ManamMiamPost.DRIVER_ASKING_PASSENGER) {
+        } else if (currPost.getWho() == ManamMiamPost.DRIVER_ASKING_PASSENGER) {
 //            viewHolder.price.setVisibility(View.VISIBLE);
             viewHolder.infoContainer.setVisibility(View.VISIBLE);
             viewHolder.expand.setVisibility(View.VISIBLE);
+            viewHolder.rateCount.setText(String.valueOf(currPost.getCar().getRateCount()));
 
-            viewHolder.carColor.setText(posts.get(position).getCar().getCarColor());
-            viewHolder.carType.setText(posts.get(position).getCar().getCarType());
-            viewHolder.carCode.setText(posts.get(position).getCar().getCarCode());
-            viewHolder.rateBar.setRating(posts.get(position).getCar().getRate());
+            viewHolder.carColor.setText(currPost.getCar().getCarColor());
+            viewHolder.carType.setText(currPost.getCar().getCarType());
+            viewHolder.carCode.setText(currPost.getCar().getCarCode());
+            viewHolder.rateBar.setRating(currPost.getCar().getRate());
             viewHolder.capacityContainer.setVisibility(View.VISIBLE);
 
-        } else if (posts.get(position).getWho() == ManamMiamPost.LOOKING_FOR_SERVER) {
+        } else if (currPost.getWho() == ManamMiamPost.LOOKING_FOR_SERVER) {
 //            viewHolder.price.setVisibility(View.GONE);
             viewHolder.price.setText("");
             viewHolder.infoContainer.setVisibility(View.GONE);
@@ -134,13 +138,13 @@ public class PostAdapter extends ManamMiamAdapter{
             viewHolder.expand.setVisibility(View.GONE);
         }
 
-        if (posts.get(position).isRead()) {
+        if (!currPost.isRead()) {
             viewHolder.topContainer.setBackgroundResource(R.drawable.round_header_primary);
         } else {
             viewHolder.topContainer.setBackgroundResource(R.drawable.round_header_read);
         }
 
-        if (posts.get(position).isExpanded()) {
+        if (currPost.isExpanded()) {
 //            expand(viewHolder.infoContainer, viewHolder.expand, true);
             viewHolder.infoContainer.setVisibility(View.VISIBLE);
             viewHolder.expand.setRotation(180);
@@ -148,8 +152,11 @@ public class PostAdapter extends ManamMiamAdapter{
 //            collapse(viewHolder.infoContainer, viewHolder.expand, true);
             viewHolder.expand.setRotation(0);
             viewHolder.infoContainer.setVisibility(View.GONE);
-
         }
+
+//        if (currPost.isInLoadingState()) {
+        viewHolder.loading.setVisibility(currPost.isInLoadingState() ? View.VISIBLE : View.GONE);
+//        }
 
         return convertView;
     }
@@ -180,13 +187,19 @@ public class PostAdapter extends ManamMiamAdapter{
         TextViewFont carColor;
         TextViewFont carCode;
         TextViewFont text;
+        TextViewFont rateCount;
         View infoContainer;
         View expand;
         View topContainer;
         View capacityContainer;
+        View loading;
 
         public LinearLayout getApprovalContainer() {
             return approvalContainer;
+        }
+
+        public View getLoading() {
+            return loading;
         }
     }
 }

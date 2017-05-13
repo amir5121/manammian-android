@@ -24,7 +24,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return TripFragment.newInstance(3, "Page # 4");
             case 1: // Fragment # 0 - This will show FirstFragment
-                return ServicesFragment.newInstance(0, "Page # 1");
+                return ServicesFragment.newInstance(true);
             case 2:
                 return InboxFragment.newInstance(1, "Page # 2");
             case 3:

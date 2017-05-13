@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.amir.manammiam.R;
-import com.amir.manammiam.navdrawer.NavDrawer;
+//import com.amir.manammiam.navdrawer.NavDrawer;
 import com.squareup.otto.Bus;
 
 import java.util.Locale;
@@ -23,7 +23,7 @@ import java.util.Locale;
 public class BaseActivity extends AppCompatActivity {
     protected ManamMiamApplication application;
     private Toolbar toolbar;
-    protected NavDrawer navDrawer;
+//    protected NavDrawer navDrawer;
     protected Bus bus;
 
     @Override
@@ -93,11 +93,11 @@ public class BaseActivity extends AppCompatActivity {
     public Toolbar getToolbar() {
         return toolbar;
     }
-
-    public void setNavDrawer(NavDrawer navDrawer) {
-        this.navDrawer = navDrawer;
-        navDrawer.create();
-    }
+//
+//    public void setNavDrawer(NavDrawer navDrawer) {
+//        this.navDrawer = navDrawer;
+//        navDrawer.create();
+//    }
 
     public void setLocale() {
 //        String language = null;

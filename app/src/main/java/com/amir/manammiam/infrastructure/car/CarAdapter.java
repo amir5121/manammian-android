@@ -3,19 +3,20 @@ package com.amir.manammiam.infrastructure.car;
 import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.NonNull;
+//import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.RatingBar;
 
 import com.amir.manammiam.R;
-import com.amir.manammiam.base.ManamMiamAdapter;
 import com.amir.manammiam.infrastructure.Constants;
 import com.amir.manammiam.infrastructure.customView.TextViewFont;
 
 import java.util.ArrayList;
 
-public class CarAdapter extends ManamMiamAdapter {
+public class CarAdapter extends BaseAdapter {
     private final String BLOCKED_STRING;
     private final String ALL_STRING;
     private final String FEMALE_STRING;
@@ -23,14 +24,17 @@ public class CarAdapter extends ManamMiamAdapter {
     private final String MALE_STRING;
     private final String ERROR_STRING;
     private final LayoutInflater inflater;
+    private final boolean addNewCarItem;
     private ArrayList<Car> cars;
     private boolean hasFooter;
     private View footer;
+    private View addFooter;
     private CarViewHolder lastActivatedView;
     private boolean isFirstLoad;
 
-    public CarAdapter(Context context, boolean hasFooter) {
-        super(context);
+    //TODO: represent is_taxi attribute
+
+    public CarAdapter(Context context, boolean hasFooter, boolean addNewCarItem, boolean isSelectable) {
         inflater = LayoutInflater.from(context);
         cars = new ArrayList<>();
         isFirstLoad = true;
@@ -41,19 +45,34 @@ public class CarAdapter extends ManamMiamAdapter {
         FEMALE_STRING = context.getString(R.string.female);
         ALL_STRING = context.getString(R.string.all);
         BLOCKED_STRING = context.getString(R.string.blocked);
+
+        this.addNewCarItem = addNewCarItem;
     }
 
     @Override
     public int getCount() {
+        if (hasFooter && addNewCarItem) {
+            return cars.size() + 2;
+        }
+
+        if (addNewCarItem) {
+//            Log.e(getClass().getSimpleName(), " getCount(): " + (cars.size() + 1));
+            return cars.size() + 1;
+        }
+
         if (hasFooter)
             return cars.size() + 1;
-        else return cars.size();
+
+        return cars.size();
     }
 
     @Override
     public Car getItem(int position) {
-//        if (position > cars.size()) return null;
-        return cars.get(position);
+
+        if (position < cars.size())
+            return cars.get(position);
+
+        else return null;
     }
 
     @Override
@@ -63,13 +82,30 @@ public class CarAdapter extends ManamMiamAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        super.getView(position, convertView, parent);
-
-        if (hasFooter)
-            if (position == cars.size()) {
-                if (footer == null) footer = inflater.inflate(R.layout.item_car_footer, parent, false);
+//        Log.e(getClass().getSimpleName(), " pos: " + position);
+        if (hasFooter && addNewCarItem)
+            if (position == cars.size() + 1) {
+                if (footer == null)
+                    footer = inflater.inflate(R.layout.item_car_footer, parent, false);
                 return footer;
+            } else if (position == cars.size()) {
+                if (addFooter == null)
+                    addFooter = inflater.inflate(R.layout.item_car_add_footer, parent, false);
+                return addFooter;
             }
+
+        if (hasFooter && !addNewCarItem && position == cars.size()) {
+            if (footer == null)
+                footer = inflater.inflate(R.layout.item_car_footer, parent, false);
+            return footer;
+        }
+
+        if (!hasFooter && addNewCarItem && position == cars.size()) {
+//            Log.e(getClass().getSimpleName(), " asking for footer ");
+            if (addFooter == null)
+                addFooter = inflater.inflate(R.layout.item_car_add_footer, parent, false);
+            return addFooter;
+        }
 
         CarViewHolder viewHolder;
         if (convertView == null) {
@@ -128,10 +164,14 @@ public class CarAdapter extends ManamMiamAdapter {
                 viewHolder.genderText.setText(ERROR_STRING);
                 break;
         }
+
         if (isFirstLoad && position == 0) {
             lastActivatedView = viewHolder;
             isFirstLoad = false;
         }
+
+        if (currCar.isViewActivated()) lastActivatedView = viewHolder;
+
         return convertView;
     }
 
@@ -166,24 +206,20 @@ public class CarAdapter extends ManamMiamAdapter {
     }
 
     public void setSelectedCar(int position, View view) {
+
         for (int i = 0; i < cars.size(); i++) {
-            Car currCar = cars.get(i);
-            if (i == position) {
-                if (!currCar.isViewActivated()) {
-                    CarViewHolder viewHolder = (CarViewHolder) view.getTag();
-                    currCar.setViewActivated(true);
-                    viewHolder.setActivated(true);
-
-                    if (lastActivatedView != null)
-                        lastActivatedView.setActivated(false);
-
-                    lastActivatedView = viewHolder;
-                }
-            } else {
-                currCar.setViewActivated(false);
-
-            }
+            cars.get(i).setViewActivated(false);
         }
+
+        if (lastActivatedView != null)
+            lastActivatedView.setActivated(false);
+
+        Car currCar = cars.get(position);
+        CarViewHolder viewHolder = (CarViewHolder) view.getTag();
+        currCar.setViewActivated(true);
+        viewHolder.setActivated(true);
+
+        lastActivatedView = viewHolder;
     }
 
     private class CarViewHolder {
@@ -200,6 +236,7 @@ public class CarAdapter extends ManamMiamAdapter {
             if (b) {
                 activationContainer.setAlpha(0);
                 activationContainer.setVisibility(View.VISIBLE);
+                activationContainer.animate().setListener(null);
                 activationContainer.animate().setDuration(Constants.ANIMATION_DURATION).alpha(1).setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -208,8 +245,7 @@ public class CarAdapter extends ManamMiamAdapter {
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        activationContainer.setVisibility(View.VISIBLE);
-
+                        activationContainer.animate().setListener(null);
                     }
 
                     @Override
@@ -223,6 +259,7 @@ public class CarAdapter extends ManamMiamAdapter {
                     }
                 });
             } else {
+                activationContainer.animate().setListener(null);
                 activationContainer.animate().setDuration(Constants.ANIMATION_DURATION).alpha(0).setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -232,6 +269,7 @@ public class CarAdapter extends ManamMiamAdapter {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         activationContainer.setVisibility(View.GONE);
+                        activationContainer.animate().setListener(null);
 
                     }
 

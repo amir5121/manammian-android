@@ -6,22 +6,22 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-public abstract class Response {
-    private static final String TAG = "Response";
+public abstract class ManamMiamResponse {
+    private static final String TAG = "ManamMiamResponse";
 
     private String operationError;
     private HashMap<String, String> propertyErrors;
     private boolean isCritical;
 
-    public Response() {
+    public ManamMiamResponse() {
         propertyErrors = new HashMap<>();
     }
 
-    public Response(String operationError) {
+    public ManamMiamResponse(String operationError) {
         this.operationError = operationError;
     }
 
-    public Response(String operationError, boolean isCritical) {
+    public ManamMiamResponse(String operationError, boolean isCritical) {
         this.operationError = operationError;
         this.isCritical = isCritical;
     }
@@ -63,4 +63,5 @@ public abstract class Response {
             Log.e(TAG, "Can't create error toast", e);
         }
     }
+
 }

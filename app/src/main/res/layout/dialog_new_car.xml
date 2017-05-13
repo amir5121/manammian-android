@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
+            style="@style/textViewIranSans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/add_new_car"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_big" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
+
+                <com.amir.manammiam.infrastructure.customView.EditTextFont
+                    android:id="@+id/dialog_new_car_car_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/car_type" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
+
+                <com.amir.manammiam.infrastructure.customView.EditTextFont
+                    android:id="@+id/dialog_new_car_car_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/car_color" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <!--<com.amir.manammiam.infrastructure.customView.TextViewFont-->
+        <!--style="@style/textViewIranSans"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginStart="15dp"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:gravity="start"-->
+        <!--android:text="@string/car_code"-->
+        <!--android:textSize="@dimen/text_very_small" />-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/number_plate_margin"
+            android:layout_marginLeft="@dimen/number_plate_margin"
+            android:layout_marginRight="@dimen/number_plate_margin"
+            android:layout_marginStart="@dimen/number_plate_margin"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/number_plate_line"
+            android:layoutDirection="ltr"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/number_plate_blue" />
+
+            <com.amir.manammiam.infrastructure.customView.EditTextFont
+                android:id="@+id/dialog_new_car_car_code1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:hint="۲۳۴"
+                android:inputType="numberDecimal"
+                android:maxLength="3"
+                android:textSize="@dimen/text_xxxl"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5">
+
+                <Button
+                    android:id="@+id/dialog_new_car_car_code2_button"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:hint="ج"
+                    android:maxLines="1"
+                    android:textSize="@dimen/text_very_big"
+                    android:textStyle="bold" />
+
+
+            </FrameLayout>
+
+            <com.amir.manammiam.infrastructure.customView.EditTextFont
+                android:id="@+id/dialog_new_car_car_code3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:hint="۸۳"
+                android:inputType="numberDecimal"
+                android:maxLength="2"
+                android:textSize="@dimen/text_xxxl"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:layout_width="@dimen/number_plate_line_width"
+                android:layout_height="match_parent"
+                android:background="@color/number_plate_line_color" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/iran" />
+
+                <com.amir.manammiam.infrastructure.customView.EditTextFont
+                    android:id="@+id/dialog_new_car_car_code4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_weight="1"
+                    android:background="@color/transparent"
+                    android:gravity="center_horizontal"
+                    android:hint="۷۳"
+                    android:inputType="numberDecimal"
+                    android:maxLength="2"
+                    android:textSize="@dimen/text_xxxl"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <GridView
+            android:id="@+id/dialog_new_car_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:columnWidth="90dp"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.amir.manammiam.infrastructure.customView.TextViewFont
+                style="@style/textViewIranSans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:padding="2dp"
+                android:text="Is Taxi"
+                android:textSize="@dimen/text_medium" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dialog_new_car_is_taxi_check_box"
+                android:layout_marginLeft="7dp"
+                android:layout_marginStart="7dp"
+                android:gravity="center_horizontal" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
+            style="@style/textViewIranSans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text="@string/accepted_genders_will_be_set_by_the_admins"
+            android:textSize="@dimen/text_very_small" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginStart="25dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/dialog_new_car_submit"
+                style="@style/buttonIranSans"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/round_green_button"
+                android:enabled="false"
+                android:foreground="?android:selectableItemBackground"
+                android:text="@string/submit"
+                android:textColor="#FFF"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/dialog_new_car_cancel"
+                style="@style/buttonIranSans"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:alpha=".8"
+                android:background="@drawable/round_red_button"
+                android:foreground="?android:selectableItemBackground"
+                android:text="@string/cancel"
+                android:textColor="#FFF"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/dialog_new_car_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent_light"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+</FrameLayout>

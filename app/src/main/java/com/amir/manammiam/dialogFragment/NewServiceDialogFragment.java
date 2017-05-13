@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseDialogFragment;
@@ -21,6 +21,7 @@ import com.amir.manammiam.infrastructure.customView.EditTextFont;
 import com.amir.manammiam.infrastructure.customView.TextViewFont;
 import com.amir.manammiam.infrastructure.post.ManamMiamPost;
 import com.amir.manammiam.services.Account;
+import com.amir.manammiam.services.Services;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -30,6 +31,9 @@ public class NewServiceDialogFragment extends BaseDialogFragment implements Adap
     private static final String SOURCE = "SOURCE";
     private static final String DESTINATION = "DESTINATION";
     private static final String DATE = "DATE";
+    private static final String SOURCE_ID = "Source_ID";
+    private static final String DESTINATION_ID = "DESTINATION_ID";
+    private static final String PASSENGER_ID = "PASSENGER_ID";
 
     private EditTextFont priceEditText;
     private EditTextFont capacityEditText;
@@ -43,12 +47,25 @@ public class NewServiceDialogFragment extends BaseDialogFragment implements Adap
     private int capacity = -1;
     private Car selectedCar = null;
 
-    public static NewServiceDialogFragment getInstance(ManamMiamPost post) {
+    private long sourceId;
+    private long destinationId;
+    private long passengerId;
+    private String date;
+
+    private String source;
+    private String destination;
+
+    public static NewServiceDialogFragment getInstance(String source, String destination, String date, long sourceId, long destinationId, long passengerId) {
         NewServiceDialogFragment dialogFragment = new NewServiceDialogFragment();
         Bundle args = new Bundle();
-        args.putString(SOURCE, post.getSourceName());
-        args.putString(DESTINATION, post.getDestinationName());
-        args.putString(DATE, post.getTime());
+
+        args.putString(SOURCE, source);
+        args.putString(DESTINATION, destination);
+        args.putString(DATE, date);
+        args.putLong(SOURCE_ID, sourceId);
+        args.putLong(DESTINATION_ID, destinationId);
+        args.putLong(PASSENGER_ID, passengerId);
+
         dialogFragment.setArguments(args);
         return dialogFragment;
     }
@@ -58,24 +75,32 @@ public class NewServiceDialogFragment extends BaseDialogFragment implements Adap
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_new_service, container, false);
 
+        Bundle args = getArguments();
+
+        source = args.getString(SOURCE);
+        destination = args.getString(DESTINATION);
+        date = args.getString(DATE);
+        sourceId = args.getLong(SOURCE_ID);
+        destinationId = args.getLong(DESTINATION_ID);
+        passengerId = args.getLong(PASSENGER_ID);
+
         setUpView(view);
 
-        //TODO: (query for source id and destination id using server_id) OR (add source_id and destination_id to manamMiamPost)
+        //TODO: make sure user has setup his phone_number and telegram_id
         bus.post(new Account.CarsRequest(application.getUser().getToken()));
 
         return view;
     }
 
     private void setUpView(View view) {
-        Bundle args = getArguments();
 
         TextViewFont sourceTextView = ((TextViewFont) view.findViewById(R.id.dialog_new_service_text_source));
         TextViewFont destinationTextView = ((TextViewFont) view.findViewById(R.id.dialog_new_service_text_destination));
         TextViewFont dateTextView = ((TextViewFont) view.findViewById(R.id.dialog_new_service_text_date));
 
-        sourceTextView.setText(args.getString(SOURCE));
-        destinationTextView.setText(args.getString(DESTINATION));
-        dateTextView.setText(args.getString(DATE));
+        sourceTextView.setText(source);
+        destinationTextView.setText(destination);
+        dateTextView.setText(date);
 
         priceEditText = ((EditTextFont) view.findViewById(R.id.dialog_new_service_input_price));
         capacityEditText = ((EditTextFont) view.findViewById(R.id.dialog_new_service_input_capacity));
@@ -87,7 +112,7 @@ public class NewServiceDialogFragment extends BaseDialogFragment implements Adap
         view.findViewById(R.id.dialog_new_service_btn_cancel).setOnClickListener(this);
 
         ListView listView = (ListView) view.findViewById(R.id.dialog_new_service_cars_list);
-        adapter = new CarAdapter(getActivity(), true);
+        adapter = new CarAdapter(getActivity(), true, false, true);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
@@ -160,7 +185,7 @@ public class NewServiceDialogFragment extends BaseDialogFragment implements Adap
             submitLoadingContainer.setVisibility(View.VISIBLE);
             submitLoadingContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION);
 
-            //// TODO: post and receive to and from the bus
+            bus.post(new Services.AddServicesRequest(application.getUser().getToken(), sourceId, destinationId, selectedCar.getCarId(), price, capacity, date, passengerId));
 
         }
     }
@@ -177,7 +202,14 @@ public class NewServiceDialogFragment extends BaseDialogFragment implements Adap
                 selectedCar = cars.get(0);
                 selectedCar.setViewActivated(true);
             }
-            //todo: remove unverified cars and blocked cars
+
+            int carSize = cars.size() - 1;
+            for (int i = carSize; i > 0; i--) {
+                if (cars.get(i).getGenderAccepted() == Car.NO_VERIFIED_CAR || cars.get(i).getGenderAccepted() == Car.BLOCKED || cars.get(i).getGenderAccepted() == Car.UNKNOWN) {
+                    cars.remove(i);
+                }
+
+            }
             adapter.setCars(cars);
             adapter.notifyDataSetChanged();
         } else {
@@ -205,5 +237,18 @@ public class NewServiceDialogFragment extends BaseDialogFragment implements Adap
             adapter.setSelectedCar(position, view);
         }
     }
+
+    @Subscribe
+    public void onServiceCreatedResponse(Services.AddServicesResponse response) {
+        if (response.didSucceed()) {
+            Toast.makeText(getContext(), getString(R.string.service_created), Toast.LENGTH_SHORT).show();
+        } else {
+            //TODO: handle errors
+            response.showErrorToast(getContext());
+        }
+
+        dismiss();
+    }
+
 }
 

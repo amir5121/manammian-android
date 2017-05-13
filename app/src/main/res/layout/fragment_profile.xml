@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <LinearLayout
         android:id="@+id/topContainer"
         android:layout_width="match_parent"
@@ -189,16 +190,38 @@
                 <ProgressBar
                     android:id="@+id/fragment_profile_cars_progress_bar"
                     android:layout_width="wrap_content"
-                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="15dp"/>
+                    android:layout_margin="15dp"
+                    android:visibility="gone" />
+
+                <!--<ListView-->
+                <!--android:id="@+id/fragment_profile_cars_list"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:listSelector="@android:color/transparent"-->
+                <!--android:clickable="false"-->
+                <!--android:divider="@android:color/transparent" />-->
 
             </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/fragment_profile_log_out"
+        style="@style/buttonIranSans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:padding="5dp"
+        android:textSize="@dimen/text_very_small"
+        android:text="@string/log_out"
+        android:textColor="@color/white"
+        android:translationZ="4dp" />
 
     <RelativeLayout
         android:id="@+id/fragment_profile_progress_bar_container"
@@ -213,6 +236,5 @@
             android:layout_centerInParent="true" />
 
     </RelativeLayout>
-
 
 </RelativeLayout>

@@ -34,7 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:hint="@string/source"
+                    android:hint="@string/sourceName"
                     android:textColor="@color/white"
                     android:textColorHint="#ddd"
                     android:textSize="@dimen/text_medium" />
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:gravity="center"
-                    android:hint="@string/destination"
+                    android:hint="@string/destinationName"
                     android:textColor="@color/white"
                     android:textColorHint="#ddd"
                     android:textSize="@dimen/text_medium" />
@@ -89,7 +89,7 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/dialog_new_request_list"
+        android:id="@+id/dialog_new_request_locations_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/header"
@@ -97,10 +97,29 @@
         android:divider="@android:color/transparent"
         android:listSelector="@android:color/transparent" />
 
+    <FrameLayout
+        android:id="@+id/dialog_new_request_loading_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/header"
+        android:background="@color/transparent_light"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
     <LinearLayout
+        android:id="@+id/create_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dialog_new_request_list"
+        android:layout_below="@id/dialog_new_request_locations_list"
         android:orientation="horizontal">
 
         <Button
@@ -147,8 +166,28 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/dialog_new_request_services_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/create_container"
+        android:background="@color/default_background_color"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.amir.manammiam.infrastructure.customView.TextViewFont
+            style="@style/textViewIranSans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:gravity="center"
+            android:text="@string/similar_services"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
     <Button
-        android:id="@+id/dialog_new_requset_btn_cancel"
+        android:id="@+id/dialog_new_request_btn_cancel"
         style="@style/buttonIranSans"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -160,5 +199,22 @@
         android:text="@string/cancel"
         android:textColor="#FFF"
         android:textSize="17sp" />
+
+    <FrameLayout
+        android:id="@+id/dialog_new_request_loading_full"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="10dp"
+        android:clickable="true"
+        android:visibility="gone"
+        android:focusable="true"
+        android:background="@color/transparent_light">
+
+        <ProgressBar
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
 
 </RelativeLayout>

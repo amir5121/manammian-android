@@ -1,50 +1,72 @@
 package com.amir.manammiam.infrastructure.services;
 
 import com.amir.manammiam.infrastructure.car.Car;
+import com.google.gson.annotations.SerializedName;
 
 public class ManamMiamService {
-    private long server_id;
-    private String car_id;
-    private String source;
-    private Car car;
-    private String destination;
-    private String price;
-    private int capacity;
-    private String time;
-    private String name;
-    private boolean isActivated;
+    public static final int NONE = 0;
+    public static final int LOADING = 1;
+    public static final int RESERVING = 2;
 
-    public ManamMiamService(int server_id, String car_id, String source, Car car, String destination, String price, int capacity, String time, String name) {
-        this.server_id = server_id;
-        this.car_id = car_id;
-        this.source = source;
+    @SerializedName("server_id")
+    private final long serverId;
+
+    @SerializedName("car_id")
+    private final long carId;
+
+    @SerializedName("source_name")
+    private final String sourceName;
+
+    @SerializedName("destination_name")
+    private final String destinationName;
+
+    @SerializedName("price")
+    private final String price;
+
+    @SerializedName("capacity")
+    private final int capacity;
+
+    @SerializedName("time")
+    private final String time;
+
+    @SerializedName("name")
+    private final String name;
+
+    private final Car car;
+
+    private int state;
+
+    public ManamMiamService(int serverId, long carId, String sourceName, Car car, String destinationName, String price, int capacity, String time, String name) {
+        this.serverId = serverId;
+        this.carId = carId;
+        this.sourceName = sourceName;
         this.car = car;
-        this.destination = destination;
+        this.destinationName = destinationName;
         this.price = price;
         this.capacity = capacity;
         this.time = time;
         this.name = name;
-        isActivated = false;
+        state = NONE;
     }
 
-    public long getServer_id() {
-        return server_id;
+    public long getServerId() {
+        return serverId;
     }
 
-    public String getCar_id() {
-        return car_id;
+    public long getCarId() {
+        return carId;
     }
 
-    public String getSource() {
-        return source;
+    public String getSourceName() {
+        return sourceName;
     }
 
     public Car getCar() {
         return car;
     }
 
-    public String getDestination() {
-        return destination;
+    public String getDestinationName() {
+        return destinationName;
     }
 
     public String getPrice() {
@@ -63,11 +85,11 @@ public class ManamMiamService {
         return name;
     }
 
-    public boolean isActivated() {
-        return isActivated;
+    public int getState() {
+        return state;
     }
 
-    public void setActivated(boolean activated) {
-        isActivated = activated;
+    public void setState(int state) {
+        this.state = state;
     }
 }

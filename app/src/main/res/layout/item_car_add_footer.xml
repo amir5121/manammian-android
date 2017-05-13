@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_car_add_footer_button"
+    android:layout_width="match_parent"
+    android:layout_height="85dp"
+    android:layout_margin="8dp"
+    android:background="@drawable/round_white"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:selectableItemBackground">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/add_new_car"
+        android:src="@drawable/ic_add_dark" />
+
+</FrameLayout>

@@ -3,20 +3,31 @@ package com.amir.manammiam.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
+import com.amir.manammiam.activities.LoginActivity;
 import com.amir.manammiam.activities.TokenLoginActivity;
+import com.amir.manammiam.infrastructure.User;
 
 public abstract class BaseAuthenticatedActivity extends BaseActivity {
+
+    private static final String TAG = "BaseAuthenticatedAct";
 
     @Override
     protected final void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e(getClass().getName(), "onCreateCalled");
 
-        if (!application.getUser().isLoggedIn()) {
+//        if (true) {
+//            //TODO: remove this block
+//            if (application.getUser() == null || !application.getUser().hasToken()) {
+//                application.setUser(new User(null, null, User.MALE, null, User.BLOCKED, "Random bullshit", false));
+//                startActivity(new Intent(this, TokenLoginActivity.class));
+//                finish();
+//                return;
+//            }
+//        }
 
-            startActivity(new Intent(this, TokenLoginActivity.class));
+        if (application.getUser() == null || !application.getUser().hasToken()) {
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
         }

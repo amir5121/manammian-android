@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseActivity;
 import com.amir.manammiam.fragments.EnrollFragment;
+import com.amir.manammiam.infrastructure.User;
 import com.amir.manammiam.infrastructure.customView.EditTextFont;
 import com.amir.manammiam.services.Account;
 import com.squareup.otto.Subscribe;
@@ -33,13 +34,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private View loginProgressBar;
 
     //TODO: support screen rotation
+    //TODO: use this slide up library https://github.com/mancj/SlideUp-Android?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=4929
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-//        ((EditTextFont)findViewById(R.id.activity_login_edit_password)).setError("ERROR");
         setUpView();
     }
 
@@ -59,9 +59,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        mainHeight = mainContainer.getHeight();
-        enrollContainer.setTranslationY(mainHeight);
-        enrollContainer.setVisibility(View.VISIBLE);
+        if (mainHeight == 0) {
+            mainHeight = mainContainer.getHeight();
+            enrollContainer.setTranslationY(mainHeight);
+            enrollContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -88,11 +90,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             loginBtn.animate().scaleX(1).scaleY(1).alpha(1).setInterpolator(new OvershootInterpolator()).setDuration(ANIMATION_DURATION / 2);
 
         } else {
-
-            //TODO: save to database
-            application.getUser().setToken(response.getToken());
-            application.getUser().setLoggedIn(true);
-            startActivity(new Intent(this, MainActivity.class));
+            application.setUser(new User(null, null, User.MALE, null, User.BLOCKED, response.getToken(), false));
+            startActivity(new Intent(this, TokenLoginActivity.class));
             finish();
         }
         editPassword.setError(response.getPropertyError(USERNAME_ERROR));

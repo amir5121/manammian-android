@@ -1,11 +1,10 @@
 package com.amir.manammiam.fragments;
 
-import android.content.Context;
+import android.animation.Animator;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,14 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.amir.manammiam.R;
+import com.amir.manammiam.base.BaseActivity;
 import com.amir.manammiam.base.BaseFragment;
-import com.amir.manammiam.infrastructure.ScrollCallback;
+import com.amir.manammiam.dialogFragment.ReportDialogFragment;
+import com.amir.manammiam.infrastructure.Constants;
+import com.amir.manammiam.infrastructure.trip.Trip;
 import com.amir.manammiam.infrastructure.trip.TripAdapter;
 import com.amir.manammiam.infrastructure.trip.TripCallbacks;
-import com.amir.manammiam.infrastructure.trip.TripItem;
+import com.amir.manammiam.infrastructure.trip.PassengerTrip;
 import com.amir.manammiam.services.MMTime;
 import com.amir.manammiam.services.Rate;
 import com.amir.manammiam.services.Trips;
@@ -44,7 +46,7 @@ public class TripFragment extends BaseFragment implements AdapterView.OnItemClic
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_with_list, container, false);
         ListView listView = (ListView) view.findViewById(R.id.fragment_with_list_list);
-        adapter = new TripAdapter(getActivity(), this);
+        adapter = new TripAdapter((BaseActivity) getActivity(), this);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         swipeRefresh = ((SwipeRefreshLayout) view.findViewById(R.id.fragment_with_list_swipe_refresh));
@@ -60,52 +62,134 @@ public class TripFragment extends BaseFragment implements AdapterView.OnItemClic
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        TripItem tripItem = adapter.getTrips().get(position);
-        boolean hasBeenPickedUp = (tripItem.getCar() != null);
-        View cancelContainer = view.findViewById(R.id.item_server_approval_container);
-        View responseContainer = view.findViewById(R.id.item_trip_response_container);
+    public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+        final Trip trip = adapter.getTrips().get(position);
+        boolean hasBeenPickedUp = (trip.getCar() != null);
+        final View cancelContainer = view.findViewById(R.id.item_server_approval_container);
+        final View responseContainer = view.findViewById(R.id.item_trip_response_container);
         View loadingContainer = view.findViewById(R.id.item_trip_loading);
-        switch (tripItem.getState()) {
-            case TripItem.NONE:
+        switch (trip.getState()) {
+            case Trip.NONE:
                 if (hasBeenPickedUp) {
+                    loadingContainer.setAlpha(0);
                     loadingContainer.setVisibility(View.VISIBLE);
-                    tripItem.setState(TripItem.LOADING);
-                    bus.post(new MMTime.Request(application.getUser().getToken(), tripItem.getTime(), cancelContainer, responseContainer, loadingContainer, tripItem));
+                    loadingContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION).start();
+                    trip.setState(Trip.LOADING);
+                    bus.post(new MMTime.Request(application.getUser().getToken(), trip.getTime(), cancelContainer, responseContainer, loadingContainer, trip));
                 } else {
+                    cancelContainer.setAlpha(0);
                     cancelContainer.setVisibility(View.VISIBLE);
-                    tripItem.setState(TripItem.CANCELING);
+                    cancelContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION).start();
+                    trip.setState(Trip.CANCELING);
                 }
+                ((TripAdapter.TripViewHolder) view.getTag()).getTelegram().setClickable(false);
                 break;
-            case TripItem.LOADING:
-                //Won't happen !! i'll bet :)
+            case Trip.LOADING:
+                //Won't happen
                 break;
-            case TripItem.CANCELING:
-                cancelContainer.setVisibility(View.GONE);
-                tripItem.setState(TripItem.NONE);
+            case Trip.CANCELING:
+                cancelContainer.animate().alpha(0).setDuration(Constants.ANIMATION_DURATION).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        cancelContainer.setVisibility(View.GONE);
+                        trip.setState(Trip.NONE);
+                        cancelContainer.animate().setListener(null);
+                        ((TripAdapter.TripViewHolder) view.getTag()).getTelegram().setClickable(true);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
                 break;
-            case TripItem.REPORT_RATE:
-                responseContainer.setVisibility(View.GONE);
-                tripItem.setState(TripItem.NONE);
+            case Trip.REPORT_RATE:
+                responseContainer.animate().alpha(0).setDuration(Constants.ANIMATION_DURATION).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        responseContainer.setVisibility(View.GONE);
+                        responseContainer.animate().setListener(null);
+                        ((TripAdapter.TripViewHolder) view.getTag()).getTelegram().setClickable(true);
+
+                        trip.setState(Trip.NONE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
                 break;
         }
     }
 
     @Subscribe
-    public void onTimeRecieved(MMTime.TimeResponse response) {
+    public void onTimeReceived(final MMTime.TimeResponse response) {
         if (response.didSucceed()) {
             if (response.isInTheFuture()) {
-                response.getResponseContainer().setVisibility(View.VISIBLE);
-                response.getTripItem().setState(TripItem.REPORT_RATE);
+                if (response.getTrip() instanceof PassengerTrip) {
+                    response.getResponseContainer().setAlpha(0);
+                    response.getResponseContainer().setVisibility(View.VISIBLE);
+                    response.getResponseContainer().animate().setDuration(Constants.ANIMATION_DURATION).alpha(1).start();
+                    response.getTrip().setState(Trip.REPORT_RATE);
+                }  else {
+                    response.getTrip().setState(Trip.NONE);
+                }
 
             } else {
+                response.getCancelContainer().setAlpha(0);
                 response.getCancelContainer().setVisibility(View.VISIBLE);
-                response.getTripItem().setState(TripItem.CANCELING);
+                response.getCancelContainer().animate().setDuration(Constants.ANIMATION_DURATION).alpha(1).start();
+                response.getTrip().setState(Trip.CANCELING);
             }
         } else {
+
+            response.showErrorToast(getContext());
             //TODO: handle Error
         }
-        response.getLoadingContainer().setVisibility(View.GONE);
+
+        response.getLoadingContainer().animate().alpha(0).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                response.getLoadingContainer().setVisibility(View.GONE);
+                response.getLoadingContainer().animate().setListener(null);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
     @Subscribe
@@ -126,29 +210,51 @@ public class TripFragment extends BaseFragment implements AdapterView.OnItemClic
     }
 
     @Override
-    public void reportService(TripItem tripItem) {
-        //TODO: implement
+    public void reportService(PassengerTrip passengerTrip) {
+//        ReportDialogFragment.newInstance(passengerTrip.getServerID()).show(getFragmentManager(), "ReportDialog");
     }
 
     @Override
-    public void rateSubmitted(float rating, View loading, View responseContainer, TripItem tripItem) {
-        bus.post(new Rate.RateRequest(application.getUser().getToken(), tripItem.getCar().getCarId(), rating, loading, responseContainer, tripItem));
-        //TODO: submitRate To the server
+    public void rateSubmitted(float rating, View loading, View responseContainer, PassengerTrip passengerTrip) {
+        bus.post(new Rate.RateRequest(application.getUser().getToken(), rating, loading, responseContainer, passengerTrip));
+    }
+
+    @Override
+    public void cancelService(Trip item, View loading, View cancelContainer) {
+        bus.post(new Trips.CancelRequest(item, loading, cancelContainer, application.getUser().getToken()));
     }
 
     @Subscribe
-    public void onRateSubmitted(Rate.RateResponse response) {
+    public void onRateSubmitted(final Rate.RateResponse response) {
         if (response.didSucceed()) {
             Toast.makeText(getActivity(), getString(R.string.thanks_for_rating), Toast.LENGTH_SHORT).show();
         } else {
             //TODO: Handle error
             response.showErrorToast(getActivity());
         }
-
         ((RatingBar) response.getResponseContainer().findViewById(R.id.item_trip_rate_response)).setRating(0);
+
         response.getResponseContainer().setVisibility(View.GONE);
         response.getLoading().setVisibility(View.GONE);
-        response.getTripItem().setState(TripItem.NONE);
+        response.getPassengerTrip().setState(Trip.NONE);
+    }
+
+
+    @Subscribe
+    public void onCancelResponseReceived(Trips.CancelResponse response) {
+        if (response.didSucceed()) {
+            Toast.makeText(getContext(), getString(R.string.trip_canceled), Toast.LENGTH_SHORT).show();
+            //TODO: after cancelling the trip remove it from the list view
+            // TODO: after cancelling the trip notify the driver that a passenger canceled it's trip
+
+        } else {
+            response.showErrorToast(getContext());
+            //TODO: handle errors
+        }
+
+        response.getCancelContainer().setVisibility(View.GONE);
+        response.getLoading().setVisibility(View.GONE);
+        response.getTrip().setState(Trip.NONE);
     }
 
 }

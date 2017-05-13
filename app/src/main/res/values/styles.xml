@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <!--<item name="colorControlHighlight">@color/colorPrimaryRipple</item>-->
+        <!--<inamename="colorControlHighlight">@color/colorPrimaryRipple</item>-->
     </style>
 
     <style name="buttonMoharram" parent="@android:style/Widget.Button">
@@ -48,7 +48,14 @@
     </style>
 
     <style name="editTextIranSans" parent="@android:style/Widget.EditText">
-        <item name="com.amir.manammiam.inmemory:font">fonts/IRANSans_Medium.ttf</item>
+        <item name="com.amir.manammiam:font">fonts/IRANSans_Medium.ttf</item>
+    </style>
+
+    <style name="myRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/passenger_bar</item>
+        <!--<item name="android:indeterminateDrawable">@drawable/passenger_bar</item>-->
+        <item name="android:minHeight">25dip</item>
+        <item name="android:maxHeight">25dip</item>
     </style>
 
 </resources>

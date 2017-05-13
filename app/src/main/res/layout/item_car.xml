@@ -2,14 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:background="@drawable/round_white">
+        android:background="@drawable/round_white"
+        android:padding="8dp">
 
         <LinearLayout
             android:id="@+id/stuff_container"
@@ -38,6 +37,7 @@
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
                     android:id="@+id/item_car_text_rate_count"
+                    style="@style/textViewIranSans"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -47,6 +47,7 @@
                     android:textSize="@dimen/text_medium" />
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    style="@style/textViewIranSans"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -68,6 +69,7 @@
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
                     android:id="@+id/item_car_text_car_type"
+                    style="@style/textViewIranSans"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -78,6 +80,7 @@
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
                     android:id="@+id/item_car_text_car_color"
+                    style="@style/textViewIranSans"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -88,9 +91,11 @@
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
                     android:id="@+id/item_car_text_car_code"
+                    style="@style/textViewIranSans"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+
                     android:gravity="center"
                     android:padding="2dp"
                     android:text="۷۸ ح ۳۴۵ ۳۴"
@@ -110,6 +115,7 @@
                 android:padding="5dp">
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
+                    style="@style/textViewIranSans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -121,6 +127,7 @@
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
                     android:id="@+id/item_car_text_gender"
+                    style="@style/textViewIranSans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -141,6 +148,7 @@
             android:layout_alignParentTop="true"
             android:background="@color/transparent_light"
             android:clickable="true"
+            android:focusable="true"
             android:visibility="gone">
 
             <ImageView

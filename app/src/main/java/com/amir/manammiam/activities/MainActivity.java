@@ -22,31 +22,37 @@ public class MainActivity extends BaseAuthenticatedActivity implements BottomBar
     private MViewPager viewPager;
     private FloatingActionButton fab;
 
-    //TODO: adding new passenger (should it be more like a request)
-    //TODO: adding new service
     //TODO: list of passengers
     //TODO: make the user cars editable (should i?)
     //TODO: Mark as read after pressing Yes or No.. remove the post or service after the time was passed
     //TODO: might not be a bad idea to hand errors in the main activity.. post to the bus in fragment and receive it here
     //TODO: should i show the number of people with the same source and destination
-    //TODO: should i make the order request cancelable
     //TODO: order trips by their time
     //TODO: order services by their time
     //TODO: order inbox by their read unread status and time
     //TODO: font license
+    //TODO: need to get phone number and verify it
+    //TODO: anyone whom want to create a service we need to have their phone number
+    //TODO: get server query's all the necessary info at once
+    //TODO: rate... update view after rate.. manage it better on the server-side
+    //TODO: sql-injection
+    //TODO: add location
+    //TODO: maybe implement show more detail for DriverTrip
+    //TODO: put a limit on the report text length
+    //TODO: intercept response on retrofit and check for errors returned by the server http://stackoverflow.com/questions/32294557/retrofit-intercept-responses-globally
 
     @Override
     protected void onManamMiamCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
-//        setNavDrawer(new MainNavDrawer(this));
         setUpView();
     }
-
     private void setUpView() {
         fab = (FloatingActionButton) findViewById(R.id.activity_main_fab);
         fab.setOnClickListener(this);
         viewPager = (MViewPager) findViewById(R.id.activity_main_view_pager);
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+
+
 
         viewPager.setCurrentItem(0);
 
@@ -66,12 +72,10 @@ public class MainActivity extends BaseAuthenticatedActivity implements BottomBar
         mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                Log.e(TAG, "scrolling");
             }
 
             @Override
             public void onPageSelected(int position) {
-//                fab.show();
                 manager.setItemSelectedByPos(position);
             }
 
