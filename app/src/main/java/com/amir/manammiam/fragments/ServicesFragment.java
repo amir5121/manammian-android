@@ -168,7 +168,23 @@ public final class ServicesFragment extends BaseFragment implements SwipeRefresh
     @Subscribe
     public void onReserveResponseReceived(Services.ReserveResponse response) {
         if (response.didSucceed()) {
-            Toast.makeText(getContext(), getString(R.string.service_reserved), Toast.LENGTH_SHORT).show();
+            switch (response.getResponseResult()) {
+                case Services.ReserveResponse.SUCCESSFUL:
+                    Toast.makeText(getContext(), getString(R.string.service_reserved), Toast.LENGTH_SHORT).show();
+                    //TODO: switch to trip fragment
+                    break;
+                case Services.ReserveResponse.FAILED:
+                    Toast.makeText(getContext(), getString(R.string.failed_to_reserve_service), Toast.LENGTH_SHORT).show();
+                    break;
+                case Services.ReserveResponse.ALREADY_A_PASSENGER:
+                    Toast.makeText(getContext(), getString(R.string.already_a_passenger), Toast.LENGTH_SHORT).show();
+                    break;
+                case Services.ReserveResponse.NO_SUCH_A_SERVER_EXISTS:
+                    Toast.makeText(getContext(), getString(R.string.no_such_a_service_exists), Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
         } else {
             response.showErrorToast(getContext());
         }

@@ -11,9 +11,6 @@ public class ManamMiamService {
     @SerializedName("server_id")
     private final long serverId;
 
-    @SerializedName("car_id")
-    private final long carId;
-
     @SerializedName("source_name")
     private final String sourceName;
 
@@ -32,13 +29,14 @@ public class ManamMiamService {
     @SerializedName("name")
     private final String name;
 
+    @SerializedName("car")
     private final Car car;
 
     private int state;
 
-    public ManamMiamService(int serverId, long carId, String sourceName, Car car, String destinationName, String price, int capacity, String time, String name) {
+    public ManamMiamService(int serverId, String sourceName, Car car, String destinationName, String price, int capacity, String time, String name) {
         this.serverId = serverId;
-        this.carId = carId;
+//        this.carId = carId;
         this.sourceName = sourceName;
         this.car = car;
         this.destinationName = destinationName;
@@ -51,10 +49,6 @@ public class ManamMiamService {
 
     public long getServerId() {
         return serverId;
-    }
-
-    public long getCarId() {
-        return carId;
     }
 
     public String getSourceName() {

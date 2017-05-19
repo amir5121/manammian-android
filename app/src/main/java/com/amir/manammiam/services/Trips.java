@@ -3,11 +3,14 @@ package com.amir.manammiam.services;
 import android.view.View;
 
 import com.amir.manammiam.infrastructure.trip.Trip;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
 public final class Trips {
     public static final class TripRequest {
+        @SerializedName("token")
         String token;
 
         public TripRequest(String token) {
@@ -125,7 +128,12 @@ public final class Trips {
 
     public static class CreateResponse extends ManamMiamResponse {
         public static final int SUCCESSFUL = 1;
-        private final int result;
+        public static final int DUPLICATE_PASSENGER = 2;
+        public static final int SOMETHING_WENT_WRONG = 3;
+
+        @Expose
+        @SerializedName("result")
+        private int result;
 
         public CreateResponse(int result) {
             this.result = result;

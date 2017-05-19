@@ -51,6 +51,8 @@ public final class Account {
         }
     }
     public static class LogoutRequest {
+
+        @SerializedName("token")
         private final String token;
 
         public LogoutRequest(String token) {
@@ -63,15 +65,14 @@ public final class Account {
     }
 
     public static class LogoutResponse extends ManamMiamResponse {
+        @SerializedName("getResponseResult")
+        private final boolean result;
 
-        public static final int SUCCESSFUL = 1;
-        private final int result;
-
-        public LogoutResponse(int response) {
-            this.result = response;
+        public LogoutResponse(boolean result) {
+            this.result = result;
         }
 
-        public int getResult() {
+        public boolean getResult() {
             return result;
         }
     }
@@ -96,7 +97,7 @@ public final class Account {
         private String username;
 
         @SerializedName("gender")
-        private boolean gender;
+        private int gender;
 
         @SerializedName("is_driver")
         private boolean isDriver;
@@ -112,6 +113,18 @@ public final class Account {
 
         @SerializedName("telegram_id")
         private String telegram_id;
+
+
+        public ProfileResponse(String name, String username, int gender, boolean isDriver, String mail, int permission, String phoneNumber, String telegram_id) {
+            this.name = name;
+            this.username = username;
+            this.gender = gender;
+            this.isDriver = isDriver;
+            this.mail = mail;
+            this.permission = permission;
+            this.phoneNumber = phoneNumber;
+            this.telegram_id = telegram_id;
+        }
 
         public String getName() {
             return name;
@@ -129,11 +142,11 @@ public final class Account {
             this.username = username;
         }
 
-        public boolean getGender() {
+        public int getGender() {
             return gender;
         }
 
-        public void setGender(boolean gender) {
+        public void setGender(int gender) {
             this.gender = gender;
         }
 
@@ -193,6 +206,7 @@ public final class Account {
     public static class CarsResponse extends ManamMiamResponse {
         private final ArrayList<Car> cars;
 
+
         public CarsResponse(ArrayList<Car> cars) {
             this.cars = cars;
         }
@@ -239,14 +253,10 @@ public final class Account {
     }
 
     public static class AddCarResponse extends ManamMiamResponse {
-        public static final int SUCCESSFUL = 1;
-        private final int result;
+        @SerializedName("result")
+        private boolean result;
 
-        public AddCarResponse(int response) {
-            this.result = response;
-        }
-
-        public int getResult() {
+        public boolean getResult() {
             return result;
         }
     }

@@ -95,10 +95,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-
+                    android:layoutDirection="ltr"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="۷۸ ح ۳۴۵ ۳۴"
+                    android:text="۸۹ ج ۳۴۲-۷۳"
                     android:textSize="@dimen/text_small" />
 
 

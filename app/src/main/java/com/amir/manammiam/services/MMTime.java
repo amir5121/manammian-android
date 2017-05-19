@@ -3,11 +3,15 @@ package com.amir.manammiam.services;
 import android.view.View;
 
 import com.amir.manammiam.infrastructure.trip.Trip;
+import com.google.gson.annotations.SerializedName;
 
 public final class MMTime {
     public static class Request {
         private final String token;
+
+        @SerializedName("date")
         private final String time;
+
         private final View cancelContainer;
         private final View responseContainer;
         private final Trip trip;
@@ -48,7 +52,10 @@ public final class MMTime {
     }
 
     public static class TimeResponse extends ManamMiamResponse {
+
+        @SerializedName("is_in_the_future")
         private final boolean isInTheFuture;
+
         private final View cancelContainer;
         private final View responseContainer;
         private final Trip trip;

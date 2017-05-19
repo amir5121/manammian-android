@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -240,8 +241,10 @@ public class NewServiceDialogFragment extends BaseDialogFragment implements Adap
 
     @Subscribe
     public void onServiceCreatedResponse(Services.AddServicesResponse response) {
+        Log.e(TAG, "onServiceCreatedResponse: ");
         if (response.didSucceed()) {
             Toast.makeText(getContext(), getString(R.string.service_created), Toast.LENGTH_SHORT).show();
+            dismiss();
         } else {
             //TODO: handle errors
             response.showErrorToast(getContext());

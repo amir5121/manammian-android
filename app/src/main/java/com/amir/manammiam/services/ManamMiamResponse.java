@@ -19,11 +19,13 @@ public abstract class ManamMiamResponse {
 
     public ManamMiamResponse(String operationError) {
         this.operationError = operationError;
+        propertyErrors = new HashMap<>();
     }
 
     public ManamMiamResponse(String operationError, boolean isCritical) {
         this.operationError = operationError;
         this.isCritical = isCritical;
+        propertyErrors = new HashMap<>();
     }
 
     public String getOperationError() {
@@ -51,7 +53,11 @@ public abstract class ManamMiamResponse {
     }
 
     public boolean didSucceed() {
-        return (operationError == null || operationError.isEmpty()) && (propertyErrors.size() == 0);
+        if (propertyErrors == null) propertyErrors = new HashMap<>();
+//        if (operationError == null) Log.e(TAG, "didSucceed: operation error was null what the fuck");
+        return (operationError == null ||
+                operationError.isEmpty())
+                && (propertyErrors.size() == 0);
     }
 
     public void showErrorToast (Context context) {

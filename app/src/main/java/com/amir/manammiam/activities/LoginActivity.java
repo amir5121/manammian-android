@@ -3,7 +3,10 @@ package com.amir.manammiam.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
@@ -16,8 +19,11 @@ import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseActivity;
 import com.amir.manammiam.fragments.EnrollFragment;
 import com.amir.manammiam.infrastructure.User;
+import com.amir.manammiam.infrastructure.Utils;
 import com.amir.manammiam.infrastructure.customView.EditTextFont;
 import com.amir.manammiam.services.Account;
+import com.amir.manammiam.services.ServiceFailure;
+import com.mancj.slideup.SlideUp;
 import com.squareup.otto.Subscribe;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, EnrollFragment.enrollFragmentCallBacks {
@@ -25,16 +31,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private static final int ANIMATION_DURATION = 500;
     private static final String USERNAME_ERROR = "USERNAME_ERROR";
     private static final String PASSWORD_ERROR = "PASSWORD_ERROR";
-    private FrameLayout enrollContainer;
-    private RelativeLayout mainContainer;
-    private int mainHeight;
+    private static final String TAG = "LoginActivity";
+    //    private int mainHeight;
     private EditTextFont editUsername;
     private EditTextFont editPassword;
     private Button loginBtn;
     private View loginProgressBar;
+    private SlideUp slideUp;
 
-    //TODO: support screen rotation
-    //TODO: use this slide up library https://github.com/mancj/SlideUp-Android?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=4929
+    //TODO: support screen rotation ?
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,22 +54,47 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         loginProgressBar = findViewById(R.id.activity_login_progress_login);
         loginProgressBar.setVisibility(View.GONE);
         findViewById(R.id.activity_login_text_enroll).setOnClickListener(this);
-        enrollContainer = (FrameLayout) findViewById(R.id.activity_login_frame_enroll_fragment_container);
-        mainContainer = (RelativeLayout) findViewById(R.id.activity_login_root);
+        FrameLayout enrollContainer = (FrameLayout) findViewById(R.id.activity_login_frame_enroll_fragment_container);
+        slideUp = new SlideUp.Builder(enrollContainer)
+                .withStartState(SlideUp.State.HIDDEN)
+                .withStartGravity(Gravity.BOTTOM)
+                .build();
+//        RelativeLayout mainContainer = (RelativeLayout) findViewById(R.id.activity_login_root);
         editUsername = ((EditTextFont) findViewById(R.id.activity_login_edit_username));
+        editUsername.addTextChangedListener(new TextWatcher() {
+            CharSequence text;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                text = s;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                Log.e(TAG, "onTextChanged: " + ((int) s.toString().substring(start, start + count).toCharArray()[0]) );
+                if (s.toString().substring(start, start + count).equals(" ") || Utils.isPersian(s.toString().substring(start, start + count))) {
+                    editUsername.setText(text);
+                    editUsername.setSelection(s.length() - 1);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         editPassword = ((EditTextFont) findViewById(R.id.activity_login_edit_password));
 
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (mainHeight == 0) {
-            mainHeight = mainContainer.getHeight();
-            enrollContainer.setTranslationY(mainHeight);
-            enrollContainer.setVisibility(View.VISIBLE);
-        }
-    }
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        if (mainHeight == 0) {
+//            mainHeight = mainContainer.getHeight();
+//            enrollContainer.setTranslationY(mainHeight);
+//            enrollContainer.setVisibility(View.VISIBLE);
+//        }
+//    }
 
     @Override
     public void onClick(View view) {
@@ -76,18 +106,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             bus.post(new Account.LoginRequest(editUsername.getText().toString(), editPassword.getText().toString()));
 
         } else if (itemId == R.id.activity_login_text_enroll) {
-            enrollContainer.animate().translationY(0).setDuration(ANIMATION_DURATION).setInterpolator(new AccelerateInterpolator());
+            slideUp.show();
+//            enrollContainer.animate().translationY(0).setDuration(ANIMATION_DURATION).setInterpolator(new AccelerateInterpolator());
         }
+    }
+
+    @Subscribe
+    public void onRequestFailureRecevied(ServiceFailure failure){
+        enableLoginButton();
     }
 
     @Subscribe
     public void onLoggedIn(Account.LoginResponse response) {
         if (!response.didSucceed()) {
             response.showErrorToast(this);
-            loginBtn.setBackgroundResource(R.drawable.round_red_button);
-            loginProgressBar.setVisibility(View.GONE);
-            loginBtn.setEnabled(true);
-            loginBtn.animate().scaleX(1).scaleY(1).alpha(1).setInterpolator(new OvershootInterpolator()).setDuration(ANIMATION_DURATION / 2);
+            enableLoginButton();
 
         } else {
             application.setUser(new User(null, null, User.MALE, null, User.BLOCKED, response.getToken(), false));
@@ -99,10 +132,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
+    private void enableLoginButton() {
+        loginBtn.setBackgroundResource(R.drawable.round_red_button);
+        loginProgressBar.setVisibility(View.GONE);
+        loginBtn.setEnabled(true);
+        loginBtn.animate().scaleX(1).scaleY(1).alpha(1).setInterpolator(new OvershootInterpolator()).setDuration(ANIMATION_DURATION / 2);
+    }
+
     @Override
     public void onBackPressed() {
-        if (enrollContainer.getTranslationY() == 0) {
-            enrollContainer.animate().translationY(mainHeight).setDuration(ANIMATION_DURATION).setInterpolator(new AccelerateDecelerateInterpolator());
+        if (slideUp.isVisible()) {
+            slideUp.hide();
+//            enrollContainer.animate().translationY(mainHeight).setDuration(ANIMATION_DURATION).setInterpolator(new AccelerateDecelerateInterpolator());
         } else {
             super.onBackPressed();
         }
@@ -110,6 +151,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onCancelPressed() {
-        enrollContainer.animate().translationY(mainHeight).setDuration(ANIMATION_DURATION).setInterpolator(new AccelerateDecelerateInterpolator());
+//        enrollContainer.animate().translationY(mainHeight).setDuration(ANIMATION_DURATION).setInterpolator(new AccelerateDecelerateInterpolator());
     }
 }

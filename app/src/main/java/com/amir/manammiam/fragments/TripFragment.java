@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.amir.manammiam.services.Trips;
 import com.squareup.otto.Subscribe;
 
 public class TripFragment extends BaseFragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, TripCallbacks {
+    private static final String TAG = "TripFragment";
     private TripAdapter adapter;
     private SwipeRefreshLayout swipeRefresh;
 

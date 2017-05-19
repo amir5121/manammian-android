@@ -31,6 +31,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         application = (ManamMiamApplication) getApplication();
         bus = application.getBus();
+//        setLocale();
     }
 
     @Override

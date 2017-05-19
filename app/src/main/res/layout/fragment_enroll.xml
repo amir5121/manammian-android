@@ -15,15 +15,15 @@
 
             <include layout="@layout/include_manam_miam" />
 
-            <ImageView
-                android:id="@+id/fragment_enroll_btn_close"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:contentDescription="@string/close"
-                android:foreground="?android:selectableItemBackground"
-                android:padding="12dp"
-                android:src="@drawable/ic_close" />
+            <!--<ImageView-->
+                <!--android:id="@+id/fragment_enroll_btn_close"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="end|center_vertical"-->
+                <!--android:contentDescription="@string/close"-->
+                <!--android:foreground="?android:selectableItemBackground"-->
+                <!--android:padding="12dp"-->
+                <!--android:src="@drawable/ic_close" />-->
 
         </FrameLayout>
 

@@ -34,7 +34,8 @@ public class Constants {
             , ANIWAYS
             , LAGATGRAM};
 
-    public static final String BASE_URL = "http://stickergramapp.com/manammiam/";
+//    public static final String BASE_URL = "http://stickergramapp.com/manammiam/";
+    public static final String BASE_URL = "http://10.0.2.2/manammyam/";
     public static final String CONCAT_URL = "getData.php";
 
     public static final String ACTION_TYPE = "action_type";

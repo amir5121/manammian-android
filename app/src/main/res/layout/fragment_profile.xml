@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -27,6 +28,7 @@
 
         <com.amir.manammiam.infrastructure.customView.TextViewFont
             android:id="@+id/fragment_profile_text_name"
+            style="@style/textViewIranSans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -78,6 +80,7 @@
                     android:layout_margin="5dp"
                     android:ellipsize="middle"
                     android:gravity="center"
+                    style="@style/textViewIranSans"
                     android:lines="1"
                     android:padding="5dp"
                     android:textColor="@color/white"
@@ -109,6 +112,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:ellipsize="middle"
+                    style="@style/textViewIranSans"
                     android:gravity="center"
                     android:lines="1"
                     android:padding="5dp"
@@ -138,6 +142,7 @@
                     android:id="@+id/fragment_profile_text_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    style="@style/textViewIranSans"
                     android:layout_margin="5dp"
                     android:ellipsize="middle"
                     android:gravity="center"
@@ -171,6 +176,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
+                    style="@style/textViewIranSans"
                     android:ellipsize="middle"
                     android:gravity="center"
                     android:lines="1"
@@ -209,19 +215,22 @@
 
     </ScrollView>
 
-    <Button
+    <com.amir.manammiam.infrastructure.customView.TextViewFont
         android:id="@+id/fragment_profile_log_out"
-        style="@style/buttonIranSans"
+        style="@style/textViewIranSans"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:padding="5dp"
-        android:textSize="@dimen/text_very_small"
+        android:padding="15dp"
         android:text="@string/log_out"
+        android:clickable="true"
+        android:focusable="true"
         android:textColor="@color/white"
-        android:translationZ="4dp" />
+        android:textSize="@dimen/text_very_small"
+        android:elevation="4dp"
+        tools:ignore="RelativeOverlap" />
 
     <RelativeLayout
         android:id="@+id/fragment_profile_progress_bar_container"

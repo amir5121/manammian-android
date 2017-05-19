@@ -14,6 +14,8 @@ import com.amir.manammiam.infrastructure.customView.MViewPager;
 import com.amir.manammiam.infrastructure.customView.bottomBar.BottomBarItem;
 import com.amir.manammiam.infrastructure.customView.bottomBar.BottomBarItemClicked;
 import com.amir.manammiam.infrastructure.customView.bottomBar.BottomBarManager;
+import com.amir.manammiam.services.ServiceFailure;
+import com.squareup.otto.Subscribe;
 import com.viewpagerindicator.PageIndicator;
 
 public class MainActivity extends BaseAuthenticatedActivity implements BottomBarItemClicked, ScrollCallback, View.OnClickListener {
@@ -114,5 +116,11 @@ public class MainActivity extends BaseAuthenticatedActivity implements BottomBar
             NewRequestDialogFragment requestDialog = new NewRequestDialogFragment();
             requestDialog.show(getSupportFragmentManager(), "THE NOT SO USEFUL TAG");
         }
+    }
+
+
+    @Subscribe
+    public void onRequestFailureRecevied(ServiceFailure failure){
+
     }
 }

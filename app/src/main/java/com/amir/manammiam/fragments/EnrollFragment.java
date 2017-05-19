@@ -75,7 +75,7 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
         submitButton = view.findViewById(R.id.fragment_enroll_btn_enroll);
         submitButton.setOnClickListener(this);
         genderButton.setOnClickListener(this);
-        view.findViewById(R.id.fragment_enroll_btn_close).setOnClickListener(this);
+//        view.findViewById(R.id.fragment_enroll_btn_close).setOnClickListener(this);
 
         usernameEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -229,8 +229,8 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
                     passwordEdit.getText().toString(),
                     genderButton.getText().equals(getString(R.string.male)))); //Male is true
 
-        } else if (itemId == R.id.fragment_enroll_btn_close) {
-            listener.onCancelPressed();
+//        } else if (itemId == R.id.fragment_enroll_btn_close) {
+//            listener.onCancelPressed();
         }
     }
 
@@ -241,7 +241,7 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
     @Subscribe
     public void onEnrollResponseReceived(Account.EnrollResponse response) {
         if (response.didSucceed()) {
-            Toast.makeText(getContext(), getString(R.string.enroll_succeful), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.enroll_successful), Toast.LENGTH_SHORT).show();
             Toast.makeText(getContext(), getString(R.string.verify_email), Toast.LENGTH_SHORT).show();
         } else {
             response.showErrorToast(getContext());

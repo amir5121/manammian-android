@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".base.ManamMiamApplication">
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.TokenLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +21,7 @@
 
         <activity android:name=".activities.LoginActivity" />
 
-        <activity android:name=".activities.TokenLoginActivity" />
+        <activity android:name=".activities.MainActivity" />
 
     </application>
 

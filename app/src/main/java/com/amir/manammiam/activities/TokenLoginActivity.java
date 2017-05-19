@@ -7,18 +7,21 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseActivity;
+import com.amir.manammiam.base.BaseAuthenticatedActivity;
 import com.amir.manammiam.infrastructure.User;
 import com.amir.manammiam.infrastructure.customView.TypeWriter;
 import com.amir.manammiam.services.Account;
+import com.amir.manammiam.services.ServiceFailure;
 import com.squareup.otto.Subscribe;
 
-public class TokenLoginActivity extends BaseActivity {
+public class TokenLoginActivity extends BaseAuthenticatedActivity {
     private static final long ANIMATION_LOOP_DURATION = 550;
     private static final String TAG = "TokenLoginActivity";
     private View imageView;
@@ -27,10 +30,29 @@ public class TokenLoginActivity extends BaseActivity {
     private AnimatorSet animationDown;
     boolean discontinueAnimation = false;
 
+//    @Override
+//    protected void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_token_login);
+//
+//        bus.post(new Account.ProfileRequest(application.getUser().getToken()));
+//
+//        imageView = findViewById(R.id.activity_token_login_image);
+//        float translateYOffset = -getResources().getDisplayMetrics().density * 150f;
+//
+//        ((TypeWriter) findViewById(R.id.activity_token_login_ellipse)).animateText("...");
+//
+//        Log.e(TAG, "onCreate: ");
+//
+//        setUpAnimation(translateYOffset);
+//    }
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onManamMiamCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_token_login);
+
+//        Log.e(TAG, "onManamMiamCreate: 0 " + (int) '0' + " 1 " + (int) '1' + " 9 " + (int) '9');
+//        Log.e(TAG, "onManamMiamCreate: ۰ " + (int) '۰' + " ۱ " + (int) '۱' + " ۹ " + (int) '۹');
 
         bus.post(new Account.ProfileRequest(application.getUser().getToken()));
 
@@ -40,6 +62,12 @@ public class TokenLoginActivity extends BaseActivity {
         ((TypeWriter) findViewById(R.id.activity_token_login_ellipse)).animateText("...");
 
         setUpAnimation(translateYOffset);
+    }
+
+
+    @Subscribe
+    public void onRequestFailureRecevied(ServiceFailure failure) {
+
     }
 
     @Subscribe
@@ -60,6 +88,7 @@ public class TokenLoginActivity extends BaseActivity {
         } else {
             finish();
             response.showErrorToast(this);
+            startActivity(new Intent(this, LoginActivity.class));
             //TODO: handle Error??
 
             //TODO: invalidate everything

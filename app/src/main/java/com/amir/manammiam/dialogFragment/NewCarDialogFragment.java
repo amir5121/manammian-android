@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseDialogFragment;
 import com.amir.manammiam.infrastructure.NumberPlateAdapter;
 import com.amir.manammiam.infrastructure.Utils;
+import com.amir.manammiam.infrastructure.car.NumberPlateTextWatcher;
 import com.amir.manammiam.infrastructure.customView.EditTextFont;
 import com.amir.manammiam.services.Account;
 import com.squareup.otto.Subscribe;
@@ -30,7 +32,6 @@ public final class NewCarDialogFragment extends BaseDialogFragment implements Vi
 
     private static final String TAG = "NewCarDialogFragment";
     private Button carCode2Button;
-    //    private NumberPlateAdapter adapter;
     GridView gridView;
     private View submitButton;
     boolean carTypeOK = false;
@@ -65,6 +66,10 @@ public final class NewCarDialogFragment extends BaseDialogFragment implements Vi
         carColor = (EditTextFont) view.findViewById(R.id.dialog_new_car_car_color);
         isTaxiCheckBox = (CheckBox) view.findViewById(R.id.dialog_new_car_is_taxi_check_box);
         view.findViewById(R.id.dialog_new_car_cancel).setOnClickListener(this);
+
+        carCode1.addTextChangedListener(new NumberPlateTextWatcher(carCode1));
+        carCode3.addTextChangedListener(new NumberPlateTextWatcher(carCode3));
+        carCode4.addTextChangedListener(new NumberPlateTextWatcher(carCode4));
 
         final NumberPlateAdapter adapter = new NumberPlateAdapter(getActivity());
         gridView = (GridView) view.findViewById(R.id.dialog_new_car_grid_view);
@@ -200,11 +205,19 @@ public final class NewCarDialogFragment extends BaseDialogFragment implements Vi
             dismiss();
         } else if (itemId == R.id.dialog_new_car_submit) {
             loadingContainer.setVisibility(View.VISIBLE);
+
+            //WARNING i am just
+            String carCode = String.format(" %s - %s %s %s ",
+                    carCode4.getText().toString(),
+                    carCode1.getText().toString(),
+                    carCode2Button.getText(),
+                    carCode3.getText().toString()
+            );
+
             bus.post(new Account.AddCarRequest(application.getUser().getToken(),
-                    carCode1.getText().toString() + carCode2Button.getText() + carCode3.getText().toString() + " " + carCode4.getText().toString(),
+                    carCode,
                     carColor.getText().toString(),
                     carType.getText().toString(),
-                    //TODO: implement
                     isTaxiCheckBox.isChecked()
             ));
         }
@@ -214,6 +227,7 @@ public final class NewCarDialogFragment extends BaseDialogFragment implements Vi
     public void onAddCarResponceReceived(Account.AddCarResponse response) {
         if (response.didSucceed()) {
 
+            //TODO: handle this better show a proper dialog explaining what should and will happen
             Toast.makeText(getActivity(), getString(R.string.new_car_request_submitted), Toast.LENGTH_LONG).show();
 
         } else {

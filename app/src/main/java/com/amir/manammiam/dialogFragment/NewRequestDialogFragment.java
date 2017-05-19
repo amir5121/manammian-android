@@ -183,7 +183,7 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
 
     private void updateLocationList(String s) {
         if (!s.isEmpty() && !s.equals("")) {
-            bus.post(new Location.LocationRequest(application.getUser().getToken(), s));
+            bus.post(new Location.LocationRequest(s));
             listLoadingContainer.setAlpha(0);
             listLoadingContainer.setVisibility(View.VISIBLE);
             listLoadingContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION).start();
@@ -217,7 +217,8 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
 
-        chosenDate = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth + " ";
+        chosenDate = year + "/" + (((monthOfYear + 1) > 9) ? (monthOfYear + 1) : "0" + (monthOfYear + 1)) +
+                "/" + ((dayOfMonth > 9) ? dayOfMonth : "0" + dayOfMonth) + " ";
 
         PersianCalendar persianCalendar = new PersianCalendar();
 
@@ -234,7 +235,8 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        String chosenDateComplete = chosenDate + hourOfDay + ":" + minute;
+        String chosenDateComplete = chosenDate + hourOfDay + ":" + ((minute > 9) ? minute : "0" + minute);
+
         dateText.setText(chosenDateComplete);
         chosenADate = true;
         //TODO: check the chosenDateComplete is in the future
@@ -258,7 +260,7 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
         createServiceButton.setEnabled(state);
         createTripButton.setEnabled(state);
         if (state) {
-            bus.post(new Services.ServicesSpecificRequest(application.getUser().getToken(), selectedSource.getId(), selectedDestination.getId(), application.getUser().getGender()));
+            bus.post(new Services.ServicesSpecificRequest(selectedSource.getId(), selectedDestination.getId(), application.getUser().getGender()));
             listLoadingContainer.setAlpha(0);
             listLoadingContainer.setVisibility(View.VISIBLE);
             listLoadingContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION).start();
@@ -393,7 +395,19 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
     @Subscribe
     public void onCreateTripResposeRecevied(Trips.CreateResponse response) {
         if (response.didSucceed()) {
-            Toast.makeText(getContext(), getString(R.string.trip_created), Toast.LENGTH_SHORT).show();
+            switch (response.getResult()) {
+                case Trips.CreateResponse.SUCCESSFUL:
+                    Toast.makeText(getContext(), getString(R.string.trip_created), Toast.LENGTH_SHORT).show();
+                    break;
+                case Trips.CreateResponse.SOMETHING_WENT_WRONG:
+                    Toast.makeText(getContext(), getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    break;
+                case Trips.CreateResponse.DUPLICATE_PASSENGER:
+                    Toast.makeText(getContext(), getString(R.string.duplicate_trip), Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
         } else {
             response.showErrorToast(getContext());
             //TODO: handle error

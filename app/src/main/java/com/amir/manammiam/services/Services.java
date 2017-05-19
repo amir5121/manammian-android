@@ -3,6 +3,8 @@ package com.amir.manammiam.services;
 import android.view.View;
 
 import com.amir.manammiam.infrastructure.services.ManamMiamService;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
@@ -21,16 +23,18 @@ public final class Services {
     }
 
     public static class ServicesRequest {
+        @SerializedName("token")
         private final String token;
-        private final boolean gender;
 
+        @SerializedName("gender")
+        private final int gender;
 
-        public ServicesRequest(String token, boolean gender) {
+        public ServicesRequest(String token, int gender) {
             this.token = token;
             this.gender = gender;
         }
 
-        public boolean isGender() {
+        public int getGender() {
             return gender;
         }
 
@@ -52,24 +56,19 @@ public final class Services {
     }
 
     public static class ServicesSpecificRequest {
-        private final String token;
+
         private final long sourceId;
         private final long destinationId;
-        private final boolean gender;
+        private final int gender;
 
-        public ServicesSpecificRequest(String token, long sourceId, long destinationId, boolean gender) {
-            this.token = token;
+        public ServicesSpecificRequest(long sourceId, long destinationId, int gender) {
             this.sourceId = sourceId;
             this.destinationId = destinationId;
             this.gender = gender;
         }
 
-        public boolean isGender() {
+        public int getGender() {
             return gender;
-        }
-
-        public String getToken() {
-            return token;
         }
 
         public long getSourceId() {
@@ -123,11 +122,11 @@ public final class Services {
         private final String token;
         private final long sourceId;
         private final long destinationId;
-        private final long passengerId;
         private final long carId;
         private final int price;
         private final int capacity;
         private final String time;
+        private final long passengerId;
 
         public AddServicesRequest(String token, long sourceId, long destinationId, long carId, int price, int capacity, String time, long passengerId) {
             this.token = token;
@@ -181,8 +180,13 @@ public final class Services {
 
     public static class AddServicesResponse extends ManamMiamResponse {
         public static final int SUCCESSFUL = 1;
-
-        private final int result;
+        public static final int NO_VALID_CAR_OR_DOSEN_T_OWN_THE_CAR = 2;
+        public static final int SERVERS_TOO_CLOSE_TO_EACHOTHER = 3;
+        public static final int SOMTHING_WENT_WRONG = 4;
+        public static final int SERVICE_IS_NOT_IN_THE_FUTURE = 5;
+        
+        @SerializedName("result")
+        private int result;
 
         public AddServicesResponse(int result) {
             this.result = result;
@@ -217,21 +221,32 @@ public final class Services {
         }
     }
 
+    public class ReserveResponsePOJO {
+        @Expose
+        @SerializedName("result")
+        public Integer result;
+
+    }
+
     public static class ReserveResponse extends ManamMiamResponse {
+        public static final int NO_SUCH_A_SERVER_EXISTS = 0;
         public static final int SUCCESSFUL = 1;
+        public static final int FAILED = 2;
+        public static final int ALREADY_A_PASSENGER = 4;
 
-        private final int result;
-        private final View loading;
-        private final ManamMiamService service;
+        @Expose
+        @SerializedName("result")
+        private Integer responseResult;
 
-        public ReserveResponse(int result, View loading, ManamMiamService service) {
-            this.result = result;
-            this.loading = loading;
-            this.service = service;
+        private View loading;
+        private ManamMiamService service;
+
+        public ReserveResponse(int result) {
+            this.responseResult = result;
         }
 
-        public int getResult() {
-            return result;
+        public int getResponseResult() {
+            return responseResult;
         }
 
         public View getLoading() {
@@ -240,6 +255,14 @@ public final class Services {
 
         public ManamMiamService getService() {
             return service;
+        }
+
+        public void setService(ManamMiamService service) {
+            this.service = service;
+        }
+
+        public void setLoading(View loading) {
+            this.loading = loading;
         }
     }
 

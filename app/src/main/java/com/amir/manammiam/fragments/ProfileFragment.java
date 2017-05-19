@@ -3,11 +3,13 @@ package com.amir.manammiam.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.activities.LoginActivity;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 
 public final class ProfileFragment extends BaseFragment implements View.OnClickListener {
 
+    private static final String TAG = "ProfileFragment";
     private TextViewFont nameText;
     private TextViewFont usernameText;
     private TextViewFont emailText;
@@ -77,6 +80,7 @@ public final class ProfileFragment extends BaseFragment implements View.OnClickL
             carsProgressBar.setVisibility(View.GONE );
 
         } else {
+            Log.e(TAG, "onCarsReceived: something went wrong");
             //TODO: handle error
         }
     }
@@ -140,19 +144,18 @@ public final class ProfileFragment extends BaseFragment implements View.OnClickL
             nameText.setText(response.getName());
             usernameText.setText(response.getUsername());
             emailText.setText(response.getMail());
-            genderText.setText(getResources().getString(response.getGender()== User.MALE ? R.string.male : R.string.female));
-            int res;
+            genderText.setText(getResources().getString(response.getGender() == User.MALE ? R.string.male : R.string.female));
+
             if (response.getPermission() == User.VERIFIED) {
-                res = R.string.verified;
+                permissionText.setText(getResources().getString(R.string.verified));
                 verificationContainer.setBackgroundResource(R.drawable.round_background_transparent_green);
             } else if (response.getPermission() == User.UNVERIFIED) {
-                res = R.string.unverified;
+                permissionText.setText(getResources().getString(R.string.unverified));
                 verificationContainer.setBackgroundResource(R.drawable.round_background_transparent_yellow);
             } else {
-                res = R.string.blocked;
+                permissionText.setText(getResources().getString(R.string.blocked));
                 verificationContainer.setBackgroundResource(R.drawable.round_background_transparent_red);
             }
-            permissionText.setText(getResources().getString(res));
 
         } else {
             response.showErrorToast(getActivity());
@@ -179,10 +182,14 @@ public final class ProfileFragment extends BaseFragment implements View.OnClickL
     @Subscribe
     public void onLogoutResponseReceived(Account.LogoutResponse response) {
         if (response.didSucceed()) {
-            startActivity(new Intent(getContext(), LoginActivity.class));
+            if (!response.getResult()) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
 //            application.setUser(new User(null, null, User.MALE, null, User.BLOCKED, null, false));
-            application.setUser(null);
-            getActivity().finish();
+                application.setUser(null);
+                getActivity().finish();
+            } else {
+                Toast.makeText(getContext(), getString(R.string.failed_to_logout), Toast.LENGTH_LONG).show();
+            }
             //TODO: remove everything from the database on the client side
         } else {
             response.showErrorToast(getContext());

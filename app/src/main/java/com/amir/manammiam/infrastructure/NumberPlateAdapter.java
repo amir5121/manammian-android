@@ -12,8 +12,8 @@ import com.amir.manammiam.infrastructure.customView.TextViewFont;
 import java.util.List;
 
 public class NumberPlateAdapter extends BaseAdapter{
-    String[] alphabet = {"الف", "ب", "پ", "ت", "ج", "د", "س", "ص", "ط", "ع", "ق", "ک", "ل", "م", "ن", "و", "ه", "ی", "ژ", "معلولین"};
-    LayoutInflater inflater;
+    private String[] alphabet = {"الف", "ب", "پ", "ت", "ج", "د", "س", "ص", "ط", "ع", "ق", "ک", "ل", "م", "ن", "و", "ه", "ی", "ژ", "معلولین"};
+    private LayoutInflater inflater;
 
     public NumberPlateAdapter(Context context) {
         inflater = LayoutInflater.from(context);

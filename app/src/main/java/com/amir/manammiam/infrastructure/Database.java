@@ -68,10 +68,12 @@ public class Database extends SQLiteOpenHelper {
         Log.e(TAG, "getUser: users count must be one " + cursor.getCount());
 
         if (cursor.getCount() == 1) {
+            Log.e(TAG, "getUser: " + cursor.getColumnCount() + " " + cursor.getColumnIndexOrThrow(C_USERNAME));
+            cursor.moveToFirst();
             user = new User(
                     cursor.getString(cursor.getColumnIndexOrThrow(C_USERNAME)),
                     cursor.getString(cursor.getColumnIndexOrThrow(C_NAME)),
-                    cursor.getInt(cursor.getColumnIndexOrThrow(C_GENDER)) == User.MALE_INT,
+                    cursor.getInt(cursor.getColumnIndexOrThrow(C_GENDER)),
                     cursor.getString(cursor.getColumnIndexOrThrow(C_MAIL)),
                     cursor.getInt(cursor.getColumnIndexOrThrow(C_PERMISSION)),
                     cursor.getString(cursor.getColumnIndexOrThrow(C_TOKEN)),
@@ -107,22 +109,33 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public void invalidate() {
-        db.execSQL(SqlParser.delete(T_USER).build());
-        Log.e(TAG, "invalidate: ");
+        //TODO: complete
 
+        db.execSQL(SqlParser.delete(T_USER).build());
+
+        Log.e(TAG, "------------- invalidating Database ------------");
     }
 
     public void insertUserWithOnlyToken(String token) {
 
         Log.e(TAG, "insertUserWithOnlyToken: " + SqlParser.insert(T_USER).col(C_TOKEN, token).build());
+
         //other columns are null at this time...
-        Cursor cursor = db.rawQuery(
-                SqlParser.insert(T_USER).col(C_TOKEN, token).build(),
-                null);
+        db.execSQL(
+                SqlParser.insert(T_USER)
+                        .col(C_TOKEN, token)
+                        .build());
 
+//
+//        str(C_NAME).
+//                str(C_TOKEN).
+//                str(C_USERNAME).
+//        str(C_NAME).
+//                num(C_PERMISSION).
+//                bool(C_GENDER).
+//                num(C_IS_DRIVER).
+//                str(C_MAIL).
 
-
-        cursor.close();
 
 
     }

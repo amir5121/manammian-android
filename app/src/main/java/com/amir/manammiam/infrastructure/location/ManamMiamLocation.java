@@ -1,9 +1,19 @@
 package com.amir.manammiam.infrastructure.location;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ManamMiamLocation {
+
+    @SerializedName("location_name")
     private final String name;
-    private final String detailed;
+
+    @SerializedName("location_id")
     private final long id;
+
+    @SerializedName("location_detailed")
+    private final String detailed;
+
+
     private boolean isSelected;
 
     public ManamMiamLocation(String name, String detailed, long id) {

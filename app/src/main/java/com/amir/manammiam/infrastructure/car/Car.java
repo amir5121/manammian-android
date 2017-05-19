@@ -10,29 +10,29 @@ public class Car {
     public static final int BLOCKED = 4;
     public static final int UNKNOWN = 5;
 
+    @SerializedName("car_id")
+    private long carId;
+
+    @SerializedName("car_code")
+    private String carCode;
+
     @SerializedName("car_type")
     private String carType;
 
     @SerializedName("car_color")
     private String carColor;
 
-    @SerializedName("car_code")
-    private String carCode;
+    @SerializedName("gender_accepted")
+    private int genderAccepted;
 
     @SerializedName("rate")
     private float rate;
 
-    @SerializedName("gender_accepted")
-    private int genderAccepted;
-
-    @SerializedName("rate_count")
-    private int rateCount;
-
     @SerializedName("is_taxi")
     private boolean isTaxi;
 
-    @SerializedName("car_id")
-    private long carId;
+    @SerializedName("rate_count")
+    private int rateCount;
 
     private boolean isViewActivated;
 

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -17,7 +18,11 @@ import android.widget.Toast;
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseActivity;
 
+import java.util.Arrays;
+
 public final class Utils {
+    private static final String TAG = "Utils";
+
     private Utils() {
     }
 
@@ -118,7 +123,7 @@ public final class Utils {
     public static boolean isPersian(String string) {
         for (int i = 0; i < string.length(); i++) {
             int charAsciiNum = (int) string.charAt(i);
-            if ((charAsciiNum > 1575 && charAsciiNum < 1641) || charAsciiNum == 1662 || charAsciiNum == 1711 || charAsciiNum == 1670 || charAsciiNum == 1688)
+            if ((charAsciiNum >= 1575 && charAsciiNum < 1641) || charAsciiNum == 1662 || charAsciiNum == 1740 || charAsciiNum == 1711 || charAsciiNum == 1670 || charAsciiNum == 1688)
                 return true;
         }
         return false;
@@ -190,7 +195,7 @@ public final class Utils {
 
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
-                // result of the request.
+                // getResponseResult of the request.
             }
         }
     }
@@ -203,4 +208,14 @@ public final class Utils {
     }
 
 
+    public static String getPersianNumberEquivalent(CharSequence substring) {
+        StringBuilder res = new StringBuilder(substring.length());
+        for (int i = 0; i < substring.length(); i++) {
+            if ((int) substring.charAt(i) >= 48 && (int) substring.charAt(i) <= 57) {
+                res.append((char) ((int) substring.charAt(i) + 1728));
+            }
+        }
+
+        return res.toString();
+    }
 }

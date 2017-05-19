@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.amir.manammiam.activities.LoginActivity;
-import com.amir.manammiam.activities.TokenLoginActivity;
-import com.amir.manammiam.infrastructure.User;
 
 public abstract class BaseAuthenticatedActivity extends BaseActivity {
 

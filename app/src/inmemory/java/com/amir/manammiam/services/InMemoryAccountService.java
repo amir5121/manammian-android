@@ -52,7 +52,7 @@ public class InMemoryAccountService extends BaseInMemoryService {
         request.getToken();
 
         //todo: update cache database.user
-        Account.ProfileResponse response = new Account.ProfileResponse(new User("amirH", "Amir Hosein", User.MALE, "amirhoseinheshmati@gmail.com", User.VERIFIED, request.getToken(), true));
+        Account.ProfileResponse response = new Account.ProfileResponse("amirH", "amir5121", User.MALE, true, "amirhoseinheshmati@gmail.com", User.VERIFIED, "09178947604", "amir5121");
 //        response.setOperationError("Invalid token");
         postEvent(response);
     }

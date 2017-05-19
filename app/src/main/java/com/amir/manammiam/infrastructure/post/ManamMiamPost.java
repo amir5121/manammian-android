@@ -2,25 +2,54 @@ package com.amir.manammiam.infrastructure.post;
 
 import com.amir.manammiam.infrastructure.car.Car;
 import com.amir.manammiam.infrastructure.location.ManamMiamLocation;
+import com.google.gson.annotations.SerializedName;
 
 public class ManamMiamPost {
     public static final int DRIVER_ASKING_PASSENGER = 0; // results in a prompt to the user whether to accept this service or not
     public static final int PASSENGER_ACCEPTED_A_SERVER = 1; // unclickable
     public static final int LOOKING_FOR_SERVER = 2; // prompt the driver for price and stuff
 
-    private final int who;
-    private final ManamMiamLocation source;
-    private final ManamMiamLocation destination;
-    private final String price;
-    private final String senderName;
-    private final String text;
+    @SerializedName("time")
     private final String time;
-    private final Car car;
-    private final long passengerId;
-    private final long serverId;
 
-    private boolean isRead;
+    @SerializedName("price")
+    private final String price;
+
+    @SerializedName("source_name")
+    private final String sourceName;
+
+    @SerializedName("source_id")
+    private final long sourceId;
+
+    @SerializedName("destination_name")
+    private final String destinationName;
+
+    @SerializedName("destination_id")
+    private final long destinationId;
+
+    @SerializedName("sender_name")
+    private final String senderName;
+
+    @SerializedName("text")
+    private final String text;
+
+    @SerializedName("is_read")
+    private final boolean isRead;
+
+    @SerializedName("who")
+    private final int who;
+
+    @SerializedName("car")
+    private final Car car;
+
+    @SerializedName("capacity")
     private int capacity;
+
+    @SerializedName("passenger_id")
+    private final long passengerId;
+
+    @SerializedName("server_id")
+    private final long serverId;
 
     private boolean activated;
     private boolean expanded;
@@ -31,34 +60,20 @@ public class ManamMiamPost {
     //NOTE: if who is 0 then driver asking the passenger
     //             is 1 then passenger has chosen a server and the driver is receiving the notification
 
-    public ManamMiamPost(
-            boolean isRead,
-            int who,
-            ManamMiamLocation source,
-            ManamMiamLocation destination,
-            String price,
-            String senderName,
-            String text,
-            String time,
-            int capacity,
-            Car car,
-            long passengerId,
-            long serverId) {
-
-        this.isRead = isRead;
-        this.who = who;
-        this.source = source;
-        this.destination = destination;
+    public ManamMiamPost(String time, String price, String sourceName, long sourceId, String destinationName, long destinationId, String senderName, String text, boolean isRead, int who, Car car, int capacity, long passengerId, long serverId) {
+        this.time = time;
         this.price = price;
+        this.sourceName = sourceName;
+        this.sourceId = sourceId;
+        this.destinationName = destinationName;
+        this.destinationId = destinationId;
         this.senderName = senderName;
         this.text = text;
-        this.time = time;
+        this.isRead = isRead;
+        this.who = who;
         this.car = car;
         this.capacity = capacity;
         this.passengerId = passengerId;
-        expanded = false;
-        activated = false;
-        inLoadingState = false;
         this.serverId = serverId;
     }
 
@@ -67,11 +82,11 @@ public class ManamMiamPost {
     }
 
     public long getSourceId() {
-        return source.getId();
+        return sourceId;
     }
 
     public long getDestinationId() {
-        return destination.getId();
+        return destinationId;
     }
 
     public Car getCar() {
@@ -79,11 +94,12 @@ public class ManamMiamPost {
     }
 
     public ManamMiamLocation getSource() {
-        return source;
+        return new ManamMiamLocation(sourceName, null, sourceId);
     }
 
     public ManamMiamLocation getDestination() {
-        return destination;
+        return new ManamMiamLocation(destinationName, null, destinationId);
+
     }
 
     public long getPassengerId() {
@@ -102,20 +118,16 @@ public class ManamMiamPost {
         return isRead;
     }
 
-    public void setRead(boolean read) {
-        isRead = read;
-    }
-
     public int getWho() {
         return who;
     }
 
     public String getSourceName() {
-        return source.getName();
+        return sourceName;
     }
 
     public String getDestinationName() {
-        return destination.getName();
+        return destinationName;
     }
 
     public String getPrice() {

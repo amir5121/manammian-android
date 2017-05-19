@@ -6,8 +6,20 @@ import com.amir.manammiam.R;
 import com.amir.manammiam.base.ManamMiamApplication;
 import com.amir.manammiam.infrastructure.Constants;
 import com.amir.manammiam.infrastructure.Database;
+import com.amir.manammiam.infrastructure.car.Car;
+import com.amir.manammiam.infrastructure.location.ManamMiamLocation;
+import com.amir.manammiam.infrastructure.post.ManamMiamPost;
+import com.amir.manammiam.infrastructure.services.ManamMiamService;
+import com.amir.manammiam.infrastructure.trip.DriverTrip;
+import com.amir.manammiam.infrastructure.trip.PassengerTrip;
+import com.amir.manammiam.infrastructure.trip.TimePOJO;
+import com.amir.manammiam.infrastructure.trip.Trip;
+import com.amir.manammiam.infrastructure.trip.TripPOJO;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 class LiveManamMiamServices {
@@ -23,19 +35,56 @@ class LiveManamMiamServices {
         database = application.getDatabase();
         services = application.getRetrofit().create(ManamMiamWebServices.class);
         this.application = application;
+//        database.invalidate();
     }
 
 
     @Subscribe
     public void login(Account.LoginRequest request) {
 
-        Log.e(TAG, "login: " + request.getPassword() + " " + request.getUsername() + " " + request.getSourceType());
+//        Log.e(TAG, "login: " + request.getPassword() + " " + request.getUsername() + " " + request.getSourceType());
+//
+//        database.insertUserWithOnlyToken("RANDOM BULLSHITS");
+//
+//        Log.e(TAG, "login: " + database.getUser().getToken());
 
-        database.insertUserWithOnlyToken("RANDOM BULLSHIT");
 
+        services.login(Constants.LOGIN_USER, request.getUsername(), request.getPassword(), request.getSourceType())
+                .enqueue(new RetrofitCallback<Account.LoginResponse>(bus) {
+                    @Override
+                    protected void onResolve(Account.LoginResponse body) {
+                        database.invalidate();
+                        if (body.getToken() == null) {
+                            Log.e(TAG, "onResolve: token was null");
+                            body.setOperationError(application.getString(R.string.wrong_password_or_username_or_missing_permission));
+                        } else {
+                            Log.e(TAG, "onResolve: " + body.getToken());
+                            database.insertUserWithOnlyToken(body.getToken());
+                        }
 
-//        services.login(Constants.LOGIN_USER, request.getUsername(), request.getPassword(), request.getSourceType())
-//                .enqueue(new RetrofitCallback<Account.LoginResponse>() {
+                        bus.post(body);
+                    }
+                });
+
+    }
+
+    @Subscribe
+    public void getCars(Account.CarsRequest request) {
+
+        services.getCars(Constants.GET_PERSON_S_CAR, request.getToken())
+                .enqueue(new RetrofitCallback<List<Car>>(bus) {
+                    @Override
+                    protected void onResolve(List<Car> body) {
+
+                        if (body != null) {
+                            bus.post(new Account.CarsResponse((ArrayList<Car>) body));
+                        } else {
+
+                        }
+
+                    }
+                });
+//                .enqueue(new RetrofitCallback<Account.LoginResponse>(bus) {
 //                    @Override
 //                    protected void onResolve(Account.LoginResponse body) {
 //                        database.invalidate();
@@ -51,10 +100,6 @@ class LiveManamMiamServices {
 //                    }
 //                });
 
-    }
-
-    @Subscribe
-    public void getCars(Account.CarsRequest request) {
 //        request.getToken();
 //
 //        ArrayList<Car> cars = new ArrayList<>();
@@ -75,7 +120,7 @@ class LiveManamMiamServices {
 
         Log.e(TAG, "getProfile: " + request.getToken());
         services.authenticate(Constants.LOGIN_WITH_TOKEN, request.getToken())
-                .enqueue(new RetrofitCallback<Account.ProfileResponse>() {
+                .enqueue(new RetrofitCallback<Account.ProfileResponse>(bus) {
                     @Override
                     protected void onResolve(Account.ProfileResponse body) {
                         if (body.getName() == null) {
@@ -91,6 +136,14 @@ class LiveManamMiamServices {
 
     @Subscribe
     public void getPosts(Posts.PostsRequest request) {
+
+        services.getPosts(Constants.GET_POSTS, request.token)
+                .enqueue(new RetrofitCallback<List<ManamMiamPost>>(bus) {
+                    @Override
+                    protected void onResolve(List<ManamMiamPost> body) {
+                        bus.post(new Posts.PostResponse((ArrayList<ManamMiamPost>) body));
+                    }
+                });
 //        request.getToken();
 //
 //        ArrayList<ManamMiamPost> posts = new ArrayList<>();
@@ -115,7 +168,15 @@ class LiveManamMiamServices {
     }
 
     @Subscribe
-    public void onTimeRequestReceived(MMTime.Request request) {
+    public void onTimeRequestReceived(final MMTime.Request request) {
+
+        services.isInTheFuture(Constants.IS_IN_THE_FUTURE, request.getTime())
+                .enqueue(new RetrofitCallback<TimePOJO>(bus) {
+                    @Override
+                    protected void onResolve(TimePOJO body) {
+                        bus.post(new MMTime.TimeResponse(request.getTrip(), request.getResponseContainer(), request.getCancelContainer(), body.isInTheFuture, request.getLoadingContainer()));
+                    }
+                });
 //        MMTime.TimeResponse response;
 //        if (request.getTrip().getSourceName().equals("Amir")) {
 //            response = new MMTime.TimeResponse(request.getTrip(), request.getResponseContainer(), request.getCancelContainer(), false, request.getLoadingContainer());
@@ -127,6 +188,14 @@ class LiveManamMiamServices {
 
     @Subscribe
     public void onServicesRequestReceived(Services.ServicesRequest request) {
+
+        services.getServices(Constants.GET_SERVERS, request.getToken(), request.getGender())
+                .enqueue(new RetrofitCallback<List<ManamMiamService>>(bus) {
+                    @Override
+                    protected void onResolve(List<ManamMiamService> body) {
+                        bus.post(new Services.ServicesResponse((ArrayList<ManamMiamService>) body));
+                    }
+                });
 //        ArrayList<ManamMiamService> services = new ArrayList<>();
 //
 //        services.add(new ManamMiamService(1, 100025, "Sepah", new Car("peikan", "yellow", "230 h 23", 5, Car.UNKNOWN, 123, false, 5), "hell", "free", 4, "1396/09/19 20:30", "Masoud"));
@@ -152,6 +221,13 @@ class LiveManamMiamServices {
     @Subscribe
     public void onLocationRequestReceived(Location.LocationRequest request) {
 //
+        services.searchLocations(Constants.SEARCH_LOCATIONS, request.getSequence())
+                .enqueue(new RetrofitCallback<List<ManamMiamLocation>>(bus) {
+                    @Override
+                    protected void onResolve(List<ManamMiamLocation> body) {
+                        bus.post(new Location.LocationResponse((ArrayList<ManamMiamLocation>) body));
+                    }
+                });
 //        ArrayList<ManamMiamLocation> locations = new ArrayList<>();
 //
 //        locations.add(new ManamMiamLocation("Pardis", "Jahrom - Khalij-fars blv.", 500));
@@ -167,6 +243,14 @@ class LiveManamMiamServices {
 
     @Subscribe
     public void onSpecificServicesRequestReceived(Services.ServicesSpecificRequest request) {
+
+        services.getServerSpecific(Constants.GET_SERVER_SPECIFIC, request.getGender(), request.getDestinationId(), request.getSourceId())
+                .enqueue(new RetrofitCallback<List<ManamMiamService>>(bus) {
+                    @Override
+                    protected void onResolve(List<ManamMiamService> body) {
+                        bus.post(new Services.ServicesSpecificResponse((ArrayList<ManamMiamService>) body));
+                    }
+                });
 //
 //        ArrayList<ManamMiamService> services = new ArrayList<>();
 //
@@ -181,6 +265,16 @@ class LiveManamMiamServices {
 
     @Subscribe
     public void onAddCarRequestReceived(Account.AddCarRequest request) {
+
+        services.addCar(Constants.ADD_A_CAR, request.getCarType(), request.getCarCode(), request.getCarColor(), request.isTaxi(), request.getToken())
+                .enqueue(new RetrofitCallback<Account.AddCarResponse>(bus) {
+                    @Override
+                    protected void onResolve(Account.AddCarResponse body) {
+                        bus.post(body);
+                    }
+                });
+
+
 //
 //        Account.AddCarResponse response = new Account.AddCarResponse(Account.AddCarResponse.SUCCESSFUL);
 //
@@ -206,7 +300,19 @@ class LiveManamMiamServices {
     }
 
     @Subscribe
-    public void onServiceReserveRequestReceived(Services.ReserveRequest request) {
+    public void onServiceReserveRequestReceived(final Services.ReserveRequest request) {
+
+        services.reserveServer(Constants.RESERVE_SERVER, request.getToken(), request.getService().getServerId())
+                .enqueue(new RetrofitCallback<Services.ReserveResponsePOJO>(bus) {
+                    @Override
+                    protected void onResolve(Services.ReserveResponsePOJO body) {
+                        Services.ReserveResponse res = new Services.ReserveResponse(body.result);
+                        res.setService(request.getService());
+                        res.setLoading(request.getLoading());
+                        bus.post(res);
+                    }
+                });
+
 //        Services.ReserveResponse response = new Services.ReserveResponse(Services.ReserveResponse.SUCCESSFUL, request.getLoading(), request.getService());
 //        postEvent(response);
     }
@@ -219,18 +325,61 @@ class LiveManamMiamServices {
 
     @Subscribe
     public void onCreateTripRequestReceived(Trips.CreateRequest request) {
+
+        Log.e(TAG, "onCreateTripRequestReceived: " + String.format("%d %s %s %s %s", Constants.ADD_PASSENGER, request.getToken(), request.getDestinationId(), request.getSourceId(), request.getTime()));
+
+        services.createTrip(Constants.ADD_PASSENGER, request.getToken(), request.getDestinationId(), request.getSourceId(), request.getTime())
+                .enqueue(new RetrofitCallback<Trips.CreateResponse>(bus) {
+                    @Override
+                    protected void onResolve(Trips.CreateResponse body) {
+                        Log.e(TAG, "------onResolve: " + body.getResult());
+                        bus.post(body);
+                    }
+                });
+
 //        Trips.CreateResponse response = new Trips.CreateResponse(Trips.CreateResponse.SUCCESSFUL);
 //        postEvent(response);
     }
 
     @Subscribe
     public void onAddServerRequestReceived(Services.AddServicesRequest request) {
-//
-//        if (request.getPassengerId() == 0) {
-//            //create server with no notification
-//        } else {
-//            //create server with notification
-//        }
+
+        RetrofitCallback<Services.AddServicesResponse> addServiceCallback = new RetrofitCallback<Services.AddServicesResponse>(bus) {
+            @Override
+            protected void onResolve(Services.AddServicesResponse body) {
+                switch (body.getResult()) {
+                }
+            }
+        };
+
+        if (request.getPassengerId() == 0) {
+            //create server with no notification
+            services.addServiceNoNotification(
+                    Constants.ADD_SERVER_WITH_NO_NOTIFICATION,
+                    request.getToken(),
+                    request.getDestinationId(),
+                    request.getSourceId(),
+                    request.getCarId(),
+                    request.getTime(),
+                    String.valueOf(request.getPrice()),
+                    request.getCapacity())
+
+                    .enqueue(addServiceCallback);
+        } else {
+            //create server with notification
+            services.addServiceWithNotification(
+                    Constants.ADD_SERVER_WITH_NO_NOTIFICATION,
+                    request.getToken(),
+                    request.getDestinationId(),
+                    request.getSourceId(),
+                    request.getCarId(),
+                    request.getPassengerId(),
+                    request.getTime(),
+                    String.valueOf(request.getPrice()),
+                    request.getCapacity())
+
+                    .enqueue(addServiceCallback);
+        }
 //
 //        Services.AddServicesResponse response = new Services.AddServicesResponse(Services.AddServicesResponse.SUCCESSFUL);
 //        postEvent(response);
@@ -238,6 +387,15 @@ class LiveManamMiamServices {
 
     @Subscribe
     public void onLogoutRequestReceieved(Account.LogoutRequest request) {
+
+        services.logout(Constants.LOGOUT, request.getToken())
+                .enqueue(new RetrofitCallback<Account.LogoutResponse>(bus) {
+                    @Override
+                    protected void onResolve(Account.LogoutResponse body) {
+                        bus.post(body);
+                    }
+                });
+
 //        Account.LogoutResponse response = new Account.LogoutResponse(Account.LogoutResponse.SUCCESSFUL);
 //        postEvent(response);
     }
@@ -255,6 +413,32 @@ class LiveManamMiamServices {
 
     @Subscribe
     public void getTrips(Trips.TripRequest request) {
+
+        services.getTrips(Constants.GET_TRIPS, request.token)
+                .enqueue(new RetrofitCallback<List<TripPOJO>>(bus) {
+                    @Override
+                    protected void onResolve(List<TripPOJO> body) {
+                        ArrayList<Trip> trips = new ArrayList<>(body.size());
+                        for (TripPOJO tripPojo : body) {
+                            if (tripPojo.getCar() != null) {
+
+                                if (tripPojo.getDriverPhoneNumber() == null) {
+                                    //this is shown to the driver... obviously the driver doesn't need to know his own phone number
+                                    trips.add(new DriverTrip(tripPojo.getTime(), tripPojo.getSourceName(), tripPojo.getDestinationName(), tripPojo.getCar(), tripPojo.getPrice(), tripPojo.getCapacity(), tripPojo.getNumberOfPassenger(), tripPojo.getServerID()));
+                                } else {
+                                    //this is shown to the passenger
+                                    trips.add(new PassengerTrip(tripPojo.getTime(), tripPojo.getSourceName(), tripPojo.getDestinationName(), tripPojo.getCar(), tripPojo.getPrice(), tripPojo.getDriverName(), tripPojo.getServerID(), tripPojo.getDriverTelegramId(), tripPojo.getDriverPhoneNumber(), tripPojo.getPassengerId()));
+                                }
+
+                            } else {
+                                trips.add(new Trip(tripPojo.getTime(), tripPojo.getSourceName(), tripPojo.getDestinationName(), tripPojo.getCar(), tripPojo.getPrice(), tripPojo.getServerID()));
+                            }
+                        }
+
+                        bus.post(new Trips.TripResponse(trips));
+                    }
+                });
+
 //        request.getToken();
 //
 //        ArrayList<Trip> trips = new ArrayList<>();

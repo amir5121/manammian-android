@@ -2,9 +2,10 @@ package com.amir.manammiam.infrastructure;
 
 
 public class User {
-    public static final boolean MALE = true;
-    public static final int MALE_INT = 0;
-    public static final boolean FEMALE = false;
+
+    public static final int GENDER_BLOCKED = 0;
+    public static final int MALE = 1;
+    public static final int FEMALE = 2;
 
     public static final int UNVERIFIED = 0;
     public static final int VERIFIED = 1;
@@ -13,13 +14,13 @@ public class User {
 
     private String name;
     private String username;
-    private boolean gender;
+    private int gender;
     private String mail;
     private int permission;
     private String token;
     private boolean isDriver;
 
-    public User(String username, String name, boolean gender, String mail, int permission, String token, boolean isDriver) {
+    public User(String username, String name, int gender, String mail, int permission, String token, boolean isDriver) {
         this.username = username;
         this.name = name;
         this.gender = gender;
@@ -53,11 +54,11 @@ public class User {
         this.name = name;
     }
 
-    public boolean getGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 
