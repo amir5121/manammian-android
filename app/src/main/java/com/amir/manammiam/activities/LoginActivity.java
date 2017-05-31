@@ -73,7 +73,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //                Log.e(TAG, "onTextChanged: " + ((int) s.toString().substring(start, start + count).toCharArray()[0]) );
                 if (s.toString().substring(start, start + count).equals(" ") || Utils.isPersian(s.toString().substring(start, start + count))) {
                     editUsername.setText(text);
-                    editUsername.setSelection(s.length() - 1);
+                    editUsername.setSelection(start + count);
                 }
             }
 

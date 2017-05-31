@@ -3,12 +3,15 @@ package com.amir.manammiam.activities;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseAuthenticatedActivity;
 import com.amir.manammiam.dialogFragment.NewRequestDialogFragment;
+import com.amir.manammiam.infrastructure.Constants;
 import com.amir.manammiam.infrastructure.ScrollCallback;
+import com.amir.manammiam.infrastructure.SwitchRequest;
 import com.amir.manammiam.infrastructure.ViewPagerAdapter;
 import com.amir.manammiam.infrastructure.customView.MViewPager;
 import com.amir.manammiam.infrastructure.customView.bottomBar.BottomBarItem;
@@ -42,6 +45,7 @@ public class MainActivity extends BaseAuthenticatedActivity implements BottomBar
     //TODO: maybe implement show more detail for DriverTrip
     //TODO: put a limit on the report text length
     //TODO: intercept response on retrofit and check for errors returned by the server http://stackoverflow.com/questions/32294557/retrofit-intercept-responses-globally
+    //TODO: remove username and use phone number instead
 
     @Override
     protected void onManamMiamCreate(Bundle savedInstanceState) {
@@ -91,13 +95,13 @@ public class MainActivity extends BaseAuthenticatedActivity implements BottomBar
     @Override
     public void itemClicked(int id) {
         if (id == R.id.activity_main_services) {
-            viewPager.setCurrentItem(1, true);
+            viewPager.setCurrentItem(Constants.SERVICES_FRAGMENT_PAGE_NUMBER, true);
         } else if (id == R.id.activity_main_inbox) {
-            viewPager.setCurrentItem(2, true);
+            viewPager.setCurrentItem(Constants.INBOX_FRAGMENT_PAGE_NUMBER, true);
         } else if (id == R.id.activity_main_profile) {
-            viewPager.setCurrentItem(3, true);
+            viewPager.setCurrentItem(Constants.PROFILE_FRAGMENT_PAGE_NUMBER, true);
         } else if (id == R.id.activity_main_trips) {
-            viewPager.setCurrentItem(0, true);
+            viewPager.setCurrentItem(Constants.TRIPS_FRAGMENT_PAGE_NUMBER, true);
         }
     }
 
@@ -114,7 +118,8 @@ public class MainActivity extends BaseAuthenticatedActivity implements BottomBar
         int itemId = v.getId();
         if (itemId == R.id.activity_main_fab) {
             NewRequestDialogFragment requestDialog = new NewRequestDialogFragment();
-            requestDialog.show(getSupportFragmentManager(), "THE NOT SO USEFUL TAG");
+            requestDialog.show(getSupportFragmentManager(), "bitch plz!");
+            Log.e(TAG, "onClick: suck dicks");
         }
     }
 
@@ -123,4 +128,11 @@ public class MainActivity extends BaseAuthenticatedActivity implements BottomBar
     public void onRequestFailureRecevied(ServiceFailure failure){
 
     }
+
+    @Subscribe
+    public void switchToFragment(SwitchRequest request){
+        viewPager.setCurrentItem(request.pageNumber);
+    }
+
+
 }

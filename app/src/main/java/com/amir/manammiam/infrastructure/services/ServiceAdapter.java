@@ -86,6 +86,7 @@ public class ServiceAdapter extends BaseAdapter {
         viewHolder.time.setText(currService.getTime());
         viewHolder.carType.setText(currService.getCar().getCarType());
         viewHolder.carColor.setText(currService.getCar().getCarColor());
+        viewHolder.carCode.setText(currService.getCar().getCarCode());
         viewHolder.capacity.setText(String.valueOf(currService.getCapacity()));
         viewHolder.capacity.setText(String.valueOf(currService.getCapacity()));
         viewHolder.rateCount.setText(String.valueOf(currService.getCar().getRateCount()));
@@ -137,6 +138,7 @@ public class ServiceAdapter extends BaseAdapter {
         viewHolder.time = (TextViewFont) convertView.findViewById(R.id.item_trip_text_time);
         viewHolder.capacity = (TextViewFont) convertView.findViewById(R.id.item_trip_capacity);
         viewHolder.carType = (TextViewFont) convertView.findViewById(R.id.item_trip_text_car_type);
+        viewHolder.carCode = (TextViewFont) convertView.findViewById(R.id.item_trip_text_car_code);
         viewHolder.carColor = (TextViewFont) convertView.findViewById(R.id.item_trip_text_car_color);
         viewHolder.rateCount = (TextViewFont) convertView.findViewById(R.id.item_trip_rate_count);
         viewHolder.rateBar = (RatingBar) convertView.findViewById(R.id.item_trip_rate_bar);
@@ -172,6 +174,7 @@ public class ServiceAdapter extends BaseAdapter {
         TextViewFont rateCount;
         LinearLayout approvalContainer;
         TextViewFont carColor;
+        TextViewFont carCode;
 
         public LinearLayout getApprovalContainer() {
             return approvalContainer;

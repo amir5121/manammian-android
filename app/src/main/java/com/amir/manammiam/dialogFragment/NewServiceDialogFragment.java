@@ -199,18 +199,20 @@ public class NewServiceDialogFragment extends BaseDialogFragment implements Adap
     public void onCarsReceived(Account.CarsResponse response) {
         if (response.didSucceed()) {
             ArrayList<Car> cars = response.getCars();
-            if (cars.size() > 0) {
-                selectedCar = cars.get(0);
-                selectedCar.setViewActivated(true);
-            }
 
-            int carSize = cars.size() - 1;
-            for (int i = carSize; i > 0; i--) {
+//            int carSize = cars.size() - 1;
+            for (int i = cars.size() - 1; i >= 0; i--) {
                 if (cars.get(i).getGenderAccepted() == Car.NO_VERIFIED_CAR || cars.get(i).getGenderAccepted() == Car.BLOCKED || cars.get(i).getGenderAccepted() == Car.UNKNOWN) {
                     cars.remove(i);
                 }
 
             }
+
+            if (cars.size() > 0) {
+                selectedCar = cars.get(0);
+                selectedCar.setViewActivated(true);
+            }
+
             adapter.setCars(cars);
             adapter.notifyDataSetChanged();
         } else {
@@ -241,10 +243,8 @@ public class NewServiceDialogFragment extends BaseDialogFragment implements Adap
 
     @Subscribe
     public void onServiceCreatedResponse(Services.AddServicesResponse response) {
-        Log.e(TAG, "onServiceCreatedResponse: ");
         if (response.didSucceed()) {
             Toast.makeText(getContext(), getString(R.string.service_created), Toast.LENGTH_SHORT).show();
-            dismiss();
         } else {
             //TODO: handle errors
             response.showErrorToast(getContext());

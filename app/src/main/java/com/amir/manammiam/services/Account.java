@@ -1,7 +1,6 @@
 package com.amir.manammiam.services;
 
 import com.amir.manammiam.infrastructure.car.Car;
-import com.amir.manammiam.infrastructure.User;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -101,9 +100,9 @@ public final class Account {
 
         @SerializedName("is_driver")
         private boolean isDriver;
-
-        @SerializedName("email")
-        private String mail;
+//
+//        @SerializedName("phoneNumber")
+//        private String mail;
 
         @SerializedName("permission")
         private int permission;
@@ -115,12 +114,12 @@ public final class Account {
         private String telegram_id;
 
 
-        public ProfileResponse(String name, String username, int gender, boolean isDriver, String mail, int permission, String phoneNumber, String telegram_id) {
+        public ProfileResponse(String name, String username, int gender, boolean isDriver, int permission, String phoneNumber, String telegram_id) {
             this.name = name;
             this.username = username;
             this.gender = gender;
             this.isDriver = isDriver;
-            this.mail = mail;
+//            this.mail = mail;
             this.permission = permission;
             this.phoneNumber = phoneNumber;
             this.telegram_id = telegram_id;
@@ -148,14 +147,6 @@ public final class Account {
 
         public void setGender(int gender) {
             this.gender = gender;
-        }
-
-        public String getMail() {
-            return mail;
-        }
-
-        public void setMail(String mail) {
-            this.mail = mail;
         }
 
         public int getPermission() {
@@ -263,22 +254,22 @@ public final class Account {
 
 
     public static class EnrollRequest {
-        private final String email;
+        private final String phoneNumber;
         private final String username;
         private final String name;
         private final String password;
-        private final boolean gender;
+        private final int gender;
 
-        public EnrollRequest(String email, String username, String name, String password, boolean gender) {
-            this.email = email;
+        public EnrollRequest(String phoneNumber, String username, String name, String password, int gender) {
+            this.phoneNumber = phoneNumber;
             this.username = username;
             this.name = name;
             this.password = password;
             this.gender = gender;
         }
 
-        public String getEmail() {
-            return email;
+        public String getPhoneNumber() {
+            return phoneNumber;
         }
 
         public String getUsername() {
@@ -293,7 +284,7 @@ public final class Account {
             return password;
         }
 
-        public boolean isGender() {
+        public int isGender() {
             return gender;
         }
     }

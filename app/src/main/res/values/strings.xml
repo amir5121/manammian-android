@@ -69,12 +69,11 @@
     <string name="service_reserved">Service Reserved</string>
     <string name="accept_request_submitted">You joined the service</string>
     <string name="log_out">Log out</string>
-    <string name="invalid_email">Invalid email</string>
+    <string name="invalid_phone_number">Invalid phone number</string>
     <string name="password_rules">At least 8 character including:\nUpper &amp; lower character \nA number \nNo spaces!</string>
     <string name="passwords_must_match">Must match with you password</string>
     <string name="username_rule">Username must be longer than 5 character and must not contain spaces and must not contain persian characters</string>
     <string name="can_not_be_empty">Can\'t be empty!</string>
-    <string name="verify_email">Verify your email address</string>
     <string name="enroll_successful">Enroll successful</string>
     <string name="trip_created">Trip created</string>
     <string name="service_created">Service Created</string>
@@ -85,4 +84,10 @@
     <string name="no_such_a_service_exists">No such a server exists</string>
     <string name="something_went_wrong">Something went Wrong</string>
     <string name="duplicate_trip">Duplicate trips won\'t be created</string>
+    <string name="service_not_in_future">Service is not in the future</string>
+    <string name="service_close_to_each_other">Services are too close to each other</string>
+    <string name="no_valid_car">No valid Car</string>
+    <string name="invalid_token">Invalid Token</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="unknown">Unknown</string>
 </resources>

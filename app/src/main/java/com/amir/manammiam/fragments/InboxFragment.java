@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseFragment;
 import com.amir.manammiam.dialogFragment.NewServiceDialogFragment;
+import com.amir.manammiam.infrastructure.Constants;
+import com.amir.manammiam.infrastructure.SwitchRequest;
 import com.amir.manammiam.infrastructure.post.ManamMiamPost;
 import com.amir.manammiam.infrastructure.post.PostAdapter;
 import com.amir.manammiam.services.Posts;
@@ -207,6 +209,7 @@ public final class InboxFragment extends BaseFragment implements SwipeRefreshLay
     public void onAcceptResponseRecevied(Posts.AcceptResponse response) {
         if (response.didSucceed()) {
             Toast.makeText(getContext(), getString(R.string.accept_request_submitted), Toast.LENGTH_SHORT).show();
+            bus.post(new SwitchRequest(Constants.TRIPS_FRAGMENT_PAGE_NUMBER));
         } else {
             response.showErrorToast(getContext());
         }

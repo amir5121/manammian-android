@@ -35,8 +35,8 @@
             android:layout_margin="10dp"
             android:ellipsize="middle"
             android:gravity="center"
-            android:lines="1"
             android:padding="5dp"
+            android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="30sp" />
 
@@ -74,15 +74,15 @@
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
                     android:id="@+id/fragment_profile_text_username"
+                    style="@style/textViewIranSans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:ellipsize="middle"
                     android:gravity="center"
-                    style="@style/textViewIranSans"
-                    android:lines="1"
                     android:padding="5dp"
+                    android:singleLine="true"
                     android:textColor="@color/white"
                     android:textSize="17sp" />
 
@@ -104,18 +104,18 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/circle_primary"
                     android:padding="8dp"
-                    android:src="@drawable/ic_inbox" />
+                    android:src="@drawable/ic_phone" />
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
-                    android:id="@+id/fragment_profile_text_email"
+                    android:id="@+id/fragment_profile_text_phone_number"
+                    style="@style/textViewIranSans"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:ellipsize="middle"
-                    style="@style/textViewIranSans"
                     android:gravity="center"
-                    android:lines="1"
                     android:padding="5dp"
+                    android:singleLine="true"
                     android:textColor="@color/white"
                     android:textSize="17sp" />
 
@@ -140,14 +140,14 @@
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
                     android:id="@+id/fragment_profile_text_gender"
+                    style="@style/textViewIranSans"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    style="@style/textViewIranSans"
                     android:layout_margin="5dp"
                     android:ellipsize="middle"
                     android:gravity="center"
-                    android:lines="1"
                     android:padding="5dp"
+                    android:singleLine="true"
                     android:textColor="@color/white"
                     android:textSize="17sp" />
 
@@ -173,13 +173,13 @@
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
                     android:id="@+id/fragment_profile_text_permission"
+                    style="@style/textViewIranSans"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
-                    style="@style/textViewIranSans"
                     android:ellipsize="middle"
                     android:gravity="center"
-                    android:lines="1"
+                    android:singleLine="true"
                     android:padding="5dp"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
@@ -223,13 +223,13 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:focusable="true"
         android:padding="15dp"
         android:text="@string/log_out"
-        android:clickable="true"
-        android:focusable="true"
         android:textColor="@color/white"
         android:textSize="@dimen/text_very_small"
-        android:elevation="4dp"
         tools:ignore="RelativeOverlap" />
 
     <RelativeLayout

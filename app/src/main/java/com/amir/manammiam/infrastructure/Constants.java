@@ -66,6 +66,10 @@ public class Constants {
     public static final Integer RESERVE_SERVER = 23;
     public static final Integer ADD_SERVER_WITH_NOTIFICATION_TO_A_PASSENGER = 24;
     public static final Integer LOGOUT = 25;
+    public static final int SERVICES_FRAGMENT_PAGE_NUMBER = 1;
+    public static final int INBOX_FRAGMENT_PAGE_NUMBER = 2;
+    public static final int PROFILE_FRAGMENT_PAGE_NUMBER = 3;
+    public static final int TRIPS_FRAGMENT_PAGE_NUMBER = 0;
 
 
     private Constants() {

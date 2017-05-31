@@ -29,7 +29,7 @@ public final class ProfileFragment extends BaseFragment implements View.OnClickL
     private static final String TAG = "ProfileFragment";
     private TextViewFont nameText;
     private TextViewFont usernameText;
-    private TextViewFont emailText;
+    private TextViewFont phoneNumberText;
     private TextViewFont genderText;
     private TextViewFont permissionText;
     private View verificationContainer;
@@ -53,11 +53,12 @@ public final class ProfileFragment extends BaseFragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         //TODO: show telegram id and phone number if the user has them
+        //TODO: Make these info editable
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         nameText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_name));
         usernameText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_username));
-        emailText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_email));
+        phoneNumberText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_phone_number));
         genderText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_gender));
         permissionText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_permission));
         verificationContainer = view.findViewById(R.id.fragment_profile_verification_container);
@@ -139,11 +140,11 @@ public final class ProfileFragment extends BaseFragment implements View.OnClickL
     @Subscribe
     public void onProfileRecieved(Account.ProfileResponse response) {
         if (!carsReceived) carsProgressBar.setVisibility(View.VISIBLE);
-        if (response.didSucceed() && nameText != null && usernameText != null && emailText != null && genderText != null && permissionText != null) {
+        if (response.didSucceed() && nameText != null && usernameText != null && phoneNumberText != null && genderText != null && permissionText != null) {
 
             nameText.setText(response.getName());
             usernameText.setText(response.getUsername());
-            emailText.setText(response.getMail());
+            phoneNumberText.setText(response.getPhoneNumber());
             genderText.setText(getResources().getString(response.getGender() == User.MALE ? R.string.male : R.string.female));
 
             if (response.getPermission() == User.VERIFIED) {

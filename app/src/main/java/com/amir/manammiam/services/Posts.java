@@ -46,7 +46,7 @@ public final class Posts {
             this.token = token;
         }
 
-        public ManamMiamPost getServerId() {
+        public ManamMiamPost getPost() {
             return post;
         }
 

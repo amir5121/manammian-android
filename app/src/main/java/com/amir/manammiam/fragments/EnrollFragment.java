@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +15,11 @@ import android.widget.Toast;
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseFragment;
 import com.amir.manammiam.infrastructure.Constants;
+import com.amir.manammiam.infrastructure.User;
 import com.amir.manammiam.infrastructure.Utils;
 import com.amir.manammiam.infrastructure.customView.EditTextFont;
 import com.amir.manammiam.services.Account;
 import com.squareup.otto.Subscribe;
-
-import org.apache.commons.validator.routines.EmailValidator;
 
 public final class EnrollFragment extends BaseFragment implements View.OnClickListener {
 
@@ -31,7 +29,7 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
     EditTextFont passwordEdit;
     EditTextFont passwordRepeatEdit;
     EditTextFont nameEdit;
-    EditTextFont email;
+    EditTextFont phoneNumber;
     private enrollFragmentCallBacks listener;
     private View submitButton;
     private View loadingContainer;
@@ -39,12 +37,14 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
     private boolean passwordOK;
     private boolean passwordRepeatOK;
     private boolean nameOK;
-    private boolean emailOK;
+    private boolean phoneNumberOk;
+    private boolean genderOk = false;
 
 
     //    private static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
     //taken from: http://stackoverflow.com/questions/3802192/regexp-java-for-password-validation
     private static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}";
+    private static final String PHONE_NUMBER_PATTERN = "09([0-9]{9})";
 
     @Override
     public void onAttach(Context context) {
@@ -70,7 +70,7 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
         passwordEdit = (EditTextFont) view.findViewById(R.id.fragment_enroll_edit_password);
         passwordRepeatEdit = (EditTextFont) view.findViewById(R.id.fragment_enroll_edit_password_repeat);
         nameEdit = (EditTextFont) view.findViewById(R.id.fragment_enroll_edit_name);
-        email = (EditTextFont) view.findViewById(R.id.fragment_enroll_edit_email);
+        phoneNumber = (EditTextFont) view.findViewById(R.id.fragment_enroll_edit_phone_number);
         loadingContainer = view.findViewById(R.id.fragment_enroll_loading);
         submitButton = view.findViewById(R.id.fragment_enroll_btn_enroll);
         submitButton.setOnClickListener(this);
@@ -100,7 +100,7 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
             }
         });
 
-        email.addTextChangedListener(new TextWatcher() {
+        phoneNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -108,11 +108,12 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                emailOK = EmailValidator.getInstance().isValid(s.toString());
-                if (emailOK) {
-                    email.setError(null);
+//                phoneNumberOk = EmailValidator.getInstance().isValid(s.toString());
+                phoneNumberOk = s.toString().matches(PHONE_NUMBER_PATTERN);
+                if (phoneNumberOk) {
+                    phoneNumber.setError(null);
                 } else {
-                    email.setError(getString(R.string.invalid_email));
+                    phoneNumber.setError(getString(R.string.invalid_phone_number));
                 }
                 considerSubmitState();
             }
@@ -195,13 +196,15 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void considerSubmitState() {
-        submitButton.setEnabled(emailOK && nameOK && passwordOK && passwordRepeatOK && usernameOK);
+        submitButton.setEnabled(phoneNumberOk && nameOK && passwordOK && passwordRepeatOK && usernameOK && genderOk);
     }
 
     @Override
     public void onClick(View v) {
         int itemId = v.getId();
         if (itemId == R.id.fragment_enroll_btn_gender) {
+            genderOk = true;
+            considerSubmitState();
             if (genderButton.getText().equals(getResources().getString(R.string.male))) {
                 genderButton.setText(getResources().getString(R.string.female));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -223,11 +226,11 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
             loadingContainer.setVisibility(View.VISIBLE);
             loadingContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION).start();
 
-            bus.post(new Account.EnrollRequest(email.getText().toString(),
+            bus.post(new Account.EnrollRequest(phoneNumber.getText().toString(),
                     usernameEdit.getText().toString(),
                     nameEdit.getText().toString(),
                     passwordEdit.getText().toString(),
-                    genderButton.getText().equals(getString(R.string.male)))); //Male is true
+                    genderButton.getText().equals(getString(R.string.male)) ? User.MALE : User.FEMALE));
 
 //        } else if (itemId == R.id.fragment_enroll_btn_close) {
 //            listener.onCancelPressed();
@@ -242,7 +245,8 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
     public void onEnrollResponseReceived(Account.EnrollResponse response) {
         if (response.didSucceed()) {
             Toast.makeText(getContext(), getString(R.string.enroll_successful), Toast.LENGTH_SHORT).show();
-            Toast.makeText(getContext(), getString(R.string.verify_email), Toast.LENGTH_SHORT).show();
+            //TODO: verify phone number
+//            Toast.makeText(getContext(), getString(R.string.verify_email), Toast.LENGTH_SHORT).show();
         } else {
             response.showErrorToast(getContext());
         }

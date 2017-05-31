@@ -81,15 +81,16 @@ public final class Services {
     }
 
     public static class ReportServiceResponse extends ManamMiamResponse {
-        public static final int SUCCESSFUL = 1;
+//        public static final int SUCCESSFUL = 1;
 
-        private final int result;
+        @SerializedName("result")
+        private final boolean result;
 
-        public ReportServiceResponse(int result) {
+        public ReportServiceResponse(boolean result) {
             this.result = result;
         }
 
-        public int getResult() {
+        public boolean getResult() {
             return result;
         }
     }
@@ -181,8 +182,8 @@ public final class Services {
     public static class AddServicesResponse extends ManamMiamResponse {
         public static final int SUCCESSFUL = 1;
         public static final int NO_VALID_CAR_OR_DOSEN_T_OWN_THE_CAR = 2;
-        public static final int SERVERS_TOO_CLOSE_TO_EACHOTHER = 3;
-        public static final int SOMTHING_WENT_WRONG = 4;
+        public static final int SERVERS_TOO_CLOSE_TO_EACH_OTHER = 3;
+        public static final int SOMETHING_WENT_WRONG = 4;
         public static final int SERVICE_IS_NOT_IN_THE_FUTURE = 5;
         
         @SerializedName("result")

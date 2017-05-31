@@ -1,6 +1,7 @@
 package com.amir.manammiam.services;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.ManamMiamApplication;
@@ -21,6 +22,8 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+
 
 class LiveManamMiamServices {
     private static final String TAG = "LiveManamMiamServices";
@@ -35,6 +38,8 @@ class LiveManamMiamServices {
         database = application.getDatabase();
         services = application.getRetrofit().create(ManamMiamWebServices.class);
         this.application = application;
+
+        RetrofitCallback.setUp(services, bus);
 //        database.invalidate();
     }
 
@@ -50,7 +55,7 @@ class LiveManamMiamServices {
 
 
         services.login(Constants.LOGIN_USER, request.getUsername(), request.getPassword(), request.getSourceType())
-                .enqueue(new RetrofitCallback<Account.LoginResponse>(bus) {
+                .enqueue(new RetrofitCallback<Account.LoginResponse>() {
                     @Override
                     protected void onResolve(Account.LoginResponse body) {
                         database.invalidate();
@@ -72,16 +77,10 @@ class LiveManamMiamServices {
     public void getCars(Account.CarsRequest request) {
 
         services.getCars(Constants.GET_PERSON_S_CAR, request.getToken())
-                .enqueue(new RetrofitCallback<List<Car>>(bus) {
+                .enqueue(new RetrofitCallback<List<Car>>() {
                     @Override
                     protected void onResolve(List<Car> body) {
-
-                        if (body != null) {
-                            bus.post(new Account.CarsResponse((ArrayList<Car>) body));
-                        } else {
-
-                        }
-
+                        bus.post(new Account.CarsResponse((ArrayList<Car>) body));
                     }
                 });
 //                .enqueue(new RetrofitCallback<Account.LoginResponse>(bus) {
@@ -118,13 +117,12 @@ class LiveManamMiamServices {
     @Subscribe
     public void getProfile(Account.ProfileRequest request) {
 
-        Log.e(TAG, "getProfile: " + request.getToken());
         services.authenticate(Constants.LOGIN_WITH_TOKEN, request.getToken())
-                .enqueue(new RetrofitCallback<Account.ProfileResponse>(bus) {
+                .enqueue(new RetrofitCallback<Account.ProfileResponse>() {
                     @Override
                     protected void onResolve(Account.ProfileResponse body) {
                         if (body.getName() == null) {
-                            body.setOperationError("invalid Token");
+                            body.setOperationError(application.getString(R.string.invalid_token));
                             database.invalidate();
                         } else {
                             database.updateUser(body);
@@ -138,7 +136,7 @@ class LiveManamMiamServices {
     public void getPosts(Posts.PostsRequest request) {
 
         services.getPosts(Constants.GET_POSTS, request.token)
-                .enqueue(new RetrofitCallback<List<ManamMiamPost>>(bus) {
+                .enqueue(new RetrofitCallback<List<ManamMiamPost>>() {
                     @Override
                     protected void onResolve(List<ManamMiamPost> body) {
                         bus.post(new Posts.PostResponse((ArrayList<ManamMiamPost>) body));
@@ -171,7 +169,7 @@ class LiveManamMiamServices {
     public void onTimeRequestReceived(final MMTime.Request request) {
 
         services.isInTheFuture(Constants.IS_IN_THE_FUTURE, request.getTime())
-                .enqueue(new RetrofitCallback<TimePOJO>(bus) {
+                .enqueue(new RetrofitCallback<TimePOJO>() {
                     @Override
                     protected void onResolve(TimePOJO body) {
                         bus.post(new MMTime.TimeResponse(request.getTrip(), request.getResponseContainer(), request.getCancelContainer(), body.isInTheFuture, request.getLoadingContainer()));
@@ -190,7 +188,7 @@ class LiveManamMiamServices {
     public void onServicesRequestReceived(Services.ServicesRequest request) {
 
         services.getServices(Constants.GET_SERVERS, request.getToken(), request.getGender())
-                .enqueue(new RetrofitCallback<List<ManamMiamService>>(bus) {
+                .enqueue(new RetrofitCallback<List<ManamMiamService>>() {
                     @Override
                     protected void onResolve(List<ManamMiamService> body) {
                         bus.post(new Services.ServicesResponse((ArrayList<ManamMiamService>) body));
@@ -213,6 +211,7 @@ class LiveManamMiamServices {
 
     @Subscribe
     public void onRateRequestReceived(Rate.RateRequest request) {
+        //todo: add rate table to the server
 //        Rate.RateResponse response = new Rate.RateResponse(request.getPassengerTrip(), request.getLoading(), request.getResponseContainer());
 //
 //        postEvent(response);
@@ -222,7 +221,7 @@ class LiveManamMiamServices {
     public void onLocationRequestReceived(Location.LocationRequest request) {
 //
         services.searchLocations(Constants.SEARCH_LOCATIONS, request.getSequence())
-                .enqueue(new RetrofitCallback<List<ManamMiamLocation>>(bus) {
+                .enqueue(new RetrofitCallback<List<ManamMiamLocation>>() {
                     @Override
                     protected void onResolve(List<ManamMiamLocation> body) {
                         bus.post(new Location.LocationResponse((ArrayList<ManamMiamLocation>) body));
@@ -245,7 +244,7 @@ class LiveManamMiamServices {
     public void onSpecificServicesRequestReceived(Services.ServicesSpecificRequest request) {
 
         services.getServerSpecific(Constants.GET_SERVER_SPECIFIC, request.getGender(), request.getDestinationId(), request.getSourceId())
-                .enqueue(new RetrofitCallback<List<ManamMiamService>>(bus) {
+                .enqueue(new RetrofitCallback<List<ManamMiamService>>() {
                     @Override
                     protected void onResolve(List<ManamMiamService> body) {
                         bus.post(new Services.ServicesSpecificResponse((ArrayList<ManamMiamService>) body));
@@ -266,8 +265,9 @@ class LiveManamMiamServices {
     @Subscribe
     public void onAddCarRequestReceived(Account.AddCarRequest request) {
 
+
         services.addCar(Constants.ADD_A_CAR, request.getCarType(), request.getCarCode(), request.getCarColor(), request.isTaxi(), request.getToken())
-                .enqueue(new RetrofitCallback<Account.AddCarResponse>(bus) {
+                .enqueue(new RetrofitCallback<Account.AddCarResponse>() {
                     @Override
                     protected void onResolve(Account.AddCarResponse body) {
                         bus.post(body);
@@ -283,6 +283,19 @@ class LiveManamMiamServices {
 
     @Subscribe
     public void onReportRequestReceived(Services.ReportServiceRequest request) {
+
+        services.report(Constants.ADD_REPORT, request.getText(), request.getServiceId(), request.getToken())
+                .enqueue(new RetrofitCallback<Services.ReportServiceResponse>() {
+                    @Override
+                    protected void onResolve(Services.ReportServiceResponse body) {
+                        if (!body.getResult()) {
+                            body.setOperationError(application.getString(R.string.something_went_wrong));
+                        }
+
+                        bus.post(body);
+                    }
+                });
+
 //        Services.ReportServiceResponse response = new Services.ReportServiceResponse(Services.ReportServiceResponse.SUCCESSFUL);
 //        postEvent(response);
     }
@@ -299,23 +312,6 @@ class LiveManamMiamServices {
 //        postEvent(response);
     }
 
-    @Subscribe
-    public void onServiceReserveRequestReceived(final Services.ReserveRequest request) {
-
-        services.reserveServer(Constants.RESERVE_SERVER, request.getToken(), request.getService().getServerId())
-                .enqueue(new RetrofitCallback<Services.ReserveResponsePOJO>(bus) {
-                    @Override
-                    protected void onResolve(Services.ReserveResponsePOJO body) {
-                        Services.ReserveResponse res = new Services.ReserveResponse(body.result);
-                        res.setService(request.getService());
-                        res.setLoading(request.getLoading());
-                        bus.post(res);
-                    }
-                });
-
-//        Services.ReserveResponse response = new Services.ReserveResponse(Services.ReserveResponse.SUCCESSFUL, request.getLoading(), request.getService());
-//        postEvent(response);
-    }
 
     @Subscribe
     public void onEnrollRequestReceived(Account.EnrollRequest request) {
@@ -326,13 +322,12 @@ class LiveManamMiamServices {
     @Subscribe
     public void onCreateTripRequestReceived(Trips.CreateRequest request) {
 
-        Log.e(TAG, "onCreateTripRequestReceived: " + String.format("%d %s %s %s %s", Constants.ADD_PASSENGER, request.getToken(), request.getDestinationId(), request.getSourceId(), request.getTime()));
+//        Log.e(TAG, "onCreateTripRequestReceived: " + String.format("%d %s %s %s %s", Constants.ADD_PASSENGER, request.getToken(), request.getDestinationId(), request.getSourceId(), request.getTime()));
 
         services.createTrip(Constants.ADD_PASSENGER, request.getToken(), request.getDestinationId(), request.getSourceId(), request.getTime())
-                .enqueue(new RetrofitCallback<Trips.CreateResponse>(bus) {
+                .enqueue(new RetrofitCallback<Trips.CreateResponse>() {
                     @Override
                     protected void onResolve(Trips.CreateResponse body) {
-                        Log.e(TAG, "------onResolve: " + body.getResult());
                         bus.post(body);
                     }
                 });
@@ -344,11 +339,27 @@ class LiveManamMiamServices {
     @Subscribe
     public void onAddServerRequestReceived(Services.AddServicesRequest request) {
 
-        RetrofitCallback<Services.AddServicesResponse> addServiceCallback = new RetrofitCallback<Services.AddServicesResponse>(bus) {
+        RetrofitCallback<Services.AddServicesResponse> addServiceCallback = new RetrofitCallback<Services.AddServicesResponse>() {
             @Override
             protected void onResolve(Services.AddServicesResponse body) {
                 switch (body.getResult()) {
+                    case Services.AddServicesResponse.SUCCESSFUL:
+                        //do nothing
+                        break;
+                    case Services.AddServicesResponse.SOMETHING_WENT_WRONG:
+                        body.setOperationError(application.getString(R.string.something_went_wrong));
+                        break;
+                    case Services.AddServicesResponse.SERVICE_IS_NOT_IN_THE_FUTURE:
+                        body.setOperationError(application.getString(R.string.service_not_in_future));
+                        break;
+                    case Services.AddServicesResponse.SERVERS_TOO_CLOSE_TO_EACH_OTHER:
+                        body.setOperationError(application.getString(R.string.service_close_to_each_other));
+                        break;
+                    case Services.AddServicesResponse.NO_VALID_CAR_OR_DOSEN_T_OWN_THE_CAR:
+                        body.setOperationError(application.getString(R.string.no_valid_car));
+                        break;
                 }
+                bus.post(body);
             }
         };
 
@@ -368,7 +379,7 @@ class LiveManamMiamServices {
         } else {
             //create server with notification
             services.addServiceWithNotification(
-                    Constants.ADD_SERVER_WITH_NO_NOTIFICATION,
+                    Constants.ADD_SERVER_WITH_NOTIFICATION_TO_A_PASSENGER,
                     request.getToken(),
                     request.getDestinationId(),
                     request.getSourceId(),
@@ -388,20 +399,81 @@ class LiveManamMiamServices {
     @Subscribe
     public void onLogoutRequestReceieved(Account.LogoutRequest request) {
 
-        services.logout(Constants.LOGOUT, request.getToken())
-                .enqueue(new RetrofitCallback<Account.LogoutResponse>(bus) {
-                    @Override
-                    protected void onResolve(Account.LogoutResponse body) {
-                        bus.post(body);
-                    }
-                });
+        Call<Account.LogoutResponse> logout = services.logout(Constants.LOGOUT, request.getToken());
+        logout.clone();
+        logout.enqueue(new RetrofitCallback<Account.LogoutResponse>() {
+            @Override
+            protected void onResolve(Account.LogoutResponse body) {
+                bus.post(body);
+            }
+        });
 
 //        Account.LogoutResponse response = new Account.LogoutResponse(Account.LogoutResponse.SUCCESSFUL);
 //        postEvent(response);
     }
 
     @Subscribe
-    public void onJoinServiceRequestReceieved(Posts.AcceptRequest request) {
+    public void onServiceReserveRequestReceived(final Services.ReserveRequest request) {
+
+        services.reserveServer(Constants.RESERVE_SERVER, request.getToken(), request.getService().getServerId())
+                .enqueue(new RetrofitCallback<Services.ReserveResponsePOJO>() {
+                    @Override
+                    protected void onResolve(Services.ReserveResponsePOJO body) {
+                        Services.ReserveResponse res = new Services.ReserveResponse(body.result);
+                        switch (body.result) {
+                            case Services.ReserveResponse.SUCCESSFUL:
+                                break;
+                            case Services.ReserveResponse.FAILED:
+                                res.setOperationError(application.getString(R.string.failed_to_reserve_service));
+                                break;
+                            case Services.ReserveResponse.ALREADY_A_PASSENGER:
+                                res.setOperationError(application.getString(R.string.already_a_passenger));
+                                break;
+                            case Services.ReserveResponse.NO_SUCH_A_SERVER_EXISTS:
+                                res.setOperationError(application.getString(R.string.no_such_a_service_exists));
+                                break;
+                            default:
+                                break;
+                        }
+                        res.setService(request.getService());
+                        res.setLoading(request.getLoading());
+                        bus.post(res);
+                    }
+                });
+
+//        Services.ReserveResponse response = new Services.ReserveResponse(Services.ReserveResponse.SUCCESSFUL, request.getLoading(), request.getService());
+//        postEvent(response);
+    }
+
+
+    @Subscribe
+    public void onJoinServiceRequestReceived(final Posts.AcceptRequest request) {
+
+        services.reserveServer(Constants.RESERVE_SERVER, request.getToken(), request.getPost().getServerId())
+                .enqueue(new RetrofitCallback<Services.ReserveResponsePOJO>() {
+                    @Override
+                    protected void onResolve(Services.ReserveResponsePOJO body) {
+                        Posts.AcceptResponse res = new Posts.AcceptResponse(body.result, request.getLoading(), request.getPost());
+                        switch (body.result) {
+                            case Services.ReserveResponse.SUCCESSFUL:
+                                break;
+                            case Services.ReserveResponse.FAILED:
+                                res.setOperationError(application.getString(R.string.failed_to_reserve_service));
+                                break;
+                            case Services.ReserveResponse.ALREADY_A_PASSENGER:
+                                res.setOperationError(application.getString(R.string.already_a_passenger));
+                                break;
+                            case Services.ReserveResponse.NO_SUCH_A_SERVER_EXISTS:
+                                res.setOperationError(application.getString(R.string.no_such_a_service_exists));
+                                break;
+                            default:
+                                break;
+                        }
+                        bus.post(res);
+                    }
+                });
+
+
 //        request.getServerId();
 //        request.getToken();
 //        //reserve server method on php
@@ -415,7 +487,7 @@ class LiveManamMiamServices {
     public void getTrips(Trips.TripRequest request) {
 
         services.getTrips(Constants.GET_TRIPS, request.token)
-                .enqueue(new RetrofitCallback<List<TripPOJO>>(bus) {
+                .enqueue(new RetrofitCallback<List<TripPOJO>>() {
                     @Override
                     protected void onResolve(List<TripPOJO> body) {
                         ArrayList<Trip> trips = new ArrayList<>(body.size());

@@ -6,14 +6,12 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.Toast;
 
 import com.amir.manammiam.R;
-import com.amir.manammiam.base.BaseActivity;
 import com.amir.manammiam.base.BaseAuthenticatedActivity;
 import com.amir.manammiam.infrastructure.User;
 import com.amir.manammiam.infrastructure.customView.TypeWriter;
@@ -67,7 +65,9 @@ public class TokenLoginActivity extends BaseAuthenticatedActivity {
 
     @Subscribe
     public void onRequestFailureRecevied(ServiceFailure failure) {
-
+        Toast.makeText(this, getText(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+        //TODO: handle when the user has no internet better
+        finish();
     }
 
     @Subscribe
@@ -77,7 +77,7 @@ public class TokenLoginActivity extends BaseAuthenticatedActivity {
                     new User(response.getUsername(),
                             response.getName(),
                             response.getGender(),
-                            response.getMail(),
+                            response.getPhoneNumber(),
                             response.getPermission(),
                             application.getUser().getToken(),
                             response.isDriver());
@@ -114,7 +114,7 @@ public class TokenLoginActivity extends BaseAuthenticatedActivity {
                 .ofFloat(imageView, "translationY", translateYOffset)
                 .setDuration(ANIMATION_LOOP_DURATION);
 
-        ObjectAnimator yScaleAnimeUp = ObjectAnimator
+        ObjectAnimator yScaleAnimUp = ObjectAnimator
                 .ofFloat(imageView, "scaleY", 1f)
                 .setDuration(ANIMATION_LOOP_DURATION);
 
@@ -122,7 +122,7 @@ public class TokenLoginActivity extends BaseAuthenticatedActivity {
                 .ofFloat(imageView, "translationY", 0)
                 .setDuration(ANIMATION_LOOP_DURATION);
 
-        final ObjectAnimator yScaleAnimeDown = ObjectAnimator
+        final ObjectAnimator yScaleAnimDown = ObjectAnimator
                 .ofFloat(imageView, "scaleY", .4f)
                 .setDuration(ANIMATION_LOOP_DURATION / 2);
 
@@ -131,7 +131,7 @@ public class TokenLoginActivity extends BaseAuthenticatedActivity {
             public void onAnimationUpdate(ValueAnimator animation) {
                 if (!isHittingGround) {
                     if (animation.getAnimatedFraction() > .45f) {
-                        yScaleAnimeDown.start();
+                        yScaleAnimDown.start();
                         isHittingGround = true;
                     }
                 }
@@ -139,7 +139,7 @@ public class TokenLoginActivity extends BaseAuthenticatedActivity {
         });
 
 
-        animationUp.playTogether(yScaleAnimeUp, yTransAnimUp);
+        animationUp.playTogether(yScaleAnimUp, yTransAnimUp);
         animationDown.play(yTransAnimDown);
         animationDown.setInterpolator(new AccelerateInterpolator());
         animationUp.setInterpolator(new AccelerateDecelerateInterpolator());

@@ -102,7 +102,7 @@ public class Database extends SQLiteOpenHelper {
                         .add(C_PERMISSION, userInfo.getPermission())
                         .add(C_GENDER, userInfo.getGender())
                         .add(C_IS_DRIVER, userInfo.isDriver())
-                        .add(C_MAIL, userInfo.getMail()).get();
+                        .add(C_MAIL, userInfo.getPhoneNumber()).get();
 
         db.update(T_USER, cv, null, null);
 

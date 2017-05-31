@@ -19,6 +19,7 @@ import com.amir.manammiam.base.BaseActivity;
 import com.amir.manammiam.base.BaseFragment;
 import com.amir.manammiam.dialogFragment.ReportDialogFragment;
 import com.amir.manammiam.infrastructure.Constants;
+import com.amir.manammiam.infrastructure.SwitchRequest;
 import com.amir.manammiam.infrastructure.trip.Trip;
 import com.amir.manammiam.infrastructure.trip.TripAdapter;
 import com.amir.manammiam.infrastructure.trip.TripCallbacks;
@@ -58,9 +59,13 @@ public class TripFragment extends BaseFragment implements AdapterView.OnItemClic
         } else {
             swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         }
+        refreshTrips();
+        return view;
+    }
+
+    private void refreshTrips() {
         swipeRefresh.setRefreshing(true);
         bus.post(new Trips.TripRequest(application.getUser().getToken()));
-        return view;
     }
 
     @Override
@@ -154,7 +159,7 @@ public class TripFragment extends BaseFragment implements AdapterView.OnItemClic
                     response.getResponseContainer().setVisibility(View.VISIBLE);
                     response.getResponseContainer().animate().setDuration(Constants.ANIMATION_DURATION).alpha(1).start();
                     response.getTrip().setState(Trip.REPORT_RATE);
-                }  else {
+                } else {
                     response.getTrip().setState(Trip.NONE);
                 }
 
@@ -207,13 +212,12 @@ public class TripFragment extends BaseFragment implements AdapterView.OnItemClic
 
     @Override
     public void onRefresh() {
-        swipeRefresh.setRefreshing(true);
-        bus.post(new Trips.TripRequest(application.getUser().getToken()));
+        refreshTrips();
     }
 
     @Override
     public void reportService(PassengerTrip passengerTrip) {
-//        ReportDialogFragment.newInstance(passengerTrip.getServerID()).show(getFragmentManager(), "ReportDialog");
+        ReportDialogFragment.newInstance(passengerTrip.getServerID()).show(getFragmentManager(), "ReportDialog");
     }
 
     @Override
@@ -257,6 +261,14 @@ public class TripFragment extends BaseFragment implements AdapterView.OnItemClic
         response.getCancelContainer().setVisibility(View.GONE);
         response.getLoading().setVisibility(View.GONE);
         response.getTrip().setState(Trip.NONE);
+    }
+
+
+    @Subscribe
+    public void switchToFragment(SwitchRequest request) {
+        //this is just a hack.. if this fragment is live the and a request to switch to it is made it will also refresh it here
+        if (request.pageNumber == Constants.TRIPS_FRAGMENT_PAGE_NUMBER)
+            refreshTrips();
     }
 
 }

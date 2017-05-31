@@ -124,16 +124,16 @@
                         android:layout_height="wrap_content">
 
                         <com.amir.manammiam.infrastructure.customView.EditTextFont
-                            android:id="@+id/fragment_enroll_edit_email"
+                            android:id="@+id/fragment_enroll_edit_phone_number"
                             style="@style/editTextIranSans"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/edit_text_default_margin"
-                            android:drawableLeft="@drawable/ic_inbox_colored"
+                            android:drawableLeft="@drawable/ic_phone_colored"
                             android:drawablePadding="8dp"
-                            android:drawableStart="@drawable/ic_inbox_colored"
-                            android:hint="@string/email"
-                            android:inputType="textEmailAddress"
+                            android:drawableStart="@drawable/ic_phone_colored"
+                            android:hint="@string/phone_number"
+                            android:inputType="phone"
                             android:padding="@dimen/edit_text_default_padding" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -148,12 +148,12 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="15dp"
-                        android:background="@color/male_color"
+                        android:background="@color/colorPrimary"
                         android:drawableLeft="@drawable/ic_gender"
                         android:drawableStart="@drawable/ic_gender"
                         android:foreground="?android:selectableItemBackground"
                         android:padding="5dp"
-                        android:text="@string/male"
+                        android:text="@string/unknown"
                         android:textColor="#FFF"
                         android:textSize="17sp" />
 

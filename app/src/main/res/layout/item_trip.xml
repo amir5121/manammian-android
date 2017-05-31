@@ -29,6 +29,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                style="@style/textViewIranSans"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Amir"
@@ -40,6 +41,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                style="@style/textViewIranSans"
                 android:alpha=".9"
                 android:gravity="center"
                 android:padding="5dp"
@@ -128,6 +130,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginStart="5dp"
+                        style="@style/textViewIranSans"
                         android:layout_marginTop="1dp"
                         android:gravity="center"
                         android:text="@string/rates"
@@ -149,6 +152,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        style="@style/textViewIranSans"
                         android:text="@string/capacity"
                         android:textSize="@dimen/text_very_small" />
 
@@ -193,6 +197,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    style="@style/textViewIranSans"
                     android:padding="2dp"
                     android:text="Peogeot"
                     android:textSize="@dimen/text_small" />
@@ -203,12 +208,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    style="@style/textViewIranSans"
                     android:padding="2dp"
                     android:text="Blue"
                     android:textSize="@dimen/text_small" />
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
                     android:id="@+id/item_trip_text_car_code"
+                    style="@style/textViewIranSans"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

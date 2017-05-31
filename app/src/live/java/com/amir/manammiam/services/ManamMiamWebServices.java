@@ -63,6 +63,16 @@ public interface ManamMiamWebServices {
             @Field(Constants.ACTION_TYPE) Integer actionType,
             @Field("date") String time);
 
+
+//    @POST(Constants.CONCAT_URL)
+//    @FormUrlEncoded
+//    Call<TimePOJO> acceptService(
+//            @Field(Constants.ACTION_TYPE) Integer actionType,
+//            @Field("source_id") long sourceId,
+//            @Field("destination_id") long destinationId,
+//            @Field("server_id") long serveId,
+//            @Field("token") String token);
+
     @POST(Constants.CONCAT_URL)
     @FormUrlEncoded
     Call<List<ManamMiamService>> getServices(
@@ -97,6 +107,14 @@ public interface ManamMiamWebServices {
             @Field("car_type") String carType, @Field("car_code") String CoreCode,
             @Field("car_color") String carColor,
             @Field("is_taxi") boolean isTaxi,
+            @Field("token") String token);
+
+    @POST(Constants.CONCAT_URL)
+    @FormUrlEncoded
+    Call<Services.ReportServiceResponse> report(
+            @Field(Constants.ACTION_TYPE) Integer actionType,
+            @Field("text") String text,
+            @Field("server_id") long serverId,
             @Field("token") String token);
 
     @POST(Constants.CONCAT_URL)
