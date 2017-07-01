@@ -12,16 +12,16 @@ import com.vansuita.sqliteparser.SqlParser;
 
 public class Database extends SQLiteOpenHelper {
     private static final String TAG = "Database";
-    private static final int DATABASE_VER = 4;
+    private static final int DATABASE_VER = 5;
     private static final String DATABASE_NAME = "manammiam.db";
 
 
     //USER table
     private static final String T_USER = "user";
     private static final String C_NAME = "name";
-    private static final String C_USERNAME = "username";
+    private static final String C_PHONE_NUMBER = "phone_number";
     private static final String C_GENDER = "gender";
-    private static final String C_MAIL = "email";
+    private static final String C_TELEGRAM_ID = "telegram_id";
     private static final String C_PERMISSION = "permission";
     private static final String C_TOKEN = "token";
     private static final String C_IS_DRIVER = "is_driver";
@@ -43,9 +43,9 @@ public class Database extends SQLiteOpenHelper {
                 SqlParser.
                         create(T_USER).
                         str(C_NAME).
-                        str(C_USERNAME).
+                        str(C_PHONE_NUMBER).
                         bool(C_GENDER).
-                        str(C_MAIL).
+                        str(C_TELEGRAM_ID).
                         num(C_PERMISSION).
                         str(C_TOKEN).
                         num(C_IS_DRIVER).
@@ -68,13 +68,13 @@ public class Database extends SQLiteOpenHelper {
         Log.e(TAG, "getUser: users count must be one " + cursor.getCount());
 
         if (cursor.getCount() == 1) {
-            Log.e(TAG, "getUser: " + cursor.getColumnCount() + " " + cursor.getColumnIndexOrThrow(C_USERNAME));
+            Log.e(TAG, "getUser: " + cursor.getColumnCount() + " " + cursor.getColumnIndexOrThrow(C_PHONE_NUMBER));
             cursor.moveToFirst();
             user = new User(
-                    cursor.getString(cursor.getColumnIndexOrThrow(C_USERNAME)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(C_PHONE_NUMBER)),
                     cursor.getString(cursor.getColumnIndexOrThrow(C_NAME)),
                     cursor.getInt(cursor.getColumnIndexOrThrow(C_GENDER)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(C_MAIL)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(C_TELEGRAM_ID)),
                     cursor.getInt(cursor.getColumnIndexOrThrow(C_PERMISSION)),
                     cursor.getString(cursor.getColumnIndexOrThrow(C_TOKEN)),
                     cursor.getInt(cursor.getColumnIndexOrThrow(C_IS_DRIVER)) == 1
@@ -94,15 +94,16 @@ public class Database extends SQLiteOpenHelper {
 
     public void updateUser(Account.ProfileResponse userInfo) {
 
-        Log.e(TAG, "updateUser: " + userInfo.getUsername());
+        Log.e(TAG, "updateUser: " + userInfo.getPhoneNumber());
         ContentValues cv =
                 SqlParser.content()
-                        .add(C_USERNAME, userInfo.getUsername())
+                        .add(C_PHONE_NUMBER, userInfo.getPhoneNumber())
                         .add(C_NAME, userInfo.getName())
                         .add(C_PERMISSION, userInfo.getPermission())
                         .add(C_GENDER, userInfo.getGender())
                         .add(C_IS_DRIVER, userInfo.isDriver())
-                        .add(C_MAIL, userInfo.getPhoneNumber()).get();
+                        .add(C_TELEGRAM_ID, userInfo.getPhoneNumber())
+                        .get();
 
         db.update(T_USER, cv, null, null);
 

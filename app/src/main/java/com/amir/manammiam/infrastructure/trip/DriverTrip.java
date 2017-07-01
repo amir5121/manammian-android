@@ -12,7 +12,7 @@ public final class DriverTrip extends Trip {
     private final int numberOfPassenger;//passenger count
 
     public DriverTrip(String time, String sourceName, String destinationName, Car car, String price, int capacity, int numberOfPassenger, long serverID) {
-        super(time, sourceName, destinationName, car, price, serverID);
+        super(time, sourceName, destinationName, car, price, serverID, 0);
         this.capacity = capacity;
         this.numberOfPassenger = numberOfPassenger;
     }

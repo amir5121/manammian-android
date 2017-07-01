@@ -72,7 +72,6 @@
     <string name="invalid_phone_number">Invalid phone number</string>
     <string name="password_rules">At least 8 character including:\nUpper &amp; lower character \nA number \nNo spaces!</string>
     <string name="passwords_must_match">Must match with you password</string>
-    <string name="username_rule">Username must be longer than 5 character and must not contain spaces and must not contain persian characters</string>
     <string name="can_not_be_empty">Can\'t be empty!</string>
     <string name="enroll_successful">Enroll successful</string>
     <string name="trip_created">Trip created</string>
@@ -90,4 +89,9 @@
     <string name="invalid_token">Invalid Token</string>
     <string name="phone_number">Phone Number</string>
     <string name="unknown">Unknown</string>
+    <string name="failed_to_cancel_trip">Failed to cancel Trip</string>
+    <string name="user_blocked">User Blocked</string>
+    <string name="user_unverified">User Unverified</string>
+    <string name="telegram_id">Telegram ID</string>
+    <string name="telegram_id_rules">Invalid Telegram ID</string>
 </resources>

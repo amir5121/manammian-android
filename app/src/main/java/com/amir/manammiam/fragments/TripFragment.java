@@ -36,7 +36,7 @@ public class TripFragment extends BaseFragment implements AdapterView.OnItemClic
 
     // newInstance constructor for creating fragment with arguments
     public static TripFragment newInstance(int page, String title) {
-        TripFragment fragmentFirst = new TripFragment();
+            TripFragment fragmentFirst = new TripFragment();
         Bundle args = new Bundle();
         args.putInt("someInt", page);
         args.putString("someTitle", title);
@@ -155,19 +155,19 @@ public class TripFragment extends BaseFragment implements AdapterView.OnItemClic
         if (response.didSucceed()) {
             if (response.isInTheFuture()) {
                 if (response.getTrip() instanceof PassengerTrip) {
-                    response.getResponseContainer().setAlpha(0);
-                    response.getResponseContainer().setVisibility(View.VISIBLE);
-                    response.getResponseContainer().animate().setDuration(Constants.ANIMATION_DURATION).alpha(1).start();
-                    response.getTrip().setState(Trip.REPORT_RATE);
+                    response.getCancelContainer().setAlpha(0);
+                    response.getCancelContainer().setVisibility(View.VISIBLE);
+                    response.getCancelContainer().animate().setDuration(Constants.ANIMATION_DURATION).alpha(1).start();
+                    response.getTrip().setState(Trip.CANCELING);
                 } else {
                     response.getTrip().setState(Trip.NONE);
                 }
 
             } else {
-                response.getCancelContainer().setAlpha(0);
-                response.getCancelContainer().setVisibility(View.VISIBLE);
-                response.getCancelContainer().animate().setDuration(Constants.ANIMATION_DURATION).alpha(1).start();
-                response.getTrip().setState(Trip.CANCELING);
+                response.getResponseContainer().setAlpha(0);
+                response.getResponseContainer().setVisibility(View.VISIBLE);
+                response.getResponseContainer().animate().setDuration(Constants.ANIMATION_DURATION).alpha(1).start();
+                response.getTrip().setState(Trip.REPORT_RATE);
             }
         } else {
 
@@ -250,6 +250,7 @@ public class TripFragment extends BaseFragment implements AdapterView.OnItemClic
     public void onCancelResponseReceived(Trips.CancelResponse response) {
         if (response.didSucceed()) {
             Toast.makeText(getContext(), getString(R.string.trip_canceled), Toast.LENGTH_SHORT).show();
+            refreshTrips();
             //TODO: after cancelling the trip remove it from the list view
             // TODO: after cancelling the trip notify the driver that a passenger canceled it's trip
 

@@ -25,15 +25,15 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
 
     private static final String TAG = "EnrollFragment";
     Button genderButton;
-    EditTextFont usernameEdit;
+    EditTextFont telegramID;
     EditTextFont passwordEdit;
     EditTextFont passwordRepeatEdit;
     EditTextFont nameEdit;
     EditTextFont phoneNumber;
-    private enrollFragmentCallBacks listener;
+    private EnrollFragmentCallBacks listener;
     private View submitButton;
     private View loadingContainer;
-    private boolean usernameOK;
+    private boolean telegramIDOK;
     private boolean passwordOK;
     private boolean passwordRepeatOK;
     private boolean nameOK;
@@ -50,7 +50,7 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            listener = (enrollFragmentCallBacks) context;
+            listener = (EnrollFragmentCallBacks) context;
         } catch (ClassCastException e) {
             throw new RuntimeException("You need to implement EnrollFragmentCallbacks in order to use this fragment");
         }
@@ -66,7 +66,7 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
 
     private void setUpView(View view) {
         genderButton = (Button) view.findViewById(R.id.fragment_enroll_btn_gender);
-        usernameEdit = (EditTextFont) view.findViewById(R.id.fragment_enroll_edit_username);
+        telegramID = (EditTextFont) view.findViewById(R.id.fragment_enroll_edit_telegram_id);
         passwordEdit = (EditTextFont) view.findViewById(R.id.fragment_enroll_edit_password);
         passwordRepeatEdit = (EditTextFont) view.findViewById(R.id.fragment_enroll_edit_password_repeat);
         nameEdit = (EditTextFont) view.findViewById(R.id.fragment_enroll_edit_name);
@@ -77,7 +77,7 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
         genderButton.setOnClickListener(this);
 //        view.findViewById(R.id.fragment_enroll_btn_close).setOnClickListener(this);
 
-        usernameEdit.addTextChangedListener(new TextWatcher() {
+        telegramID.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -85,11 +85,11 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                usernameOK = s.length() > 5 && !s.toString().contains(" ") && !Utils.isPersian(s.toString());
-                if (usernameOK) {
-                    usernameEdit.setError(null);
+                telegramIDOK = s.length() >= 5 && !s.toString().contains(" ") && !Utils.isPersian(s.toString());
+                if (telegramIDOK) {
+                    telegramID.setError(null);
                 } else {
-                    usernameEdit.setError(getString(R.string.username_rule));
+                    telegramID.setError(getString(R.string.telegram_id_rules));
                 }
                 considerSubmitState();
             }
@@ -196,7 +196,7 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void considerSubmitState() {
-        submitButton.setEnabled(phoneNumberOk && nameOK && passwordOK && passwordRepeatOK && usernameOK && genderOk);
+        submitButton.setEnabled(phoneNumberOk && nameOK && passwordOK && passwordRepeatOK && genderOk && telegramIDOK);
     }
 
     @Override
@@ -227,7 +227,7 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
             loadingContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION).start();
 
             bus.post(new Account.EnrollRequest(phoneNumber.getText().toString(),
-                    usernameEdit.getText().toString(),
+                    telegramID.getText().toString(),
                     nameEdit.getText().toString(),
                     passwordEdit.getText().toString(),
                     genderButton.getText().equals(getString(R.string.male)) ? User.MALE : User.FEMALE));
@@ -237,7 +237,7 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
         }
     }
 
-    public interface enrollFragmentCallBacks {
+    public interface EnrollFragmentCallBacks {
         void onCancelPressed();
     }
 
@@ -245,6 +245,7 @@ public final class EnrollFragment extends BaseFragment implements View.OnClickLi
     public void onEnrollResponseReceived(Account.EnrollResponse response) {
         if (response.didSucceed()) {
             Toast.makeText(getContext(), getString(R.string.enroll_successful), Toast.LENGTH_SHORT).show();
+
             //TODO: verify phone number
 //            Toast.makeText(getContext(), getString(R.string.verify_email), Toast.LENGTH_SHORT).show();
         } else {

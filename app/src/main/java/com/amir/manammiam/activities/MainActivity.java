@@ -119,7 +119,6 @@ public class MainActivity extends BaseAuthenticatedActivity implements BottomBar
         if (itemId == R.id.activity_main_fab) {
             NewRequestDialogFragment requestDialog = new NewRequestDialogFragment();
             requestDialog.show(getSupportFragmentManager(), "bitch plz!");
-            Log.e(TAG, "onClick: suck dicks");
         }
     }
 

@@ -12,6 +12,9 @@ public class Trip {
     @SerializedName("server_id")
     private final long serverID;
 
+    @SerializedName("passenger_id")
+    private final long passengerID;
+
     @SerializedName("time")
     protected final String time;
 
@@ -29,13 +32,14 @@ public class Trip {
 
     private int state;
 
-    public Trip(String time, String sourceName, String destinationName, Car car, String price, long serverID) {
+    public Trip(String time, String sourceName, String destinationName, Car car, String price, long serverID, long passengerID) {
         this.time = time;
         this.sourceName = sourceName;
         this.destinationName = destinationName;
         this.car = car;
         this.price = price;
         this.serverID = serverID;
+        this.passengerID = passengerID;
         state = NONE;
     }
 
@@ -69,5 +73,9 @@ public class Trip {
 
     public long getServerID() {
         return serverID;
+    }
+
+    public long getPassengerId() {
+        return passengerID;
     }
 }

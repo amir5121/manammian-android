@@ -21,6 +21,7 @@ import com.amir.manammiam.base.BaseDialogFragment;
 import com.amir.manammiam.fragments.ServicesFragment;
 import com.amir.manammiam.infrastructure.CollapseCallback;
 import com.amir.manammiam.infrastructure.Constants;
+import com.amir.manammiam.infrastructure.SwitchRequest;
 import com.amir.manammiam.infrastructure.Utils;
 import com.amir.manammiam.infrastructure.customView.EditTextFont;
 import com.amir.manammiam.infrastructure.customView.TextViewFont;
@@ -257,19 +258,20 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
 
     private void considerButtonsState() {
         boolean state = destinationBackgroundIsGreen && sourceBackgroundIsGreen && chosenADate;
-        createServiceButton.setEnabled(state);
-        createTripButton.setEnabled(state);
         if (state) {
+            createServiceButton.setEnabled(true);
+            createTripButton.setEnabled(true);
             bus.post(new Services.ServicesSpecificRequest(selectedSource.getId(), selectedDestination.getId(), application.getUser().getGender()));
             listLoadingContainer.setAlpha(0);
             listLoadingContainer.setVisibility(View.VISIBLE);
             listLoadingContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION).start();
         }
+
     }
 
     @Subscribe
     public void onServicesRecieved(Services.ServicesSpecificResponse response) {
-
+        Log.e(TAG, "onServicesReceived: with the size of " + response.getServices().size() );
         if (response.getServices().size() > 0) serviceFragmentContainer.setVisibility(View.VISIBLE);
         serviceFragment.getAdapter().setServices(response.getServices());
         serviceFragment.getAdapter().notifyDataSetChanged();
@@ -308,6 +310,9 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
             fullLoadingContainer.setAlpha(0);
             fullLoadingContainer.setVisibility(View.VISIBLE);
             fullLoadingContainer.animate().alpha(1).setDuration(Constants.ANIMATION_DURATION).start();
+
+
+            Log.e(TAG, "onClick: " + dateText.getText().toString());
 
             bus.post(new Trips.CreateRequest(selectedSource.getId(), selectedDestination.getId(), dateText.getText().toString(), application.getUser().getToken()));
 
@@ -397,6 +402,8 @@ public class NewRequestDialogFragment extends BaseDialogFragment implements Date
         if (response.didSucceed()) {
             switch (response.getResult()) {
                 case Trips.CreateResponse.SUCCESSFUL:
+                    bus.post(new SwitchRequest(Constants.PROFILE_FRAGMENT_PAGE_NUMBER));
+                    bus.post(new SwitchRequest(Constants.TRIPS_FRAGMENT_PAGE_NUMBER));
                     Toast.makeText(getContext(), getString(R.string.trip_created), Toast.LENGTH_SHORT).show();
                     break;
                 case Trips.CreateResponse.SOMETHING_WENT_WRONG:

@@ -53,9 +53,9 @@
 
     <style name="myRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/passenger_bar</item>
-        <!--<item name="android:indeterminateDrawable">@drawable/passenger_bar</item>-->
+        <item name="android:indeterminateDrawable">@drawable/passenger_bar</item>
         <item name="android:minHeight">25dip</item>
-        <item name="android:maxHeight">25dip</item>
+        <item name="android:maxHeight">26dip</item>
     </style>
 
 </resources>

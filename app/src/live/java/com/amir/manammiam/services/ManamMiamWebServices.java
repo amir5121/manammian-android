@@ -22,7 +22,7 @@ public interface ManamMiamWebServices {
     @FormUrlEncoded
     Call<Account.LoginResponse> login(
             @Field(Constants.ACTION_TYPE) Integer actionType,
-            @Field("username") String username,
+            @Field("phone_number") String phoneNumber,
             @Field("pass") String password,
             @Field("source_type") int source_type);
 
@@ -32,11 +32,11 @@ public interface ManamMiamWebServices {
             @Field(Constants.ACTION_TYPE) Integer actionType,
             @Field("token") String token);
 
-    @POST(Constants.CONCAT_URL)
-    @FormUrlEncoded
-    Call<Account.ProfileResponse> enroll(
-            @Field(Constants.ACTION_TYPE) Integer actionType,
-            @Field("token") String token);
+//    @POST(Constants.CONCAT_URL)
+//    @FormUrlEncoded
+//    Call<Account.ProfileResponse> enroll(
+//            @Field(Constants.ACTION_TYPE) Integer actionType,
+//            @Field("token") String token);
 
     @POST(Constants.CONCAT_URL)
     @FormUrlEncoded
@@ -47,8 +47,9 @@ public interface ManamMiamWebServices {
 
     @POST(Constants.CONCAT_URL)
     @FormUrlEncoded
-    Call<List<Car>> getCars(@Field(Constants.ACTION_TYPE) Integer actionType,
-                            @Field("token") String token);
+    Call<List<Car>> getCars(
+            @Field(Constants.ACTION_TYPE) Integer actionType,
+            @Field("token") String token);
 
 
     @POST(Constants.CONCAT_URL)
@@ -104,10 +105,18 @@ public interface ManamMiamWebServices {
     @FormUrlEncoded
     Call<Account.AddCarResponse> addCar(
             @Field(Constants.ACTION_TYPE) Integer actionType,
-            @Field("car_type") String carType, @Field("car_code") String CoreCode,
+            @Field("car_type") String carType,
+            @Field("car_code") String CoreCode,
             @Field("car_color") String carColor,
             @Field("is_taxi") boolean isTaxi,
             @Field("token") String token);
+
+    @POST(Constants.CONCAT_URL)
+    @FormUrlEncoded
+    Call<Trips.CancelResponsePOJO> cancelPassenger(
+            @Field(Constants.ACTION_TYPE) Integer actionType,
+            @Field("token") String token,
+            @Field("passenger_id") long passengerId);
 
     @POST(Constants.CONCAT_URL)
     @FormUrlEncoded
@@ -126,9 +135,21 @@ public interface ManamMiamWebServices {
 
     @POST(Constants.CONCAT_URL)
     @FormUrlEncoded
+    Call<Account.EnrollResponse> enroll(
+            @Field(Constants.ACTION_TYPE) Integer actionType,
+            @Field("phone_number") String phoneNumber,
+            @Field("telegram_id") String telegramID,
+            @Field("name") String name,
+            @Field("pass") String pass,
+            @Field("gender") int gender);
+
+
+    @POST(Constants.CONCAT_URL)
+    @FormUrlEncoded
     Call<Trips.CreateResponse> createTrip(
             @Field(Constants.ACTION_TYPE) Integer actionType,
-            @Field("token") String token, @Field("destination_id") long destinationId,
+            @Field("token") String token,
+            @Field("destination_id") long destinationId,
             @Field("source_id") long sourceId,
             @Field("date") String date);
 

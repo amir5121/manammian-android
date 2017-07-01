@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content">
 
                         <com.amir.manammiam.infrastructure.customView.EditTextFont
-                            android:id="@+id/activity_login_edit_username"
+                            android:id="@+id/activity_login_edit_phone_number"
                             style="@style/editTextIranSans"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -65,8 +65,8 @@
                             android:drawablePadding="15dp"
                             android:drawableStart="@drawable/ic_search_colored"
                             android:gravity="start"
-                            android:hint="@string/username"
-                            android:inputType="textNoSuggestions"
+                            android:hint="@string/phone_number"
+                            android:inputType="phone"
                             android:textAllCaps="false"
                             android:maxLines="1"
                             android:padding="15dp"

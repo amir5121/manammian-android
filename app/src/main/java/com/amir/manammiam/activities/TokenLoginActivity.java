@@ -74,10 +74,10 @@ public class TokenLoginActivity extends BaseAuthenticatedActivity {
     public void onProfileRecived(Account.ProfileResponse response) {
         if (response.didSucceed()) {
             User user =
-                    new User(response.getUsername(),
+                    new User(response.getPhoneNumber(),
                             response.getName(),
                             response.getGender(),
-                            response.getPhoneNumber(),
+                            response.getTelegramId(),
                             response.getPermission(),
                             application.getUser().getToken(),
                             response.isDriver());

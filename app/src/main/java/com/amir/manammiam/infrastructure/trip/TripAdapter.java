@@ -102,7 +102,7 @@ public class TripAdapter extends BaseAdapter {
         viewHolder.source.setText(currItem.getSourceName());
         viewHolder.destination.setText(currItem.getDestinationName());
         viewHolder.time.setText(currItem.getTime());
-        if (currItem.getCar() != null) { //indicating that this item has no driver yet
+        if (currItem.getCar() != null) { //indicating that this item has a driver
             viewHolder.price.setText(currItem.getPrice());
             viewHolder.rateBar.setRating(currItem.getCar().getRate());
             viewHolder.carType.setText(currItem.getCar().getCarType());
@@ -152,6 +152,7 @@ public class TripAdapter extends BaseAdapter {
                 viewHolder.passengerBar.setVisibility(View.VISIBLE);
                 viewHolder.passengerBar.setNumStars(((DriverTrip) currItem).getCapacity());
                 viewHolder.passengerBar.setRating(((DriverTrip) currItem).getNumberOfPassenger());
+//                Log.e(TAG, "getView: passengerCount " + (((DriverTrip) currItem).getNumberOfPassenger() + 3) + " capacity: " + ((DriverTrip) currItem).getCapacity());
                 viewHolder.name.setVisibility(View.GONE);
                 viewHolder.rateCountContainer.setVisibility(View.GONE);
                 viewHolder.telegram.setVisibility(View.GONE);
@@ -161,13 +162,14 @@ public class TripAdapter extends BaseAdapter {
 
 
         } else {
+
             viewHolder.name.setVisibility(View.GONE);
             viewHolder.infoContainer.setVisibility(View.GONE);
             viewHolder.topContainer.setBackgroundResource(R.drawable.round_header_waiting);
             viewHolder.rateCountContainer.setVisibility(View.GONE);
             viewHolder.telegram.setVisibility(View.GONE);
             viewHolder.call.setVisibility(View.GONE);
-
+            viewHolder.passengerBar.setVisibility(View.GONE);
         }
 
 

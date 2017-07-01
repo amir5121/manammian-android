@@ -12,19 +12,19 @@ public class User {
     public static final int BLOCKED = 2;
     private static final String TAG = "User";
 
-    private String name;
-    private String username;
-    private int gender;
-    private String mail;
-    private int permission;
-    private String token;
-    private boolean isDriver;
+    private final String name;
+    private final int gender;
+    private final String phoneNumber;
+    private final String telegramID;
+    private final int permission;
+    private final String token;
+    private final boolean isDriver;
 
-    public User(String username, String name, int gender, String mail, int permission, String token, boolean isDriver) {
-        this.username = username;
+    public User(String phoneNumber, String name, int gender, String telegramID, int permission, String token, boolean isDriver) {
+        this.phoneNumber  = phoneNumber;
         this.name = name;
         this.gender = gender;
-        this.mail = mail;
+        this.telegramID = telegramID;
         this.permission = permission;
         this.token = token;
         this.isDriver = isDriver;
@@ -38,44 +38,24 @@ public class User {
         return token;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
-        this.gender = gender;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
+    public String getTelegramID() {
+        return telegramID;
     }
 
     public int getPermission() {
         return permission;
-    }
-
-    public void setPermission(int permission) {
-        this.permission = permission;
     }
 
     public boolean hasToken() {

@@ -1,7 +1,6 @@
 package com.amir.manammiam.services;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.ManamMiamApplication;
@@ -54,18 +53,35 @@ class LiveManamMiamServices {
 //        Log.e(TAG, "login: " + database.getUser().getToken());
 
 
-        services.login(Constants.LOGIN_USER, request.getUsername(), request.getPassword(), request.getSourceType())
+        services.login(Constants.LOGIN_USER, request.getPhoneNumber(), request.getPassword(), request.getSourceType())
                 .enqueue(new RetrofitCallback<Account.LoginResponse>() {
                     @Override
                     protected void onResolve(Account.LoginResponse body) {
                         database.invalidate();
-                        if (body.getToken() == null) {
-                            Log.e(TAG, "onResolve: token was null");
-                            body.setOperationError(application.getString(R.string.wrong_password_or_username_or_missing_permission));
-                        } else {
-                            Log.e(TAG, "onResolve: " + body.getToken());
-                            database.insertUserWithOnlyToken(body.getToken());
+//                        if (body.getToken() == null) {
+//                            Log.e(TAG, "onResolve: token was null");
+//                            body.setOperationError(application.getString(R.string.wrong_password_or_username_or_missing_permission));
+//                        } else {
+                        Log.e(TAG, "onResolve: " + body.getToken());
+                        switch (body.getResult()) {
+                            case Account.LoginResponse.SUCCESSFUL:
+                                //no op
+                                break;
+                            case Account.LoginResponse.FAILED:
+                                body.setOperationError(application.getString(R.string.something_went_wrong));
+                                break;
+                            case Account.LoginResponse.SOMETHING_WENT_WRONG:
+                                body.setOperationError(application.getString(R.string.something_went_wrong));
+                                break;
+                            case Account.LoginResponse.UNVERIFIED:
+                                body.setOperationError(application.getString(R.string.user_unverified));
+                                break;
+                            case Account.LoginResponse.BLOCKED:
+                                body.setOperationError(application.getString(R.string.user_blocked));
+                                break;
                         }
+                        database.insertUserWithOnlyToken(body.getToken());
+//                        }
 
                         bus.post(body);
                     }
@@ -301,20 +317,60 @@ class LiveManamMiamServices {
     }
 
     @Subscribe
-    public void onCancelTripRequestReceived(Trips.CancelRequest request) {
+    public void onCancelTripRequestReceived(final Trips.CancelRequest request) {
+
 //        if (request.getTrip() instanceof PassengerTrip) {
-//            //cancel passenger
-//        } else if (request.getTrip() instanceof DriverTrip) {
-//            //cancel server
-//        }
-//
-//        Trips.CancelResponse response = new Trips.CancelResponse(request.getLoading(), request.getResponseContainer(), Trips.CancelResponse.SUCCESSFUL, request.getTrip());
+        //cancel passenger
+        if (request.getTrip() instanceof DriverTrip) {
+
+            //TODO: do you need to implement this?
+            //cancel server
+            //also notify the driver of the service that this guy canceled his trip
+        } else {
+            //cancel passenger: 2 cases are possible
+            // first this trip has no driver so canceling it won't effect anything..
+            // second this passenger has subscribed to a service and we need to notify the driver that he canceled..
+            // in either cases nothing need to be done here in the client side
+
+            services.cancelPassenger(Constants.CANCEL_PASSENGER, request.getToken(), request.getTrip().getPassengerId())
+                    .enqueue(new RetrofitCallback<Trips.CancelResponsePOJO>() {
+                        @Override
+                        protected void onResolve(Trips.CancelResponsePOJO body) {
+                            Trips.CancelResponse response =
+                                    new Trips.CancelResponse(
+                                            request.getLoading(),
+                                            request.getResponseContainer(),
+                                            body.getResult(),
+                                            request.getTrip());
+
+                            if (body.getResult() == Trips.CancelResponse.FAILED) {
+                                response.setOperationError(application.getString(R.string.failed_to_cancel_trip));
+                            }
+
+                            bus.post(response);
+                        }
+                    });
+        }
+
 //        postEvent(response);
     }
 
 
     @Subscribe
     public void onEnrollRequestReceived(Account.EnrollRequest request) {
+
+        services.enroll(Constants.ENROLL_USER, request.getPhoneNumber(), request.getTelegramID(), request.getName(), request.getPassword(), request.getGender())
+                .enqueue(new RetrofitCallback<Account.EnrollResponse>() {
+                    @Override
+                    protected void onResolve(Account.EnrollResponse body) {
+                        if (!body.isResult()) {
+                            body.setOperationError(application.getString(R.string.something_went_wrong));
+                        }
+
+                        bus.post(body);
+
+                    }
+                });
 //        Account.EnrollResponse response = new Account.EnrollResponse(23053);
 //        postEvent(response);
     }
@@ -503,7 +559,8 @@ class LiveManamMiamServices {
                                 }
 
                             } else {
-                                trips.add(new Trip(tripPojo.getTime(), tripPojo.getSourceName(), tripPojo.getDestinationName(), tripPojo.getCar(), tripPojo.getPrice(), tripPojo.getServerID()));
+//                                Log.e(TAG, "onResolve: server_id " + tripPojo.getPassengerId());
+                                trips.add(new Trip(tripPojo.getTime(), tripPojo.getSourceName(), tripPojo.getDestinationName(), tripPojo.getCar(), tripPojo.getPrice(), tripPojo.getServerID(), tripPojo.getPassengerId()));
                             }
                         }
 

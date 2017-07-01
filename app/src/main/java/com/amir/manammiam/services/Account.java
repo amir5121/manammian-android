@@ -12,19 +12,16 @@ public final class Account {
 
     public static class LoginRequest {
         private static final int ANDROID_APP = 1;
-        private final String username;
+        private final String phoneNumber;
         private final String password;
         private final int sourceType = ANDROID_APP;
 
-        public LoginRequest(String username, String password) {
-            this.username = username;
+        public LoginRequest(String phoneNumber, String password) {
+            this.phoneNumber = phoneNumber;
             this.password = password;
 
         }
 
-        public String getUsername() {
-            return username;
-        }
 
         public String getPassword() {
             return password;
@@ -33,21 +30,35 @@ public final class Account {
         public int getSourceType() {
             return sourceType;
         }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
     }
 
     public static class LoginResponse extends ManamMiamResponse {
+
+        public static final int SUCCESSFUL = 1;
+        public static final int UNVERIFIED = 0;
+        public static final int BLOCKED = 2;
+        public static final int FAILED = 4;
+        public static final int SOMETHING_WENT_WRONG = 5;
 
         @Expose
         @SerializedName("token")
         private String token = null;
 
+        @SerializedName("result")
+        private int result;
+
         public String getToken() {
             return token;
         }
 
-        public void setToken(String token) {
-            this.token = token;
+        public int getResult() {
+            return result;
         }
+
     }
     public static class LogoutRequest {
 
@@ -92,8 +103,8 @@ public final class Account {
         @SerializedName("name")
         private String name;
 
-        @SerializedName("username")
-        private String username;
+//        @SerializedName("username")
+//        private String username;
 
         @SerializedName("gender")
         private int gender;
@@ -101,9 +112,6 @@ public final class Account {
         @SerializedName("is_driver")
         private boolean isDriver;
 //
-//        @SerializedName("phoneNumber")
-//        private String mail;
-
         @SerializedName("permission")
         private int permission;
 
@@ -114,9 +122,8 @@ public final class Account {
         private String telegram_id;
 
 
-        public ProfileResponse(String name, String username, int gender, boolean isDriver, int permission, String phoneNumber, String telegram_id) {
+        public ProfileResponse(String name, int gender, boolean isDriver, int permission, String phoneNumber, String telegram_id) {
             this.name = name;
-            this.username = username;
             this.gender = gender;
             this.isDriver = isDriver;
 //            this.mail = mail;
@@ -131,14 +138,6 @@ public final class Account {
 
         public void setName(String name) {
             this.name = name;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
         }
 
         public int getGender() {
@@ -165,7 +164,7 @@ public final class Account {
             this.phoneNumber = phoneNumber;
         }
 
-        public String getTelegram_id() {
+        public String getTelegramId() {
             return telegram_id;
         }
 
@@ -255,14 +254,14 @@ public final class Account {
 
     public static class EnrollRequest {
         private final String phoneNumber;
-        private final String username;
+        private final String telegramID;
         private final String name;
         private final String password;
         private final int gender;
 
-        public EnrollRequest(String phoneNumber, String username, String name, String password, int gender) {
+        public EnrollRequest(String phoneNumber, String telegramID, String name, String password, int gender) {
             this.phoneNumber = phoneNumber;
-            this.username = username;
+            this.telegramID = telegramID;
             this.name = name;
             this.password = password;
             this.gender = gender;
@@ -270,10 +269,6 @@ public final class Account {
 
         public String getPhoneNumber() {
             return phoneNumber;
-        }
-
-        public String getUsername() {
-            return username;
         }
 
         public String getName() {
@@ -284,19 +279,23 @@ public final class Account {
             return password;
         }
 
-        public int isGender() {
+        public String getTelegramID() {
+            return telegramID;
+        }
+
+        public int getGender() {
             return gender;
         }
     }
 
     public static class EnrollResponse extends ManamMiamResponse {
-        private final long result;
+        private final boolean result;
 
-        public EnrollResponse(long result) {
+        public EnrollResponse(boolean result) {
             this.result = result;
         }
 
-        public long getResult() {
+        public boolean isResult() {
             return result;
         }
     }

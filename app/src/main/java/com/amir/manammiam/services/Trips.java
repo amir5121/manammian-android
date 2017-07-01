@@ -67,7 +67,10 @@ public final class Trips {
 
     public static class CancelResponse extends ManamMiamResponse {
         public static final int SUCCESSFUL = 1;
+        public static final int FAILED = 0;
+
         private final int result;
+
         private final View loading;
         private final View cancelContainer;
         private final Trip trip;
@@ -144,4 +147,18 @@ public final class Trips {
         }
     }
 
+    public class CancelResponsePOJO extends ManamMiamResponse{
+
+        @Expose
+        @SerializedName("result")
+        private final int result;
+
+        public CancelResponsePOJO(int result) {
+            this.result = result;
+        }
+
+        public int getResult() {
+            return result;
+        }
+    }
 }

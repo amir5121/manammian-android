@@ -37,12 +37,12 @@ public class ManamMiamApplication extends Application {
                 new OkHttpClient
                         .Builder()
 //                        .addInterceptor(new ManamMiamInterceptor())
-                        .addInterceptor(logging)
+//                        .addInterceptor(logging)
                         .build();
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
-//                .client(okHttpClient)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

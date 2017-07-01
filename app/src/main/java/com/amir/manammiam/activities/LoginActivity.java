@@ -5,15 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
 import com.amir.manammiam.R;
 import com.amir.manammiam.base.BaseActivity;
@@ -26,14 +22,14 @@ import com.amir.manammiam.services.ServiceFailure;
 import com.mancj.slideup.SlideUp;
 import com.squareup.otto.Subscribe;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, EnrollFragment.enrollFragmentCallBacks {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, EnrollFragment.EnrollFragmentCallBacks {
 
     private static final int ANIMATION_DURATION = 500;
     private static final String USERNAME_ERROR = "USERNAME_ERROR";
     private static final String PASSWORD_ERROR = "PASSWORD_ERROR";
     private static final String TAG = "LoginActivity";
     //    private int mainHeight;
-    private EditTextFont editUsername;
+    private EditTextFont editPhoneNumber;
     private EditTextFont editPassword;
     private Button loginBtn;
     private View loginProgressBar;
@@ -60,8 +56,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 .withStartGravity(Gravity.BOTTOM)
                 .build();
 //        RelativeLayout mainContainer = (RelativeLayout) findViewById(R.id.activity_login_root);
-        editUsername = ((EditTextFont) findViewById(R.id.activity_login_edit_username));
-        editUsername.addTextChangedListener(new TextWatcher() {
+        editPhoneNumber = ((EditTextFont) findViewById(R.id.activity_login_edit_phone_number));
+        editPhoneNumber.addTextChangedListener(new TextWatcher() {
             CharSequence text;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -72,8 +68,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 //                Log.e(TAG, "onTextChanged: " + ((int) s.toString().substring(start, start + count).toCharArray()[0]) );
                 if (s.toString().substring(start, start + count).equals(" ") || Utils.isPersian(s.toString().substring(start, start + count))) {
-                    editUsername.setText(text);
-                    editUsername.setSelection(start + count);
+                    editPhoneNumber.setText(text);
+                    editPhoneNumber.setSelection(start + count);
                 }
             }
 
@@ -103,7 +99,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             loginProgressBar.setVisibility(View.VISIBLE);
             loginBtn.setEnabled(false);
             loginBtn.animate().scaleX(.9f).scaleY(.9f).alpha(.3f).setDuration(ANIMATION_DURATION / 2);
-            bus.post(new Account.LoginRequest(editUsername.getText().toString(), editPassword.getText().toString()));
+            bus.post(new Account.LoginRequest(editPhoneNumber.getText().toString(), editPassword.getText().toString()));
 
         } else if (itemId == R.id.activity_login_text_enroll) {
             slideUp.show();
@@ -151,6 +147,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onCancelPressed() {
+        slideUp.hide();
 //        enrollContainer.animate().translationY(mainHeight).setDuration(ANIMATION_DURATION).setInterpolator(new AccelerateDecelerateInterpolator());
     }
 }

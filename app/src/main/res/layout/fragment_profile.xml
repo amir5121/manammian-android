@@ -73,7 +73,7 @@
                     android:src="@drawable/ic_search" />
 
                 <com.amir.manammiam.infrastructure.customView.TextViewFont
-                    android:id="@+id/fragment_profile_text_username"
+                    android:id="@+id/fragment_profile_text_telegram_id"
                     style="@style/textViewIranSans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

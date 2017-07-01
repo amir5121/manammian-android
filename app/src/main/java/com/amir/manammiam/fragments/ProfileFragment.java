@@ -28,7 +28,7 @@ public final class ProfileFragment extends BaseFragment implements View.OnClickL
 
     private static final String TAG = "ProfileFragment";
     private TextViewFont nameText;
-    private TextViewFont usernameText;
+    private TextViewFont telegramId;
     private TextViewFont phoneNumberText;
     private TextViewFont genderText;
     private TextViewFont permissionText;
@@ -57,7 +57,7 @@ public final class ProfileFragment extends BaseFragment implements View.OnClickL
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         nameText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_name));
-        usernameText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_username));
+        telegramId = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_telegram_id));
         phoneNumberText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_phone_number));
         genderText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_gender));
         permissionText = ((TextViewFont) view.findViewById(R.id.fragment_profile_text_permission));
@@ -140,10 +140,10 @@ public final class ProfileFragment extends BaseFragment implements View.OnClickL
     @Subscribe
     public void onProfileRecieved(Account.ProfileResponse response) {
         if (!carsReceived) carsProgressBar.setVisibility(View.VISIBLE);
-        if (response.didSucceed() && nameText != null && usernameText != null && phoneNumberText != null && genderText != null && permissionText != null) {
+        if (response.didSucceed() && nameText != null && telegramId != null && phoneNumberText != null && genderText != null && permissionText != null) {
 
             nameText.setText(response.getName());
-            usernameText.setText(response.getUsername());
+            telegramId.setText(response.getTelegramId());
             phoneNumberText.setText(response.getPhoneNumber());
             genderText.setText(getResources().getString(response.getGender() == User.MALE ? R.string.male : R.string.female));
 

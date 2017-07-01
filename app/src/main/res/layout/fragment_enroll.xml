@@ -44,20 +44,39 @@
                     android:orientation="vertical">
 
 
+                    <!--<android.support.design.widget.TextInputLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content">-->
+
+                        <!--<com.amir.manammiam.infrastructure.customView.EditTextFont-->
+                            <!--android:id="@+id/fragment_enroll_edit_username"-->
+                            <!--style="@style/editTextIranSans"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="@dimen/edit_text_default_margin"-->
+                            <!--android:drawableLeft="@drawable/ic_search_colored"-->
+                            <!--android:drawablePadding="8dp"-->
+                            <!--android:drawableStart="@drawable/ic_search_colored"-->
+                            <!--android:hint="@string/username"-->
+                            <!--android:padding="@dimen/edit_text_default_padding" />-->
+
+                    <!--</android.support.design.widget.TextInputLayout>-->
+
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <com.amir.manammiam.infrastructure.customView.EditTextFont
-                            android:id="@+id/fragment_enroll_edit_username"
+                            android:id="@+id/fragment_enroll_edit_phone_number"
                             style="@style/editTextIranSans"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/edit_text_default_margin"
-                            android:drawableLeft="@drawable/ic_search_colored"
+                            android:drawableLeft="@drawable/ic_phone_colored"
                             android:drawablePadding="8dp"
-                            android:drawableStart="@drawable/ic_search_colored"
-                            android:hint="@string/username"
+                            android:drawableStart="@drawable/ic_phone_colored"
+                            android:hint="@string/phone_number"
+                            android:inputType="phone"
                             android:padding="@dimen/edit_text_default_padding" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -124,16 +143,15 @@
                         android:layout_height="wrap_content">
 
                         <com.amir.manammiam.infrastructure.customView.EditTextFont
-                            android:id="@+id/fragment_enroll_edit_phone_number"
+                            android:id="@+id/fragment_enroll_edit_telegram_id"
                             style="@style/editTextIranSans"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/edit_text_default_margin"
-                            android:drawableLeft="@drawable/ic_phone_colored"
+                            android:drawableLeft="@drawable/ic_search_colored"
                             android:drawablePadding="8dp"
-                            android:drawableStart="@drawable/ic_phone_colored"
-                            android:hint="@string/phone_number"
-                            android:inputType="phone"
+                            android:drawableStart="@drawable/ic_search_colored"
+                            android:hint="@string/telegram_id"
                             android:padding="@dimen/edit_text_default_padding" />
 
                     </android.support.design.widget.TextInputLayout>
